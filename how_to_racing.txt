@@ -1,0 +1,6 @@
+This is all about how to racing into jakesgordon racer.
+
+what happened into v1_straight.html 
+1) First of all there would loaded all the images. Like background, sprites.
+2) After that there would made the road through using by polygon on canvas context.
+3) After that there would be loaded the user.
