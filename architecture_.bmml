@@ -25,9 +25,9 @@
         <text/>
       </controlProperties>
     </control>
-    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="167" y="133" w="-1" h="-1" measuredW="33" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="153" y="129" w="-1" h="-1" measuredW="68" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>road</text>
+        <text>road/track</text>
       </controlProperties>
     </control>
     <control controlID="8" controlTypeID="com.balsamiq.mockups::Arrow" x="182" y="104" w="10" h="29" measuredW="150" measuredH="100" zOrder="6" locked="false" isInGroup="-1">
@@ -49,25 +49,25 @@
         <text/>
       </controlProperties>
     </control>
-    <control controlID="11" controlTypeID="com.balsamiq.mockups::Label" x="210" y="195" w="-1" h="-1" measuredW="44" measuredH="21" zOrder="9" locked="false" isInGroup="-1">
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Label" x="250" y="195" w="-1" h="-1" measuredW="44" measuredH="21" zOrder="9" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Start%28%29</text>
       </controlProperties>
     </control>
-    <control controlID="12" controlTypeID="com.balsamiq.mockups::Arrow" x="230" y="170" w="10" h="29" measuredW="150" measuredH="100" zOrder="10" locked="false" isInGroup="-1">
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Arrow" x="270" y="170" w="10" h="29" measuredW="150" measuredH="100" zOrder="10" locked="false" isInGroup="-1">
       <controlProperties>
         <leftArrow>false</leftArrow>
         <rightArrow>true</rightArrow>
         <text/>
       </controlProperties>
     </control>
-    <control controlID="14" controlTypeID="com.balsamiq.mockups::HRule" x="192" y="166" w="203" h="-1" measuredW="100" measuredH="5" zOrder="11" locked="false" isInGroup="-1"/>
-    <control controlID="15" controlTypeID="com.balsamiq.mockups::Label" x="259" y="195" w="-1" h="-1" measuredW="36" measuredH="21" zOrder="12" locked="false" isInGroup="-1">
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::HRule" x="197" y="166" w="179" h="-1" measuredW="100" measuredH="5" zOrder="11" locked="false" isInGroup="-1"/>
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::Label" x="299" y="195" w="-1" h="-1" measuredW="36" measuredH="21" zOrder="12" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Run%28%29</text>
       </controlProperties>
     </control>
-    <control controlID="16" controlTypeID="com.balsamiq.mockups::Arrow" x="275" y="170" w="10" h="29" measuredW="150" measuredH="100" zOrder="13" locked="false" isInGroup="-1">
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::Arrow" x="315" y="170" w="10" h="29" measuredW="150" measuredH="100" zOrder="13" locked="false" isInGroup="-1">
       <controlProperties>
         <leftArrow>false</leftArrow>
         <rightArrow>true</rightArrow>
@@ -105,12 +105,12 @@
         <text/>
       </controlProperties>
     </control>
-    <control controlID="22" controlTypeID="com.balsamiq.mockups::Label" x="295" y="195" w="-1" h="-1" measuredW="42" measuredH="21" zOrder="19" locked="false" isInGroup="-1">
+    <control controlID="22" controlTypeID="com.balsamiq.mockups::Label" x="335" y="195" w="-1" h="-1" measuredW="42" measuredH="21" zOrder="19" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Stop%28%29</text>
       </controlProperties>
     </control>
-    <control controlID="23" controlTypeID="com.balsamiq.mockups::Arrow" x="311" y="170" w="10" h="29" measuredW="150" measuredH="100" zOrder="20" locked="false" isInGroup="-1">
+    <control controlID="23" controlTypeID="com.balsamiq.mockups::Arrow" x="351" y="170" w="10" h="29" measuredW="150" measuredH="100" zOrder="20" locked="false" isInGroup="-1">
       <controlProperties>
         <leftArrow>false</leftArrow>
         <rightArrow>true</rightArrow>
@@ -178,8 +178,8 @@
         <text>tournament%20type</text>
       </controlProperties>
     </control>
-    <control controlID="37" controlTypeID="com.balsamiq.mockups::VRule" x="838" y="180" w="-1" h="115" measuredW="5" measuredH="100" zOrder="32" locked="false" isInGroup="-1"/>
-    <control controlID="38" controlTypeID="com.balsamiq.mockups::HRule" x="609" y="170" w="313" h="-1" measuredW="100" measuredH="5" zOrder="33" locked="false" isInGroup="-1"/>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::VRule" x="838" y="180" w="-1" h="126" measuredW="5" measuredH="100" zOrder="32" locked="false" isInGroup="-1"/>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::HRule" x="609" y="172" w="313" h="-1" measuredW="100" measuredH="5" zOrder="33" locked="false" isInGroup="-1"/>
     <control controlID="39" controlTypeID="com.balsamiq.mockups::Arrow" x="831" y="146" w="10" h="29" measuredW="150" measuredH="100" zOrder="34" locked="false" isInGroup="-1">
       <controlProperties>
         <leftArrow>false</leftArrow>
@@ -219,6 +219,86 @@
       <controlProperties>
         <leftArrow>true</leftArrow>
         <rightArrow>false</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::Label" x="182" y="195" w="-1" h="-1" measuredW="59" measuredH="21" zOrder="40" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Structure</text>
+      </controlProperties>
+    </control>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::Arrow" x="220" y="170" w="10" h="29" measuredW="150" measuredH="100" zOrder="41" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::HRule" x="71" y="166" w="121" h="-1" measuredW="100" measuredH="5" zOrder="42" locked="false" isInGroup="-1"/>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Arrow" x="178" y="148" w="10" h="20" measuredW="150" measuredH="100" zOrder="43" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::Label" x="123" y="188" w="50" h="38" measuredW="82" measuredH="21" zOrder="44" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>shot-cut%20road</text>
+      </controlProperties>
+    </control>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::Arrow" x="158" y="168" w="10" h="20" measuredW="150" measuredH="100" zOrder="45" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::Label" x="396" y="129" w="-1" h="-1" measuredW="46" measuredH="21" zOrder="46" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%20%20timing</text>
+      </controlProperties>
+    </control>
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::Arrow" x="417" y="104" w="10" h="29" measuredW="150" measuredH="100" zOrder="47" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Label" x="29" y="229" w="-1" h="-1" measuredW="67" measuredH="21" zOrder="48" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Start%20track</text>
+      </controlProperties>
+    </control>
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::Arrow" x="86" y="170" w="10" h="66" measuredW="150" measuredH="100" zOrder="49" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::Label" x="58" y="258" w="-1" h="-1" measuredW="61" measuredH="21" zOrder="50" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>End%20track</text>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::Arrow" x="108" y="170" w="10" h="88" measuredW="150" measuredH="100" zOrder="51" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::Label" x="755" y="133" w="-1" h="-1" measuredW="31" measuredH="21" zOrder="52" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>init%28%29</text>
+      </controlProperties>
+    </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::Arrow" x="768" y="104" w="10" h="29" measuredW="150" measuredH="100" zOrder="53" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <rightArrow>true</rightArrow>
         <text/>
       </controlProperties>
     </control>
