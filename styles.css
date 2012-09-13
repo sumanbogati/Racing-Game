@@ -1,5 +1,13 @@
 #rgContainer{
-		border:2px solid gray;
-		width : 600px;
-		height : 600px;
-	}
+	border:2px solid gray;
+	width : 600px;
+	height : 700px;
+}
+
+
+#racingCan	{
+	border : 3px solid #ddd;
+	width:500px;
+	height: 630px;
+	border:3px solid #909090;
+}

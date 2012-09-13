@@ -23,23 +23,27 @@
 					
 					// background init
 					// this bg should be store into 
-					var bg = new Background();
+					
+					this.bg = new Background();
 					var bgObj = {type : 'simple', name: 'bg', value : 'sprites/background2.jpg'};
-					bg.init(bgObj);
+					this.bg.init(bgObj);
+					this.load();
 					return this;
 					
 				},
 				
 				load : function (){
 					//load  background
-					var bg = new Background();
-					bg.load(this.ctx);
+					//0var bg = new Background();
+					this.bg.load(this.ctx);
 				}
 			};
 			
 			//class Background
 			var Background  = function (){
 				return {
+					name1 : '',
+					myvalue :'',
 					init: function (obj){
 						this.type = obj.type;	
 						this.name = obj.name;
@@ -54,15 +58,14 @@
 						//var imgElem  = document.createElement('img');
 						var imgElem = new Image();
 						
-						alert(ctx);
 						//var imgElems = document.getElementById("bgImage");
 						imgElem.onload = function (){
-							imgElem.width = 100;
-							imgElem.height = 100;
-							ctx.drawImage(imgElem, 0, 0, imgElem.width, imgElem.height);
+							imgElem.width = 400;
+							imgElem.height = 600;
+							ctx.drawImage(imgElem, 0, 0, 300, 200);
 						}
-						alert(this);
-						imgElem.src = 'sprites/background2.jpg';
+
+						imgElem.src = this.value;
 						
 						
 						/*var c=document.getElementById("racingCan");
@@ -73,7 +76,7 @@
 				}
 			 }
 			 
-			 //class Car
+			//class Car
 			var Car  = function (){
 				return {
 					init: function (obj){
@@ -92,6 +95,7 @@
 				}
 			}
 			
+			//class Event
 			var event = function (){
 				return{
 					init : function (){
@@ -118,7 +122,7 @@
 			
 			var myCar = new carRace("racingCan");
 			myCar.init(myCar.cid);
-			myCar.load();
+			
 		}
 	}
 )(window, document);
