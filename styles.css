@@ -2,6 +2,7 @@
 	border:2px solid gray;
 	width : 600px;
 	height : 700px;
+	margin-left: 200px;
 }
 
 
@@ -10,4 +11,5 @@
 	width:500px;
 	height: 630px;
 	border:3px solid #909090;
+	margin-left: 250px;
 }
