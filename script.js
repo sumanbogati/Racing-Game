@@ -1,8 +1,10 @@
 (function (window, document){
 	window.onload = function (){
+		
 		var trackLength   = null; 
 		 var width         = 1024;                    // logical canvas width
 		var height        = 768; 
+		var imgLoaded = false;
 		var carRace = function (canvasId){
 			this.cid = canvasId;
 			this.canvas = document.getElementById(canvasId);
@@ -11,7 +13,7 @@
 			this.road = '';
 			this.car = '';
 			this.timing = '';
-			//alert(this.canvas);
+			return this;
 		}
 		
 		carRace.prototype =  {
@@ -29,9 +31,13 @@
 				this.bg = new Background();
 				var bgObj = {type : 'simple', name: 'bg', value : 'sprites/background2.jpg'};
 				this.bg.init(bgObj);
+				this.load();
+				
+				
 				this.rd = new Road();
 				this.rd.init();
-				this.load();
+				
+				
 				
 				return this;
 				
@@ -40,8 +46,19 @@
 			load : function (){
 				//load  background
 				//0var bg = new Background();
-				this.bg.load(this.ctx);
-				this.rd.load(this.ctx);
+				
+				/* this.bg.load(this.ctx);
+				var mthis = this;
+				window.setTimeout(function (mythis){
+						//mythis.ctx.fillStyle = "green";
+						//mythis.ctx.fillRect(10,120, 200, 200);
+						mythis.rd.load(mythis.ctx);
+				}, 350, mthis); */
+				
+				this.bg.load(this, function (mthis){
+					alert("hey guys what is up");
+					mthis.rd.load(mthis.ctx);
+				});
 			}
 		};
 		
@@ -59,16 +76,25 @@
 					this.frnStY = 0;
 				}, 
 				
-				load: function (ctx){
+				load: function (cthis, callback){
+					var ctx = cthis.ctx;
+				
+					//var imgElems = document.getElementById("bgImage");
+					var imgaLoaded = function (mthis){
+				
+						callback(mthis);
+					}
+					
 					//var imgElem  = document.createElement('img');
 					var imgElem = new Image();
-					//var imgElems = document.getElementById("bgImage");
+					
 					imgElem.onload = function (){
-						imgElem.width = 400;
-						imgElem.height = 600;
+						alert(ctx);
 						ctx.drawImage(imgElem, 0, 0, 300, 200);
+						imgaLoaded(cthis);
 					}
 					imgElem.src = this.value;
+					
 				},
 			}
 		 }
@@ -108,6 +134,11 @@
 						this.resetRoad();
 					}, 
 				
+				//TODO this funciton have to be finished
+				load2 : function (ctx){
+					ctx.fillStyle = "green";
+					ctx.fillRect(10,120, 200, 200);
+				},
 				//this function called render into inspired game
 				load : function (ctx){
 					var baseSegment = this.findSegment(this.position);
@@ -182,7 +213,9 @@
 		p.screen.y     = Math.round((height/2) - (p.screen.scale * p.camera.y  * height/2));
 		p.screen.w     = Math.round(             (p.screen.scale * roadWidth   * width/2));
 	}
-
+	
+	
+	
 	function polygon(ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) {
 		ctx.fillStyle = color;
 		ctx.beginPath();
@@ -208,8 +241,26 @@
 		l2 = laneMarkerWidth(w2, lanes),
 		lanew1, lanew2, lanex1, lanex2, lane;
 
+		//ctx.fillStyle = color.grass;
+		//ctx.fillStyle = "red";
+		//ctx.fillRect(20,20,45,30)
+		//ctx.fillRect(0, y2, width, y1 - y2);
+		
+		/* ctx.fillStyle = "green";
+		ctx.fillRect(10,120, 200, 200); */
+		
+		//ctx.fillStyle = color.grass;
+		//ctx.fillRect(0, y2, width, y1 - y2);
+		
+		//ctx.fillStyle = "green";
+		//ctx.fillRect(10, 140, 100, 200);
+		
 		ctx.fillStyle = color.grass;
 		ctx.fillRect(0, y2, width, y1 - y2);
+		
+		ctx.fillStyle = "red";
+		ctx.fillRect(0, 106, 1024, 80);
+		
 
 		polygon(ctx, x1-w1-r1, y1, x1-w1, y1, x2-w2, y2, x2-w2-r2, y2, color.rumble);
 		polygon(ctx, x1+w1+r1, y1, x1+w1, y1, x2+w2, y2, x2+w2+r2, y2, color.rumble);
