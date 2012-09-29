@@ -2,9 +2,12 @@
 	window.onload = function (){
 		
 		var trackLength   = null; 
-		 var width         = 1024;                    // logical canvas width
+		
+		var width         = 1024;                    // logical canvas width
 		var height        = 768; 
 		var imgLoaded = false;
+		
+		
 		var carRace = function (canvasId){
 			this.cid = canvasId;
 			this.canvas = document.getElementById(canvasId);
@@ -31,30 +34,16 @@
 				this.bg = new Background();
 				var bgObj = {type : 'simple', name: 'bg', value : 'sprites/background2.jpg'};
 				this.bg.init(bgObj);
+				
+				this.rd = new Road(this);
+				this.rd.init();
+		//		this.rd.resetRoad();
 				this.load();
 				
-				
-				this.rd = new Road();
-				this.rd.init();
-				
-				
-				
 				return this;
-				
 			},
 			
 			load : function (){
-				//load  background
-				//0var bg = new Background();
-				
-				/* this.bg.load(this.ctx);
-				var mthis = this;
-				window.setTimeout(function (mythis){
-						//mythis.ctx.fillStyle = "green";
-						//mythis.ctx.fillRect(10,120, 200, 200);
-						mythis.rd.load(mythis.ctx);
-				}, 350, mthis); */
-				
 				this.bg.load(this, function (mthis){
 					alert("hey guys what is up");
 					mthis.rd.load(mthis.ctx);
@@ -81,7 +70,6 @@
 				
 					//var imgElems = document.getElementById("bgImage");
 					var imgaLoaded = function (mthis){
-				
 						callback(mthis);
 					}
 					
@@ -101,7 +89,7 @@
 		 
 		 
 		 //class Road
-		 var Road = function (){
+		 var Road = function (cthis){
 			return {
 				init : function (){
 					this.segments = [];
@@ -131,7 +119,7 @@
 						
 						this.cameraDepth = 1 / Math.tan((this.fieldOfView/2) * Math.PI/180);
 						this.playerZ  = (this.cameraHeight * this.cameraDepth);
-						this.resetRoad();
+						this.reset(cthis);
 					}, 
 				
 				//TODO this funciton have to be finished
@@ -175,7 +163,41 @@
 					}
 				}, 
 				
+				reset : function (cthis){
+					  cthis.canvas.width = 1024;
+					  cthis.canvas.height = 768;
+					  
+					  
+					/*  options       = options || {};
+					  cthis.canvas.width  = width  = Util.toInt(options.width,          width);
+					  cthis.canvas.height = height = Util.toInt(options.height,         height);
+					  
+					  console.log('canvas width ' + canvas.width);
+					  console.log('canvas height ' + canvas.height);
+					  
+					  
+					  lanes                  = Util.toInt(options.lanes,          lanes);
+					  roadWidth              = Util.toInt(options.roadWidth,      roadWidth);
+					  cameraHeight           = Util.toInt(options.cameraHeight,   cameraHeight);
+					  drawDistance           = Util.toInt(options.drawDistance,   drawDistance);
+					  fogDensity             = Util.toInt(options.fogDensity,     fogDensity);
+					  fieldOfView            = Util.toInt(options.fieldOfView,    fieldOfView);
+					  segmentLength          = Util.toInt(options.segmentLength,  segmentLength);
+					  rumbleLength           = Util.toInt(options.rumbleLength,   rumbleLength);
+					  cameraDepth            = 1 / Math.tan((fieldOfView/2) * Math.PI/180);
+					  playerZ                = (cameraHeight * cameraDepth);
+					  resolution             = height/480;
+					  refreshTweakUI();
+					  console.log('rumble Length ' + rumbleLength);	
+					  if ((segments.length==0) || (options.segmentLength) || (options.rumbleLength))
+					  resetRoad(); */// only rebuild road when necessary
+					  
+					  this.resetRoad();
+					  
+					}, 
+				
 				resetRoad : function (){
+				
 					//=========================================================================
 					// BUILD ROAD GEOMETRY
 					//=========================================================================
@@ -242,21 +264,9 @@
 		lanew1, lanew2, lanex1, lanex2, lane;
 
 		//ctx.fillStyle = color.grass;
-		//ctx.fillStyle = "red";
-		//ctx.fillRect(20,20,45,30)
-		//ctx.fillRect(0, y2, width, y1 - y2);
 		
-		/* ctx.fillStyle = "green";
-		ctx.fillRect(10,120, 200, 200); */
-		
-		//ctx.fillStyle = color.grass;
-		//ctx.fillRect(0, y2, width, y1 - y2);
-		
-		//ctx.fillStyle = "green";
-		//ctx.fillRect(10, 140, 100, 200);
-		
-		ctx.fillStyle = color.grass;
-		ctx.fillRect(0, y2, width, y1 - y2);
+		/*ctx.fillStyle = color.grass;
+		ctx.fillRect(0, y2, width, y1 - y2);*/
 		
 		ctx.fillStyle = "red";
 		ctx.fillRect(0, 106, 1024, 80);
