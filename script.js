@@ -1,9 +1,9 @@
 /***
 	this is simple racing game 
-	is created by Suman Bogati, the game inspired from
-	
-	copyright 2012-2012;
-	any enquary please contact at sumanbogati@gmail.com 
+	is created by Suman Bogati. 
+	The game inspired from https://github.com/jakesgordon/javascript-racer/
+	Copyright 2012-2013;
+	Any enquary please contact at sumanbogati@gmail.com 
 **/
 
 (function (window, document){
@@ -37,7 +37,7 @@
 				// background init
 				// this bg should be store into 
 				
-				// this could be into other form or into other way
+				// this could be into other place or into other way
 				var tImgElm = new Image();
 					tImgElm.src = 'sprites/sprites.png';
 					
@@ -64,11 +64,9 @@
 			
 				// this need to be done becuase 
 				// there should be loaded first background images
-				// and should be done other background images.
+				// and should be done other jobs eg:- load road, car
 				this.bg.load(this, function (cthis){
 					//alert("hey guys what is up");
-					
-					
 					cthis.rd.load(cthis.ctx);
 					cthis.car.load(cthis.ctx);
 				});
@@ -144,17 +142,12 @@
 						this.reset(cthis);
 					}, 
 				
-				//TODO this funciton have to be finished
-				load2 : function (ctx){
-					ctx.fillStyle = "green";
-					ctx.fillRect(10,120, 200, 200);
-				},
 				//this function called render into inspired game
 				load : function (ctx){
 					var baseSegment = this.findSegment(this.position);
 					var maxy        = height;
 
-				//	ctx.clearRect(0, 0, width, height);
+					//ctx.clearRect(0, 0, width, height);
 
 					var n, segment;
 
@@ -163,15 +156,15 @@
 						segment.looped = segment.index < baseSegment.index;
 						//segment.fog    = Util.exponentialFog(n/drawDistance, fogDensity);
 
-						project(segment.p1, (this.playerX * this.roadWidth), this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, cthis.canvas.width, cthis.canvas.height, this.roadWidth);
+						this.structure().project(segment.p1, (this.playerX * this.roadWidth), this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, cthis.canvas.width, cthis.canvas.height, this.roadWidth);
 						
-						project(segment.p2, (this.playerX * this.roadWidth), this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, cthis.canvas.width, cthis.canvas.height, this.roadWidth);
+						this.structure().project(segment.p2, (this.playerX * this.roadWidth), this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, cthis.canvas.width, cthis.canvas.height, this.roadWidth);
 
 						if ((segment.p1.camera.z <= this.cameraDepth) || // behind us
 						(segment.p2.screen.y >= maxy))          // clip by (already rendered) segment
 						continue;
 
-						mysegment(ctx, cthis.canvas.width, this.lanes,
+						this.dispSegment(ctx, cthis.canvas.width, this.lanes,
 						segment.p1.screen.x,
 						segment.p1.screen.y,
 						segment.p1.screen.w,
@@ -186,6 +179,7 @@
 				}, 
 				
 				reset : function (cthis){
+					  //this should be dyanamic
 					  cthis.canvas.width = 1024;
 					  cthis.canvas.height = 768;
 					  
@@ -193,11 +187,6 @@
 					/*  options       = options || {};
 					  cthis.canvas.width  = width  = Util.toInt(options.width,          width);
 					  cthis.canvas.height = height = Util.toInt(options.height,         height);
-					  
-					  console.log('canvas width ' + canvas.width);
-					  console.log('canvas height ' + canvas.height);
-					  
-					  
 					  lanes                  = Util.toInt(options.lanes,          lanes);
 					  roadWidth              = Util.toInt(options.roadWidth,      roadWidth);
 					  cameraHeight           = Util.toInt(options.cameraHeight,   cameraHeight);
@@ -243,73 +232,73 @@
 				
 				findSegment  : function (z){
 					return this.segments[Math.floor(z/this.segmentLength) % this.segments.length];
+				},
+				
+				dispSegment : function (ctx, width, lanes, x1, y1, w1, x2, y2, w2, fog, color) {
+					var r1 = rumbleWidth(w1, lanes),
+					r2 = rumbleWidth(w2, lanes),
+					l1 = laneMarkerWidth(w1, lanes),
+					l2 = laneMarkerWidth(w2, lanes),
+					lanew1, lanew2, lanex1, lanex2, lane;
+
+					ctx.fillStyle = color.grass;
+					ctx.fillRect(0, y2, width, y1 - y2);
+					
+					this.structure().polygon(ctx, x1-w1-r1, y1, x1-w1, y1, x2-w2, y2, x2-w2-r2, y2, color.rumble);
+					this.structure().polygon(ctx, x1+w1+r1, y1, x1+w1, y1, x2+w2, y2, x2+w2+r2, y2, color.rumble);
+					this.structure().polygon(ctx, x1-w1,    y1, x1+w1, y1, x2+w2, y2, x2-w2,    y2, color.road);
+
+					if (color.lane) {
+						lanew1 = w1*2/lanes;
+						lanew2 = w2*2/lanes;
+						lanex1 = x1 - w1 + lanew1;
+						lanex2 = x2 - w2 + lanew2;
+						for(lane = 1 ; lane < lanes ; lanex1 += lanew1, lanex2 += lanew2, lane++)
+							this.structure().polygon(ctx, lanex1 - l1/2, y1, lanex1 + l1/2, y1, lanex2 + l2/2, y2, lanex2 - l2/2, y2, color.lane);
+					}
+
+					//  Render.fog(ctx, 0, y1, width, y2-y1, fog);
+				}, 
+				
+				structure : function (){
+					return {
+						project : function (p, cameraX, cameraY, cameraZ, cameraDepth, width, height, roadWidth) {
+							p.camera.x     = (p.world.x || 0) - cameraX;
+							p.camera.y     = (p.world.y || 0) - cameraY;
+							p.camera.z     = (p.world.z || 0) - cameraZ;
+							p.screen.scale = cameraDepth/p.camera.z;
+							p.screen.x     = Math.round((width/2)  + (p.screen.scale * p.camera.x  * width/2));
+							p.screen.y     = Math.round((height/2) - (p.screen.scale * p.camera.y  * height/2));
+							p.screen.w     = Math.round((p.screen.scale * roadWidth   * width/2));
+						}, 
+						
+						 polygon : function (ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) {
+							ctx.fillStyle = color;
+							ctx.beginPath();
+							ctx.moveTo(x1, y1);
+							ctx.lineTo(x2, y2);
+							ctx.lineTo(x3, y3);
+							ctx.lineTo(x4, y4);
+							ctx.closePath();
+							ctx.fill();
+						},
+
+					};
 				}
 			}	
 		 }
 	
-	//TODO these function should be part of the object
-	function project (p, cameraX, cameraY, cameraZ, cameraDepth, width, height, roadWidth) {
-		p.camera.x     = (p.world.x || 0) - cameraX;
-		p.camera.y     = (p.world.y || 0) - cameraY;
-		p.camera.z     = (p.world.z || 0) - cameraZ;
-		p.screen.scale = cameraDepth/p.camera.z;
-		p.screen.x     = Math.round((width/2)  + (p.screen.scale * p.camera.x  * width/2));
-		p.screen.y     = Math.round((height/2) - (p.screen.scale * p.camera.y  * height/2));
-		p.screen.w     = Math.round(             (p.screen.scale * roadWidth   * width/2));
-	}
-	
-	
-	
-	function polygon(ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) {
-		ctx.fillStyle = color;
-		ctx.beginPath();
-		ctx.moveTo(x1, y1);
-		ctx.lineTo(x2, y2);
-		ctx.lineTo(x3, y3);
-		ctx.lineTo(x4, y4);
-		ctx.closePath();
-		ctx.fill();
-	}
-
 	//---------------------------------------------------------------------------
 	
-	function rumbleWidth(projectedRoadWidth, lanes) { return projectedRoadWidth/Math.max(6,  2*lanes); 
+	function rumbleWidth(projectedRoadWidth, lanes) { 
+		return projectedRoadWidth/Math.max(6,  2*lanes); 
+	}
+  
+	function laneMarkerWidth(projectedRoadWidth, lanes) { 
+		return projectedRoadWidth/Math.max(32, 8*lanes); 
+	}
+  
 	
-	}
-  
-	 function laneMarkerWidth(projectedRoadWidth, lanes) { return projectedRoadWidth/Math.max(32, 8*lanes); }
-  
-	function mysegment(ctx, width, lanes, x1, y1, w1, x2, y2, w2, fog, color) {
-		var r1 = rumbleWidth(w1, lanes),
-		r2 = rumbleWidth(w2, lanes),
-		l1 = laneMarkerWidth(w1, lanes),
-		l2 = laneMarkerWidth(w2, lanes),
-		lanew1, lanew2, lanex1, lanex2, lane;
-
-		//ctx.fillStyle = color.grass;
-		
-		ctx.fillStyle = color.grass;
-		ctx.fillRect(0, y2, width, y1 - y2);
-		
-		/*ctx.fillStyle = "red";
-		ctx.fillRect(0, 106, 1024, 80);*/
-		
-
-		polygon(ctx, x1-w1-r1, y1, x1-w1, y1, x2-w2, y2, x2-w2-r2, y2, color.rumble);
-		polygon(ctx, x1+w1+r1, y1, x1+w1, y1, x2+w2, y2, x2+w2+r2, y2, color.rumble);
-		polygon(ctx, x1-w1,    y1, x1+w1, y1, x2+w2, y2, x2-w2,    y2, color.road);
-
-		if (color.lane) {
-			lanew1 = w1*2/lanes;
-			lanew2 = w2*2/lanes;
-			lanex1 = x1 - w1 + lanew1;
-			lanex2 = x2 - w2 + lanew2;
-			for(lane = 1 ; lane < lanes ; lanex1 += lanew1, lanex2 += lanew2, lane++)
-				polygon(ctx, lanex1 - l1/2, y1, lanex1 + l1/2, y1, lanex2 + l2/2, y2, lanex2 - l2/2, y2, color.lane);
-		}
-
-		//  Render.fog(ctx, 0, y1, width, y2-y1, fog);
-	}
 		 
 		//class Car
 		var Car  = function (cthis){
