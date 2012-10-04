@@ -1,5 +1,5 @@
 /***
-	this is simple racing game 
+	This is simple racing game 
 	is created by Suman Bogati. 
 	The game inspired from https://github.com/jakesgordon/javascript-racer/
 	Copyright 2012-2013;
@@ -61,7 +61,6 @@
 			},
 			
 			load : function (){
-			
 				// this need to be done becuase 
 				// there should be loaded first background images
 				// and should be done other jobs eg:- load road, car
@@ -235,10 +234,10 @@
 				},
 				
 				dispSegment : function (ctx, width, lanes, x1, y1, w1, x2, y2, w2, fog, color) {
-					var r1 = rumbleWidth(w1, lanes),
-					r2 = rumbleWidth(w2, lanes),
-					l1 = laneMarkerWidth(w1, lanes),
-					l2 = laneMarkerWidth(w2, lanes),
+					var r1 = this.structure().rumbleWidth(w1, lanes),
+					r2 = this.structure().rumbleWidth(w2, lanes),
+					l1 = this.structure().laneMarkerWidth(w1, lanes),
+					l2 = this.structure().laneMarkerWidth(w2, lanes),
 					lanew1, lanew2, lanex1, lanex2, lane;
 
 					ctx.fillStyle = color.grass;
@@ -282,7 +281,15 @@
 							ctx.closePath();
 							ctx.fill();
 						},
-
+						
+						rumbleWidth : function (projectedRoadWidth, lanes) { 
+							return projectedRoadWidth/Math.max(6,  2*lanes); 
+						},
+						
+						
+						laneMarkerWidth :  function (projectedRoadWidth, lanes) { 
+							return projectedRoadWidth/Math.max(32, 8*lanes); 
+						}
 					};
 				}
 			}	
@@ -290,16 +297,6 @@
 	
 	//---------------------------------------------------------------------------
 	
-	function rumbleWidth(projectedRoadWidth, lanes) { 
-		return projectedRoadWidth/Math.max(6,  2*lanes); 
-	}
-  
-	function laneMarkerWidth(projectedRoadWidth, lanes) { 
-		return projectedRoadWidth/Math.max(32, 8*lanes); 
-	}
-  
-	
-		 
 		//class Car
 		var Car  = function (cthis){
 			return {
@@ -322,7 +319,6 @@
 				//here would be the code for run, stop, start
 				//here is the load instasd player
 				load: function (){
-				
 						var bounce = (1.5 * Math.random() * this.speedPercent * this.resolution) * randomChoice([-1,1]);
 						var sprite;
 						if (this.steer < 0)
@@ -351,11 +347,7 @@
 					  this.destY = 610.56;
 						
 					 // alert(cthis.sprites);
-				cthis.ctx.drawImage(cthis.sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), this.destX, this.destY, destW, destH - clipH);
-					
-					
-					
-					
+					cthis.ctx.drawImage(cthis.sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), this.destX, this.destY, destW, destH - clipH);
 				}, 
 				
 				run : function (){
@@ -386,7 +378,6 @@
 					alert("keypress");
 				}
 			}	
-			
 		}
 	
 //TODO
@@ -438,11 +429,13 @@ function randomChoice(options) {
 	return options[randomInt(0, options.length-1)];  
 }
 
+function randomInt(min, max) { 
+	return Math.round(interpolate(min, max, Math.random()));   
+}
 
-
- function randomInt(min, max)          { return Math.round(interpolate(min, max, Math.random()));   }
-
-    function   interpolate(a,b,percent)       { return a + (b-a)*percent}
+function   interpolate(a,b,percent) { 
+	return a + (b-a)*percent;
+}
   
   
 var myCar = new carRace("racingCan");
