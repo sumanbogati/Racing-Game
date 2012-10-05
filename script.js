@@ -22,12 +22,17 @@
 			this.car = '';
 			this.timing = '';
 			this.sprites = null;
+			
 			return this;
 		}
 		
 		carRace.prototype =  {
 			init : function (){
 				this.ctx = this.canvas.getContext('2d');
+				
+				this.fps = 60;
+				this.step = 1/this.fps;
+				
 				
 				// event init
 				// this should be into event class
@@ -198,7 +203,7 @@
 					  playerZ                = (cameraHeight * cameraDepth);
 					  resolution             = height/480;
 					  refreshTweakUI();
-					  console.log('rumble Length ' + rumbleLength);	
+					  //console.log('rumble Length ' + rumbleLength);	
 					  if ((segments.length==0) || (options.segmentLength) || (options.rumbleLength))
 					  resetRoad(); */// only rebuild road when necessary
 					  
@@ -303,23 +308,32 @@
 				init: function (){
 				//	this.name = obj.name;
 				//	this.type = obj.type;
+				
 					this.destX = width/2;
 					this.destY = height;
 					this.resolution = 1.6;
 					this.scale = cthis.rd.cameraDepth/cthis.rd.playerZ;
 					this.maxSpeed  = cthis.rd.segmentLength/cthis.step;
+
 					this.speed = 0;
-					this.speedPercent = this.maxSpeed/this.speed;
+					this.speedPercent = this.speed/this.maxSpeed;
+					
 					this.keyLeft = false;
 					this.keyRight = false;
 					this.steer =  this.speed * (this.keyLeft ? -1 : this.keyRight ? 1 : 0);
 					this.updown = 0;
+					 
 				}, 
 				
 				//here would be the code for run, stop, start
 				//here is the load instasd player
 				load: function (){
+						console.log('speedPercent ' + this.speedPercent);
+						console.log('this.resolution ' + this.resolution);
+						console.log('randomChoice ' + randomChoice([-1,1]));
+						
 						var bounce = (1.5 * Math.random() * this.speedPercent * this.resolution) * randomChoice([-1,1]);
+						
 						var sprite;
 						if (this.steer < 0)
 						  sprite = (this.updown > 0) ? SPRITES.PLAYER_UPHILL_LEFT : SPRITES.PLAYER_LEFT;
@@ -327,7 +341,7 @@
 						  sprite = (this.updown > 0) ? SPRITES.PLAYER_UPHILL_RIGHT : SPRITES.PLAYER_RIGHT;
 						else
 						  sprite = (this.updown > 0) ? SPRITES.PLAYER_UPHILL_STRAIGHT : SPRITES.PLAYER_STRAIGHT;
-						
+						//console.log('bounce ' + bounce);
 						this.destY = this.destY + bounce;
 						this.sprite(sprite, -0.5, -1);
 				},
@@ -339,19 +353,22 @@
 
 					this.destX = this.destX + (destW * (offsetX || 0));
 					this.destY = this.destY + (destH * (offsetY || 0));
-
+					
+					//console.log('destY ' + this.destY);
+					//console.log('destH ' + destH);
+					//console.log('offsetY ' + offsetY);	
 					var clipH = clipY ? Math.max(0, this.destY+destH-clipY) : 0;
 					if (clipH < destH)
 						
-						//TODO this should be dynamic
-					  this.destY = 610.56;
+					  //TODO this should be dynamic
+					  //this.destY = 610.56;
 						
 					 // alert(cthis.sprites);
 					cthis.ctx.drawImage(cthis.sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), this.destX, this.destY, destW, destH - clipH);
 				}, 
 				
 				run : function (){
-					console.log('car run');
+					//console.log('car run');
 				}
 			}
 		}
