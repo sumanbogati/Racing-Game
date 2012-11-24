@@ -2,7 +2,7 @@
 	This is simple racing game 
 	is created by Suman Bogati. 
 	The game inspired from https://github.com/jakesgordon/javascript-racer/
-	Copyright 2012-2013;
+	Copyright 2011-2012;
 	Any enquary please contact at sumanbogati@gmail.com 
 **/
 
@@ -18,11 +18,12 @@
 			this.canvas = document.getElementById(canvasId);
 			this.player = '';
 			this.background = '';
-			this.road = '';
+			
+			//this.road = '';
+			this.rd= '';
 			this.car = '';
 			this.timing = '';
 			this.sprites = null;
-			
 			return this;
 		}
 		
@@ -84,7 +85,7 @@
 				this.bg.load(this, function (cthis){
 					//alert("hey guys what is up");
 					cthis.rd.load(cthis.ctx);
-					cthis.car.load(cthis.ctx);
+					//cthis.car.load(cthis.ctx);
 				});
 			}
 		};
@@ -138,7 +139,7 @@
 					this.position = 0;
 					this.playerX = 0;
 					this.trackLength = 0;
-					this.rumbleLength = 0;
+					this.rumbleLength = 3;
 					this.drawDistance = 300;
 					this.lanes = 3;
 					this.fieldOfView = 100;
@@ -147,7 +148,8 @@
 								  TREE: '#005108',
 								  FOG:  '#005108',
 								  LIGHT:  { road: '#6B6B6B', grass: '#5E7542', rumble: '#555555', lane: '#CCCCCC'  },
-								  DARK:   { road: '#696969', grass: '#009A00', rumble: '#BBBBBB'                   },
+								  //DARK:   { road: '#696969', grass: '#009A00', rumble: '#BBBBBB'                   },
+								  DARK:   { road: '#696969', grass: '#366601', rumble: '#BBBBBB'                   },
 								  START:  { road: 'white',   grass: 'white',   rumble: 'white'                     },
 								  FINISH: { road: 'black',   grass: 'black',   rumble: 'black'                     }
 								};
@@ -158,12 +160,12 @@
 						this.reset(cthis);
 					}, 
 				
-				//this function called render into inspired game
+				//this function is called render into inspired game
 				load : function (ctx){
 					var baseSegment = this.findSegment(this.position);
-					var maxy        = height;
+					var maxy  = height;
 
-					//ctx.clearRect(0, 0, width, height);
+					ctx.clearRect(0, 0, width, height);
 
 					var n, segment;
 
@@ -192,40 +194,19 @@
 						segment.color);
 						maxy = segment.p2.screen.y;
 					}
+					
+					cthis.car.load(cthis.ctx);
 				}, 
 				
 				reset : function (cthis){
 					  //this should be dyanamic
 					  cthis.canvas.width = 1024;
 					  cthis.canvas.height = 768;
-					  
-					  
-					/*  options       = options || {};
-					  cthis.canvas.width  = width  = Util.toInt(options.width,          width);
-					  cthis.canvas.height = height = Util.toInt(options.height,         height);
-					  lanes                  = Util.toInt(options.lanes,          lanes);
-					  roadWidth              = Util.toInt(options.roadWidth,      roadWidth);
-					  cameraHeight           = Util.toInt(options.cameraHeight,   cameraHeight);
-					  drawDistance           = Util.toInt(options.drawDistance,   drawDistance);
-					  fogDensity             = Util.toInt(options.fogDensity,     fogDensity);
-					  fieldOfView            = Util.toInt(options.fieldOfView,    fieldOfView);
-					  segmentLength          = Util.toInt(options.segmentLength,  segmentLength);
-					  rumbleLength           = Util.toInt(options.rumbleLength,   rumbleLength);
-					  cameraDepth            = 1 / Math.tan((fieldOfView/2) * Math.PI/180);
-					  playerZ                = (cameraHeight * cameraDepth);
-					  resolution             = height/480;
-					  refreshTweakUI();
-					  //console.log('rumble Length ' + rumbleLength);	
-					  if ((segments.length==0) || (options.segmentLength) || (options.rumbleLength))
-					  resetRoad(); */// only rebuild road when necessary
-					  
 					  this.resetRoad();
-					  
 					}, 
 				
 				resetRoad : function (){
-				
-					//=========================================================================
+				//=========================================================================
 					// BUILD ROAD GEOMETRY
 					//=========================================================================
 					//var segments = [];
@@ -243,7 +224,7 @@
 					  for(var n = 0 ; n < this.rumbleLength ; n++)
 					  this.segments[this.segments.length-1-n].color = this.COLORS.FINISH;
 
-					  trackLength = this.segments.length * this.segmentLength;
+					  this.trackLength = this.segments.length * this.segmentLength;
 				}, 
 				
 				findSegment  : function (z){
@@ -320,7 +301,6 @@
 				init: function (){
 				//	this.name = obj.name;
 				//	this.type = obj.type;
-					
 					this.destX = width/2;
 					this.destY = height;
 					this.resolution = 1.6;
@@ -332,6 +312,8 @@
 					
 					this.keyLeft = false;
 					this.keyRight = false;
+					this.keyFaster = false;
+					this.keySlower = false;
 					this.steer =  this.speed * (this.keyLeft ? -1 : this.keyRight ? 1 : 0);
 					this.updown = 0;
 					this.accel = this.maxSpeed/5;
@@ -343,7 +325,7 @@
 
 					
 					//attaching event handler 
-					var keyObj = new Keys();
+					var keyObj = new Keys(cthis);
 						keyObj.init();
 					 
 				}, 
@@ -390,56 +372,69 @@
 				run : function (){
 					//Game.setKeyListener(options.keys);
 					return {
-						init : function (options){
+						init : function (options, cthis){
+							//alert("i am the person");
 							//var canvas = options.canvas,    // canvas render target is provided by caller
-							this.update = options.update,    // method to update game logic is provided by caller
-							this.render = options.render,    // method to render the game is provided by caller
-							this.step   = options.step,      // fixed frame step (1/fps) is specified by caller
-							this.stats  = options.stats,     // stats instance is provided by caller
-							this.now    = null,
-							this.last   = this.mechanism().timestamp(),
-							this.dt     = 0,
+						//	this.update = options.update,    // method to update game logic is provided by caller
+						//	this.render = options.render,    // method to render the game is provided by caller
+							//this.step   = options.step,      // fixed frame step (1/fps) is specified by caller
+						//	this.stats  = options.stats,     // stats instance is provided by caller
+							this.step   = options.step;
+							this.now    = null;
+							this.last   = cthis.car.mechanism().timestamp();
+							this.dt     = 0;
 							this.gdt    = 0;
 						},
 
-						frame : function () {
-							this.now = this.mechanism().timestamp();
+						frame : function (cthis) {
+							//alert("is there running the car");
+							this.now = cthis.car.mechanism().timestamp();
 							this.dt  = Math.min(1, (this.now - this.last) / 1000); // using requestAnimationFrame have to be able to handle large delta's caused when it 'hibernates' in a background or non-visible tab
 							this.gdt = this.gdt + this.dt;
 							while (this.gdt > this.step) {
 							  this.gdt = this.gdt - this.step;
-								this.update();
+								this.update(cthis);
 							}
 							
 							//load is instead of render
-							cthis.rd.load();
+							//TODO this should be written into proper format
+							//var myCar = new carRace("racingCan");
+							//myCar.init(myCar.cid);
+							//alert(myCar.ctx);
+							//Road().load(myCar.ctx);
+							cthis.rd.load(cthis.ctx);
 							this.last = this.now;
-							//	requestAnimationFrame(frame, canvas);
+							requestAnimationFrame(this.frame(cthis), cthis.canvas);
 						},
 					
-						 update : function () {
+						 update : function (cthis) {
+							var carObj = cthis.car
 							 var dt = this.step;
-							  position = this.mechanism().increase(position, dt * this.speed, cthis.rd.trackLength);
+							  cthis.rd.position = carObj.mechanism().increase(cthis.rd.position, dt * carObj.speed, cthis.rd.trackLength);
 
-							  var dx = dt * 2 * (this.speed/this.maxSpeed); // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
-
+							  var dx = dt * 2 * (carObj.speed/carObj.maxSpeed); // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
+							  var keyLeft = cthis.car.keyLeft;
+							  var keyFaster = cthis.car.keyFaster;
+							  var keyRight = cthis.car.keyRight;
+							  var keySlower = cthis.car.keySlower;
+							  var playerX = cthis.rd.playerX;
+							  
 							  if (keyLeft)
 								playerX = playerX - dx;
 							  else if (keyRight)
 								playerX = playerX + dx;
-
 							  if (keyFaster)
-								this.speed = this.mechanism().accelerate(this.speed, this.accel, dt);
+								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.accel, dt);
 							  else if (keySlower)
-								this.speed = this.mechanism().accelerate(this.speed, this.breaking, dt);
+								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.breaking, dt);
 							  else
-								this.speed = this.mechanism().accelerate(this.speed, this.decel, dt);
+								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.decel, dt);
 
-							  if (((playerX < -1) || (playerX > 1)) && (this.speed > offRoadLimit))
-								this.speed = this.mechanism().accelerate(this.speed, offRoadDecel, dt);
+							  if (((playerX < -1) || (playerX > 1)) && (carObj.speed > offRoadLimit))
+								carObj.speed = carObj.mechanism().accelerate(carObj.speed, offRoadDecel, dt);
 
-							  playerX = this.mechanism().limit(playerX, -2, 2);     // dont ever let player go too far out of bounds
-							  this.speed   = this.mechanism().limit(this.speed, 0, this.maxSpeed); // or exceed maxSpeed
+							  playerX = carObj.mechanism().limit(playerX, -2, 2);     // dont ever let player go too far out of bounds
+							  carObj.speed   = carObj.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxSpeed
 						}
 					}	
 					//console.log('car run');
@@ -483,60 +478,111 @@
 				}
 			};
 		}
+
+		
+		//var keyLeft  = false;
+		//var keyRight = false;
+		//var keyUp  	 = false;
+		//var keydown  = false;
 		
 		//class Event
 		var event = function (){
+			var tfunc, func;
 			return{
+			
+				 
 				attachEventListener : function(elemId, kthis){
+						
 					//alert(kthis.events);
 					for(evt in kthis.events){
-					  //  console.log("hello guys what is up");
-						//document.getElementById(elemId).addEventListener = (evt, kthis.events[evt]());
-					//	alert(kthis.events[evt]);	
-					//	alert(kthis);
+					 //  console.log("hello guys what is up");
+					 //document.getElementById(elemId).addEventListener = (evt, kthis.events[evt]());
+					 //	alert(kthis.events[evt]);	
+					 //	alert(kthis);
 						//debugger;
-						var tfunc = kthis.events[evt];
-						var func = kthis[tfunc];
+						
+						/* link.onclick = function (num){
+							return function (){
+								alert(num);
+							};
+						}(i); */	
+						
+						//this is the use of clousre concept
+						tfunc = kthis.events[evt];
+						//func =  kthis[tfunc];
+						func = function (kthis, tfunc){
+							//debugger;
+							return function (evt){
+								kthis[tfunc](evt);
+							}
+						}(kthis, tfunc);
+					
 						//the name should be dyanamic
-						document.getElementById("bdRcGame").addEventListener(evt, eval(func));
+						document.getElementById("bdRcGame").addEventListener(evt, func);
 					}
 				}, 
+				
 			}	
 		}
 		
-		var Keys = function (){
+		var Keys = function (cthis){
 			return {
 				init : function (){
 					this.events = {'keydown' : 'down', 'keypress' : 'press', 'keyup' : 'up'};
 					event().attachEventListener("bdRcGame", this);
 					
-					this.keyCodes =  {	  left:  37,
-										  up:    38,
-										  right: 39,
-										  down:  40,
-									};
-					
+					this.keyCodes =  {	 
+							  left:  37,
+							  up:    38,
+							  right: 39,
+							  down:  40,
+						};
 				}, 
 				
-				down : function (ev){
-					debugger;
-					for(keyProp in  this.keyCodes){
-						console.log(this.keyCodes[keyProp]);
-						if(this.keyCodes[keyProp] == ev.keyCode){
-							alert("the game begins now");	
+				down : function (evt){
+					//for(keyProp in  this.keyCodes){
+						//console.log(this.keyCodes[keyProp]);
+
+						if(evt.keyCode == 37){
+							cthis.car.keyLeft = true;
+						}else if(evt.keyCode == 38){
+							cthis.car.keyFaster = true;
+						}else if(evt.keyCode == 39){
+							cthis.car.keyRight = true;
+						}else if(evt.keyCode == 40){
+							cthis.car.keySlower = true;
 						}
-					}
+							
+						//if(this.keyCodes[keyProp] == evt.keyCode){
+						//console.log(evt.keyCode);
+							
+						if(evt.keyCode == 38){
+							var step = cthis.step;
+							var carRun = cthis.car.run();
+							carRun.init({step:step}, cthis);
+							carRun.frame(cthis);
+							//cthis.car.run().init({step:step}, cthis);
+							//cthis.car.run().frame(cthis);
+						}
+							
+						//alert("the game begins now with press down button " + evt.keyCode);	
+					//}
+//}
 				},
 				
-				up : function (){
-					alert("hello up");
+				up : function (evt){
+					//alert("the game ends now with press up button");
+					var step = cthis.step;
+					if(evt.keyCode == 38){
+						cthis.car.init({step:step});
+						cthis.car.run().frame(cthis);
+					}
 				}, 
 				
 				press : function (ev){
 					for(keyProp in  this.keyCodes){
-						console.log(this.keyCodes[keyProp]);
 						if(this.keyCodes[keyProp] == ev.keyCode){
-							alert("the game begins now");	
+							//alert("the game ends now with press up button");
 						}
 					}
 				},
@@ -546,5 +592,15 @@
 	
 		var myCar = new carRace("racingCan");
 		myCar.init(myCar.cid);
+		
+		if (!window.requestAnimationFrame) { // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+								window.requestAnimationFrame = window.webkitRequestAnimationFrame || 
+                                 window.mozRequestAnimationFrame    || 
+                                 window.oRequestAnimationFrame      || 
+                                 window.msRequestAnimationFrame     || 
+                                 function(callback, element) {
+                                   window.setTimeout(callback, 1000 / 60);
+                                 }
+}
 	}
 })(window, document);
