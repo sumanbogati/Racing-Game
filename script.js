@@ -65,28 +65,70 @@
 				
 				
 				//this is to be splitted in relative calss
-				this.SPRITES = {
+				/*this.SPRITES = {
 				  CAR01:                  { x: 1205, y: 1018, w:   80, h:   56 },
 				  PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
+				};*/
+				
+				
+				this.SPRITES = {
+				  PALM_TREE:              { x:    5, y:    5, w:  215, h:  540 },
+				  BILLBOARD08:            { x:  230, y:    5, w:  385, h:  265 },
+				  TREE1:                  { x:  625, y:    5, w:  360, h:  360 },
+				  DEAD_TREE1:             { x:    5, y:  555, w:  135, h:  332 },
+				  BILLBOARD09:            { x:  150, y:  555, w:  328, h:  282 },
+				  BOULDER3:               { x:  230, y:  280, w:  320, h:  220 },
+				  COLUMN:                 { x:  995, y:    5, w:  200, h:  315 },
+				  BILLBOARD01:            { x:  625, y:  375, w:  300, h:  170 },
+				  BILLBOARD06:            { x:  488, y:  555, w:  298, h:  190 },
+				  BILLBOARD05:            { x:    5, y:  897, w:  298, h:  190 },
+				  BILLBOARD07:            { x:  313, y:  897, w:  298, h:  190 },
+				  BOULDER2:               { x:  621, y:  897, w:  298, h:  140 },
+				  TREE2:                  { x: 1205, y:    5, w:  282, h:  295 },
+				  BILLBOARD04:            { x: 1205, y:  310, w:  268, h:  170 },
+				  DEAD_TREE2:             { x: 1205, y:  490, w:  150, h:  260 },
+				  BOULDER1:               { x: 1205, y:  760, w:  168, h:  248 },
+				  BUSH1:                  { x:    5, y: 1097, w:  240, h:  155 },
+				  CACTUS:                 { x:  929, y:  897, w:  235, h:  118 },
+				  BUSH2:                  { x:  255, y: 1097, w:  232, h:  152 },
+				  BILLBOARD03:            { x:    5, y: 1262, w:  230, h:  220 },
+				  BILLBOARD02:            { x:  245, y: 1262, w:  215, h:  220 },
+				  STUMP:                  { x:  995, y:  330, w:  195, h:  140 },
+				  SEMI:                   { x: 1365, y:  490, w:  122, h:  144 },
+				  TRUCK:                  { x: 1365, y:  644, w:  100, h:   78 },
+				  CAR03:                  { x: 1383, y:  760, w:   88, h:   55 },
+				  CAR02:                  { x: 1383, y:  825, w:   80, h:   59 },
+				  CAR04:                  { x: 1383, y:  894, w:   80, h:   57 },
+				  CAR01:                  { x: 1205, y: 1018, w:   80, h:   56 },
+				  PLAYER_UPHILL_LEFT:     { x: 1383, y:  961, w:   80, h:   45 },
+				  PLAYER_UPHILL_STRAIGHT: { x: 1295, y: 1018, w:   80, h:   45 },
+				  PLAYER_UPHILL_RIGHT:    { x: 1385, y: 1018, w:   80, h:   45 },
+				  PLAYER_LEFT:            { x:  995, y:  480, w:   80, h:   41 },
+				  PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
+				  PLAYER_RIGHT:           { x:  995, y:  531, w:   80, h:   41 }
 				};
-				
-				
+		
 				this.SPRITES.SCALE = 0.3 * (1/this.SPRITES.PLAYER_STRAIGHT.w); // the reference sprite width should be 1/3rd the (half-)roadWidth
 				
 				//this is to be splitted in relative calss
 				this.SPRITES.CARS = [this.SPRITES.CAR01];
-				return this;
+					
 			},
 			
 			load : function (){
 				// this need to be done becuase 
 				// there should be loaded first background images
 				// and should be done other jobs eg:- load road, car
+
 				this.bg.load(this, function (cthis){
 					//alert("hey guys what is up");
 					cthis.rd.load(cthis.ctx);
-					//cthis.car.load(cthis.ctx);
 				});
+				
+				/* var step = this.step;
+				var carRun = this.car.run();
+				carRun.init({step:step}, this);
+				carRun.frame(this); */
 			}
 		};
 		
@@ -106,7 +148,7 @@
 				
 				load: function (cthis, callback){
 					var ctx = cthis.ctx;
-				
+					ctx.clearRect(0, 0, width, height);
 					//var imgElems = document.getElementById("bgImage");
 					var imgaLoaded = function (mthis){
 						callback(mthis);
@@ -165,7 +207,7 @@
 					var baseSegment = this.findSegment(this.position);
 					var maxy  = height;
 
-					ctx.clearRect(0, 0, width, height);
+					//ctx.clearRect(0, 0, width, height);
 
 					var n, segment;
 
@@ -242,9 +284,10 @@
 					ctx.fillRect(0, y2, width, y1 - y2);
 					
 					this.structure().polygon(ctx, x1-w1-r1, y1, x1-w1, y1, x2-w2, y2, x2-w2-r2, y2, color.rumble);
+					
 					this.structure().polygon(ctx, x1+w1+r1, y1, x1+w1, y1, x2+w2, y2, x2+w2+r2, y2, color.rumble);
 					this.structure().polygon(ctx, x1-w1,    y1, x1+w1, y1, x2+w2, y2, x2-w2,    y2, color.road);
-
+					
 					if (color.lane) {
 						lanew1 = w1*2/lanes;
 						lanew2 = w2*2/lanes;
@@ -270,13 +313,15 @@
 						}, 
 						
 						 polygon : function (ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) {
+							////console.log.log("x1 y1 x2 y2" ); 
+							////console.log.log(x1 + " " + y1 +" " + x2 +" "+ y2);
+							
 							ctx.fillStyle = color;
 							ctx.beginPath();
 							ctx.moveTo(x1, y1);
 							ctx.lineTo(x2, y2);
 							ctx.lineTo(x3, y3);
 							ctx.lineTo(x4, y4);
-							ctx.closePath();
 							ctx.fill();
 						},
 						
@@ -337,28 +382,74 @@
 						var bounce = (1.5 * Math.random() * this.speedPercent * this.resolution) * this.mechanism().randomChoice([-1,1]);
 						
 						var sprite;
-						if (this.steer < 0)
+						if (this.steer < 0){
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_LEFT : cthis.SPRITES.PLAYER_LEFT;
-						else if (this.steer > 0)
+						  //console.log.log("left");
+						  }
+						else if (this.steer > 0){
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_RIGHT : cthis.SPRITES.PLAYER_RIGHT;
-						else
+						  //console.log.log("right");
+						  }
+						else{
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_STRAIGHT : cthis.SPRITES.PLAYER_STRAIGHT;
-						//console.log('bounce ' + bounce);
+						}
+						////console.log.log('bounce ' + bounce);
 						this.destY = this.destY + bounce;
 						this.sprite(sprite, -0.5, -1);
+						
+						/* for(prop in cthis.SPRITES.PLAYER_UPHILL_STRAIGHT){
+							//console.log.log(prop + " " + cthis.SPRITES.PLAYER_UPHILL_STRAIGHT[prop]) + " <br />";
+						}	
+						//console.log.log("second");
+							
+						for(prop in cthis.SPRITES.PLAYER_STRAIGHT){
+							//console.log.log(prop + " " + cthis.SPRITES.PLAYER_STRAIGHT[prop]) + " <br />";
+						} */	
+
 				},
+				
+//ctx, width, height, resolution, roadWidth, sprites, sprite, scale, destX, destY + bounce, -0.5, -1);
+//ctx, width, height, resolution, roadWidth, sprites, sprite, scale, destX, destY, offsetX, offsetY, clipY) {
 				
 				sprite: function(sprite, offsetX, offsetY, clipY) {
 					//  scale for projection AND relative to roadWidth (for tweakUI)
+					//var destW  = (sprite.w * scale * width/2) * (SPRITES.SCALE * roadWidth);
+					//var destH  = (sprite.h * scale * width/2) * (SPRITES.SCALE * roadWidth)
+	
+					/* var destW  = (sprite.w * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
+					var destH  = (sprite.h * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
+									
+					this.destX = this.destX + (destW * (offsetX || 0));
+					this.destY = this.destY + (destH * (offsetY || 0)); */
+					
+					
 					var destW  = (sprite.w * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
 					var destH  = (sprite.h * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
-
-					this.destX = this.destX + (destW * (offsetX || 0));
-					this.destY = this.destY + (destH * (offsetY || 0));
 					
-					//console.log('destY ' + this.destY);
-					//console.log('destH ' + destH);
-					//console.log('offsetY ' + offsetY);	
+					/*//console.log.log("this.destX +  (destW * (offsetX || 0) " + 
+						this.destX + " + ("+destW + " * " + "(" + offsetX + " || " + 0 + "))"
+					);*/
+					
+					/*  //console.log.log("this.destY +  (destH * (offsetY || 0) " + 
+						this.destY + " + ("+destY + " * " + "(" + offsetY + " || " + 0 + "))"
+					); */
+					
+					//this.destX = (this.destX + (destW * (offsetX || 0)));
+					//this.destY = (this.destY + (destH * (offsetY || 0)));
+					
+					////console.log.log("this.destX " +this.destX);
+					////console.log.log("this.destY " +this.destY);
+					
+					
+					////console.log.log("offsetX " +offsetX);
+					////console.log.log("offsetY " +offsetY);
+					
+					////console.log.log("this.destX " +this.destX);
+					////console.log.log("this.destY " +this.destY);
+					
+					////console.log.log('destY ' + this.destY);
+					////console.log.log('destH ' + destH);
+					////console.log.log('offsetY ' + offsetY);	
 					var clipH = clipY ? Math.max(0, this.destY+destH-clipY) : 0;
 					if (clipH < destH)
 						
@@ -366,7 +457,8 @@
 					  //this.destY = 610.56;
 						
 					 // alert(cthis.sprites);
-					cthis.ctx.drawImage(cthis.sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), this.destX, this.destY, destW, destH - clipH);
+				
+					cthis.ctx.drawImage(cthis.sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), (this.destX + (destW * (offsetX || 0))), (this.destY + (destH * (offsetY || 0))), destW, destH - clipH);
 				}, 
 				
 				run : function (){
@@ -389,29 +481,62 @@
 						frame : function (cthis) {
 							//alert("is there running the car");
 							this.now = cthis.car.mechanism().timestamp();
+							//console.log.log("this now " + this.now + " " + " this.last " + this.last);
+							console.log("this now " + this.now );
+							console.log("this.last " + this.last);
 							this.dt  = Math.min(1, (this.now - this.last) / 1000); // using requestAnimationFrame have to be able to handle large delta's caused when it 'hibernates' in a background or non-visible tab
 							this.gdt = this.gdt + this.dt;
+							
 							while (this.gdt > this.step) {
 							  this.gdt = this.gdt - this.step;
 								this.update(cthis);
 							}
 							
-							//load is instead of render
-							//TODO this should be written into proper format
-							//var myCar = new carRace("racingCan");
-							//myCar.init(myCar.cid);
-							//alert(myCar.ctx);
-							//Road().load(myCar.ctx);
+							/*cthis.bg.load(cthis, function (cthis){
+								//cthis.bg.load(cthis);
+								//cthis.rd.load(cthis.ctx);cthis.rd.load(cthis.ctx);
+								//cthis.car.load(cthis.ctx);
+								//cthis.rd.load(cthis.ctx);
+								cthis.rd.load(cthis.ctx);
+							});*/
+							
+							
+							//cthis.rd.load(cthis.ctx);
+							//alert("nothing happend");
+							//cthis.ctx.clearRect(0, 0, width, height);
+							
+							/*dthis = this;
+							setInterval(
+								function (){
+									cthis.rd.load(cthis.ctx);
+							dthis.last = dthis.now;
+							requestAnimationFrame(dthis.frame(cthis), cthis.canvas);
+								}, 1
+							);
+							*/
+							
+							
+							//cthis.bg.load(cthis, function (cthis){
+								//cthis.bg.load(cthis);
+								//cthis.rd.load(cthis.ctx);cthis.rd.load(cthis.ctx);
+								//cthis.car.load(cthis.ctx);
+								//cthis.rd.load(cthis.ctx);
+								//cthis.rd.load(cthis.ctx);
+							//});
+							
 							cthis.rd.load(cthis.ctx);
-							this.last = this.now;
-							requestAnimationFrame(this.frame(cthis), cthis.canvas);
+							dthis = this;
+							setTimeout(function (){	
+								dthis.last = dthis.now;
+								dthis.frame(cthis);
+							}, (1000/60));
 						},
 					
 						 update : function (cthis) {
 							var carObj = cthis.car
 							 var dt = this.step;
 							  cthis.rd.position = carObj.mechanism().increase(cthis.rd.position, dt * carObj.speed, cthis.rd.trackLength);
-
+							  //console.log.log('road positon '+ cthis.rd.position);
 							  var dx = dt * 2 * (carObj.speed/carObj.maxSpeed); // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
 							  var keyLeft = cthis.car.keyLeft;
 							  var keyFaster = cthis.car.keyFaster;
@@ -437,7 +562,6 @@
 							  carObj.speed   = carObj.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxSpeed
 						}
 					}	
-					//console.log('car run');
 				},
 				
 				mechanism : function (){
@@ -495,7 +619,7 @@
 						
 					//alert(kthis.events);
 					for(evt in kthis.events){
-					 //  console.log("hello guys what is up");
+					 //  //console.log.log("hello guys what is up");
 					 //document.getElementById(elemId).addEventListener = (evt, kthis.events[evt]());
 					 //	alert(kthis.events[evt]);	
 					 //	alert(kthis);
@@ -541,7 +665,7 @@
 				
 				down : function (evt){
 					//for(keyProp in  this.keyCodes){
-						//console.log(this.keyCodes[keyProp]);
+						////console.log.log(this.keyCodes[keyProp]);
 
 						if(evt.keyCode == 37){
 							cthis.car.keyLeft = true;
@@ -554,15 +678,13 @@
 						}
 							
 						//if(this.keyCodes[keyProp] == evt.keyCode){
-						//console.log(evt.keyCode);
+						////console.log.log(evt.keyCode);
 							
 						if(evt.keyCode == 38){
 							var step = cthis.step;
 							var carRun = cthis.car.run();
 							carRun.init({step:step}, cthis);
-							carRun.frame(cthis);
-							//cthis.car.run().init({step:step}, cthis);
-							//cthis.car.run().frame(cthis);
+							carRun.frame(cthis); 
 						}
 							
 						//alert("the game begins now with press down button " + evt.keyCode);	
@@ -573,9 +695,10 @@
 				up : function (evt){
 					//alert("the game ends now with press up button");
 					var step = cthis.step;
+					cthis.car.keyFaster = false;
 					if(evt.keyCode == 38){
-						cthis.car.init({step:step});
-						cthis.car.run().frame(cthis);
+					//	cthis.car.init({step:step});
+						//cthis.car.run().frame(cthis);
 					}
 				}, 
 				
@@ -590,17 +713,23 @@
 		}
 		
 	
-		var myCar = new carRace("racingCan");
-		myCar.init(myCar.cid);
+		var myCarRace = new carRace("racingCan");
+		 myCarRace.init(myCarRace.cid);
 		
-		if (!window.requestAnimationFrame) { // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-								window.requestAnimationFrame = window.webkitRequestAnimationFrame || 
-                                 window.mozRequestAnimationFrame    || 
-                                 window.oRequestAnimationFrame      || 
-                                 window.msRequestAnimationFrame     || 
-                                 function(callback, element) {
-                                   window.setTimeout(callback, 1000 / 60);
-                                 }
-}
+	/* 	var step = cthis.step;
+		var carRun = cthis.car.run();
+		carRun.init({step:step}, cthis);
+		carRun.frame(cthis); */
+		
 	}
+	
+		if (!window.requestAnimationFrame) { // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+			window.requestAnimationFrame = window.webkitRequestAnimationFrame || 
+			 window.mozRequestAnimationFrame    || 
+			 window.oRequestAnimationFrame      || 
+			 window.msRequestAnimationFrame     || 
+			 function(callback, element) {
+			   window.setTimeout(callback, 1000 / 60);
+			 }
+		}
 })(window, document);
