@@ -13,6 +13,8 @@
 		var width         = 1024;                    // logical canvas width
 		var height        = 768; 
 		
+		var prvEvt;  
+		
 		var carRace = function (canvasId){
 			this.cid = canvasId;
 			this.canvas = document.getElementById(canvasId);
@@ -313,8 +315,8 @@
 						}, 
 						
 						 polygon : function (ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) {
-							////console.log.log("x1 y1 x2 y2" ); 
-							////console.log.log(x1 + " " + y1 +" " + x2 +" "+ y2);
+							////////console.log.log("x1 y1 x2 y2" ); 
+							////////console.log.log(x1 + " " + y1 +" " + x2 +" "+ y2);
 							
 							ctx.fillStyle = color;
 							ctx.beginPath();
@@ -384,26 +386,26 @@
 						var sprite;
 						if (this.steer < 0){
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_LEFT : cthis.SPRITES.PLAYER_LEFT;
-						  //console.log.log("left");
+						  //////console.log.log("left");
 						  }
 						else if (this.steer > 0){
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_RIGHT : cthis.SPRITES.PLAYER_RIGHT;
-						  //console.log.log("right");
+						  //////console.log.log("right");
 						  }
 						else{
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_STRAIGHT : cthis.SPRITES.PLAYER_STRAIGHT;
 						}
-						////console.log.log('bounce ' + bounce);
+						////////console.log.log('bounce ' + bounce);
 						this.destY = this.destY + bounce;
 						this.sprite(sprite, -0.5, -1);
 						
 						/* for(prop in cthis.SPRITES.PLAYER_UPHILL_STRAIGHT){
-							//console.log.log(prop + " " + cthis.SPRITES.PLAYER_UPHILL_STRAIGHT[prop]) + " <br />";
+							//////console.log.log(prop + " " + cthis.SPRITES.PLAYER_UPHILL_STRAIGHT[prop]) + " <br />";
 						}	
-						//console.log.log("second");
+						//////console.log.log("second");
 							
 						for(prop in cthis.SPRITES.PLAYER_STRAIGHT){
-							//console.log.log(prop + " " + cthis.SPRITES.PLAYER_STRAIGHT[prop]) + " <br />";
+							//////console.log.log(prop + " " + cthis.SPRITES.PLAYER_STRAIGHT[prop]) + " <br />";
 						} */	
 
 				},
@@ -426,30 +428,30 @@
 					var destW  = (sprite.w * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
 					var destH  = (sprite.h * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
 					
-					/*//console.log.log("this.destX +  (destW * (offsetX || 0) " + 
+					/*//////console.log.log("this.destX +  (destW * (offsetX || 0) " + 
 						this.destX + " + ("+destW + " * " + "(" + offsetX + " || " + 0 + "))"
 					);*/
 					
-					/*  //console.log.log("this.destY +  (destH * (offsetY || 0) " + 
+					/*  //////console.log.log("this.destY +  (destH * (offsetY || 0) " + 
 						this.destY + " + ("+destY + " * " + "(" + offsetY + " || " + 0 + "))"
 					); */
 					
 					//this.destX = (this.destX + (destW * (offsetX || 0)));
 					//this.destY = (this.destY + (destH * (offsetY || 0)));
 					
-					////console.log.log("this.destX " +this.destX);
-					////console.log.log("this.destY " +this.destY);
+					////////console.log.log("this.destX " +this.destX);
+					////////console.log.log("this.destY " +this.destY);
 					
 					
-					////console.log.log("offsetX " +offsetX);
-					////console.log.log("offsetY " +offsetY);
+					////////console.log.log("offsetX " +offsetX);
+					////////console.log.log("offsetY " +offsetY);
 					
-					////console.log.log("this.destX " +this.destX);
-					////console.log.log("this.destY " +this.destY);
+					////////console.log.log("this.destX " +this.destX);
+					////////console.log.log("this.destY " +this.destY);
 					
-					////console.log.log('destY ' + this.destY);
-					////console.log.log('destH ' + destH);
-					////console.log.log('offsetY ' + offsetY);	
+					////////console.log.log('destY ' + this.destY);
+					////////console.log.log('destH ' + destH);
+					////////console.log.log('offsetY ' + offsetY);	
 					var clipH = clipY ? Math.max(0, this.destY+destH-clipY) : 0;
 					if (clipH < destH)
 						
@@ -481,9 +483,6 @@
 						frame : function (cthis) {
 							//alert("is there running the car");
 							this.now = cthis.car.mechanism().timestamp();
-							//console.log.log("this now " + this.now + " " + " this.last " + this.last);
-							console.log("this now " + this.now );
-							console.log("this.last " + this.last);
 							this.dt  = Math.min(1, (this.now - this.last) / 1000); // using requestAnimationFrame have to be able to handle large delta's caused when it 'hibernates' in a background or non-visible tab
 							this.gdt = this.gdt + this.dt;
 							
@@ -491,19 +490,6 @@
 							  this.gdt = this.gdt - this.step;
 								this.update(cthis);
 							}
-							
-							/*cthis.bg.load(cthis, function (cthis){
-								//cthis.bg.load(cthis);
-								//cthis.rd.load(cthis.ctx);cthis.rd.load(cthis.ctx);
-								//cthis.car.load(cthis.ctx);
-								//cthis.rd.load(cthis.ctx);
-								cthis.rd.load(cthis.ctx);
-							});*/
-							
-							
-							//cthis.rd.load(cthis.ctx);
-							//alert("nothing happend");
-							//cthis.ctx.clearRect(0, 0, width, height);
 							
 							/*dthis = this;
 							setInterval(
@@ -515,15 +501,9 @@
 							);
 							*/
 							
-							
-							//cthis.bg.load(cthis, function (cthis){
-								//cthis.bg.load(cthis);
-								//cthis.rd.load(cthis.ctx);cthis.rd.load(cthis.ctx);
-								//cthis.car.load(cthis.ctx);
-								//cthis.rd.load(cthis.ctx);
-								//cthis.rd.load(cthis.ctx);
-							//});
-							
+							//TODO I have done this with workaround for now
+							// I'll have to do it in future with proper way
+							//this should be acheived through requestAnimationFrame
 							cthis.rd.load(cthis.ctx);
 							dthis = this;
 							setTimeout(function (){	
@@ -536,7 +516,7 @@
 							var carObj = cthis.car
 							 var dt = this.step;
 							  cthis.rd.position = carObj.mechanism().increase(cthis.rd.position, dt * carObj.speed, cthis.rd.trackLength);
-							  //console.log.log('road positon '+ cthis.rd.position);
+							  //////console.log.log('road positon '+ cthis.rd.position);
 							  var dx = dt * 2 * (carObj.speed/carObj.maxSpeed); // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
 							  var keyLeft = cthis.car.keyLeft;
 							  var keyFaster = cthis.car.keyFaster;
@@ -544,22 +524,31 @@
 							  var keySlower = cthis.car.keySlower;
 							  var playerX = cthis.rd.playerX;
 							  
-							  if (keyLeft)
+							  if (keyLeft){
 								playerX = playerX - dx;
+								}
 							  else if (keyRight)
 								playerX = playerX + dx;
-							  if (keyFaster)
+								
+							  if (keyFaster){
 								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.accel, dt);
+								
+								}
+								
 							  else if (keySlower)
 								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.breaking, dt);
 							  else
 								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.decel, dt);
+							
+							console.log(" keyFaster " + keyFaster);							
+							console.log(" keyLeft " + keyLeft);							
+							  if (((playerX < -1) || (playerX > 1)) && (carObj.speed > carObj.offRoadLimit)){
+								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.offRoadDecel, dt);
+								}
 
-							  if (((playerX < -1) || (playerX > 1)) && (carObj.speed > offRoadLimit))
-								carObj.speed = carObj.mechanism().accelerate(carObj.speed, offRoadDecel, dt);
-
-							  playerX = carObj.mechanism().limit(playerX, -2, 2);     // dont ever let player go too far out of bounds
-							  carObj.speed   = carObj.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxSpeed
+							  cthis.rd.playerX = carObj.mechanism().limit(playerX, -2, 2);     // dont ever let player go too far out of bounds
+							  carObj.speed  = carObj.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxSpeed
+							  console.log();
 						}
 					}	
 				},
@@ -619,7 +608,7 @@
 						
 					//alert(kthis.events);
 					for(evt in kthis.events){
-					 //  //console.log.log("hello guys what is up");
+					 //  //////console.log.log("hello guys what is up");
 					 //document.getElementById(elemId).addEventListener = (evt, kthis.events[evt]());
 					 //	alert(kthis.events[evt]);	
 					 //	alert(kthis);
@@ -665,9 +654,10 @@
 				
 				down : function (evt){
 					//for(keyProp in  this.keyCodes){
-						////console.log.log(this.keyCodes[keyProp]);
-
-						if(evt.keyCode == 37){
+						////////console.log.log(this.keyCodes[keyProp]);
+						
+						
+						/* if(evt.keyCode == 37){
 							cthis.car.keyLeft = true;
 						}else if(evt.keyCode == 38){
 							cthis.car.keyFaster = true;
@@ -675,10 +665,27 @@
 							cthis.car.keyRight = true;
 						}else if(evt.keyCode == 40){
 							cthis.car.keySlower = true;
+						} */
+						
+						if(evt.keyCode == 37){
+							console.log("cthis.car.keyLeft " + cthis.car.keyLeft);
+							cthis.car.keyLeft = true;
+							console.log("cthis.car.keyFaster " + cthis.car.keyFaster);
+						}
+						
+						if(evt.keyCode == 38){
+							cthis.car.keyFaster = true; 
+						}
+						
+						if(evt.keyCode == 39){
+							cthis.car.keyRight = true;
+						}
+						if(evt.keyCode == 40){
+							cthis.car.keySlower = true;
 						}
 							
 						//if(this.keyCodes[keyProp] == evt.keyCode){
-						////console.log.log(evt.keyCode);
+						////////console.log.log(evt.keyCode);
 							
 						if(evt.keyCode == 38){
 							var step = cthis.step;
@@ -693,12 +700,17 @@
 				},
 				
 				up : function (evt){
-					//alert("the game ends now with press up button");
 					var step = cthis.step;
-					cthis.car.keyFaster = false;
-					if(evt.keyCode == 38){
-					//	cthis.car.init({step:step});
-						//cthis.car.run().frame(cthis);
+					if((cthis.car.keyFaster == true && cthis.car.keyRight != true && cthis.car.keyLeft != true
+					) 
+					){
+						cthis.car.keyFaster = false;	
+					}
+					if(cthis.car.keyRight== true){
+						cthis.car.keyRight = false;
+					}
+					if(cthis.car.keyLeft == true){
+						cthis.car.keyLeft = false;
 					}
 				}, 
 				
@@ -707,6 +719,12 @@
 						if(this.keyCodes[keyProp] == ev.keyCode){
 							//alert("the game ends now with press up button");
 						}
+					}
+					
+					if(ev.keyCode == 38){
+						//	cthis.car.init({step:step});
+						//cthis.car.run().frame(cthis);
+						//cthis.car.keyFaster = true;
 					}
 				},
 			};
@@ -723,6 +741,7 @@
 		
 	}
 	
+		//this code should be used into future.
 		if (!window.requestAnimationFrame) { // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 			window.requestAnimationFrame = window.webkitRequestAnimationFrame || 
 			 window.mozRequestAnimationFrame    || 
