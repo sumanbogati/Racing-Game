@@ -504,12 +504,21 @@
 							//TODO I have done this with workaround for now
 							// I'll have to do it in future with proper way
 							//this should be acheived through requestAnimationFrame
+							
+							/*
 							cthis.rd.load(cthis.ctx);
 							dthis = this;
 							setTimeout(function (){	
 								dthis.last = dthis.now;
 								dthis.frame(cthis);
-							}, (1000/60));
+							}, (1000/100));
+							*/
+							
+							cthis.rd.load(cthis.ctx);
+							this.last = this.now;
+							dthis = this;
+							//requestAnimationFrame(}, 1000));
+							setInterval(function(){requestAnimationFrame(dthis.frame(cthis))}, 1000);
 						},
 					
 						 update : function (cthis) {
