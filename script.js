@@ -315,8 +315,8 @@
 						}, 
 						
 						 polygon : function (ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) {
-							////////console.log.log("x1 y1 x2 y2" ); 
-							////////console.log.log(x1 + " " + y1 +" " + x2 +" "+ y2);
+							////////////console.log.log("x1 y1 x2 y2" ); 
+							////////////console.log.log(x1 + " " + y1 +" " + x2 +" "+ y2);
 							
 							ctx.fillStyle = color;
 							ctx.beginPath();
@@ -355,13 +355,13 @@
 					this.maxSpeed  = cthis.rd.segmentLength/cthis.step;
 
 					this.speed = 0;
-					this.speedPercent = this.speed/this.maxSpeed;
+					
 					
 					this.keyLeft = false;
 					this.keyRight = false;
 					this.keyFaster = false;
 					this.keySlower = false;
-					this.steer =  this.speed * (this.keyLeft ? -1 : this.keyRight ? 1 : 0);
+					//this.steer =  this.speed * (this.keyLeft ? -1 : this.keyRight ? 1 : 0);
 					this.updown = 0;
 					this.accel = this.maxSpeed/5;
 					this.breaking = -this.maxSpeed;
@@ -380,32 +380,46 @@
 				//here would be the code for run, stop, start
 				//here is the load instasd player
 				load: function (){
-						
+						this.speedPercent = this.speed/this.maxSpeed;
+						this.steer =  this.speed * (this.keyLeft ? -1 : this.keyRight ? 1 : 0);
 						var bounce = (1.5 * Math.random() * this.speedPercent * this.resolution) * this.mechanism().randomChoice([-1,1]);
 						
-						var sprite;
+						//console.log("bounce " + bounce);
+
 						if (this.steer < 0){
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_LEFT : cthis.SPRITES.PLAYER_LEFT;
-						  //////console.log.log("left");
-						  }
+						 }
 						else if (this.steer > 0){
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_RIGHT : cthis.SPRITES.PLAYER_RIGHT;
 						  //////console.log.log("right");
 						  }
 						else{
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_STRAIGHT : cthis.SPRITES.PLAYER_STRAIGHT;
+						  //////console.log("straight");
 						}
-						////////console.log.log('bounce ' + bounce);
+						
+						/*if(bounce>1){
+							bounce = 1;
+						}*/
+						
+						//bounce = 2.85;
+						//console.log("bounce " +bounce);
+						
+						bounce = 0; 	
+						/*if(bounce > 2){
+							var bounce = (1.5 * Math.random() * this.speedPercent * this.resolution) * this.mechanism().randomChoice([-1,1]);
+						}*/
 						this.destY = this.destY + bounce;
+						
 						this.sprite(sprite, -0.5, -1);
 						
 						/* for(prop in cthis.SPRITES.PLAYER_UPHILL_STRAIGHT){
-							//////console.log.log(prop + " " + cthis.SPRITES.PLAYER_UPHILL_STRAIGHT[prop]) + " <br />";
+							//////////console.log.log(prop + " " + cthis.SPRITES.PLAYER_UPHILL_STRAIGHT[prop]) + " <br />";
 						}	
-						//////console.log.log("second");
+						//////////console.log.log("second");
 							
 						for(prop in cthis.SPRITES.PLAYER_STRAIGHT){
-							//////console.log.log(prop + " " + cthis.SPRITES.PLAYER_STRAIGHT[prop]) + " <br />";
+							//////////console.log.log(prop + " " + cthis.SPRITES.PLAYER_STRAIGHT[prop]) + " <br />";
 						} */	
 
 				},
@@ -428,30 +442,30 @@
 					var destW  = (sprite.w * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
 					var destH  = (sprite.h * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
 					
-					/*//////console.log.log("this.destX +  (destW * (offsetX || 0) " + 
+					/*//////////console.log.log("this.destX +  (destW * (offsetX || 0) " + 
 						this.destX + " + ("+destW + " * " + "(" + offsetX + " || " + 0 + "))"
 					);*/
 					
-					/*  //////console.log.log("this.destY +  (destH * (offsetY || 0) " + 
+					/*  //////////console.log.log("this.destY +  (destH * (offsetY || 0) " + 
 						this.destY + " + ("+destY + " * " + "(" + offsetY + " || " + 0 + "))"
 					); */
 					
 					//this.destX = (this.destX + (destW * (offsetX || 0)));
 					//this.destY = (this.destY + (destH * (offsetY || 0)));
 					
-					////////console.log.log("this.destX " +this.destX);
-					////////console.log.log("this.destY " +this.destY);
+					////////////console.log.log("this.destX " +this.destX);
+					////////////console.log.log("this.destY " +this.destY);
 					
 					
-					////////console.log.log("offsetX " +offsetX);
-					////////console.log.log("offsetY " +offsetY);
+					////////////console.log.log("offsetX " +offsetX);
+					////////////console.log.log("offsetY " +offsetY);
 					
-					////////console.log.log("this.destX " +this.destX);
-					////////console.log.log("this.destY " +this.destY);
+					////////////console.log.log("this.destX " +this.destX);
+					////////////console.log.log("this.destY " +this.destY);
 					
-					////////console.log.log('destY ' + this.destY);
-					////////console.log.log('destH ' + destH);
-					////////console.log.log('offsetY ' + offsetY);	
+					////////////console.log.log('destY ' + this.destY);
+					////////////console.log.log('destH ' + destH);
+					////////////console.log.log('offsetY ' + offsetY);	
 					var clipH = clipY ? Math.max(0, this.destY+destH-clipY) : 0;
 					if (clipH < destH)
 						
@@ -460,7 +474,7 @@
 						
 					 // alert(cthis.sprites);
 				
-					cthis.ctx.drawImage(cthis.sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), (this.destX + (destW * (offsetX || 0))), (this.destY + (destH * (offsetY || 0))), destW, destH - clipH);
+					cthis.ctx.drawImage(cthis.sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), (this.destX + (destW * (offsetX || 0))), ((this.destY + (destH * (offsetY || 0)))-120), destW, destH - clipH);
 				}, 
 				
 				run : function (){
@@ -505,27 +519,27 @@
 							// I'll have to do it in future with proper way
 							//this should be acheived through requestAnimationFrame
 							
-							/*
+							
 							cthis.rd.load(cthis.ctx);
 							dthis = this;
 							setTimeout(function (){	
 								dthis.last = dthis.now;
 								dthis.frame(cthis);
-							}, (1000/100));
-							*/
+							}, (1000/60));
 							
-							cthis.rd.load(cthis.ctx);
+							
+							/* cthis.rd.load(cthis.ctx);
 							this.last = this.now;
 							dthis = this;
-							//requestAnimationFrame(}, 1000));
-							setInterval(function(){requestAnimationFrame(dthis.frame(cthis))}, 1000);
+							requestAnimationFrame(}, 1000));
+							setInterval(function(){requestAnimationFrame(dthis.frame(cthis))}, 1000); */
 						},
 					
 						 update : function (cthis) {
 							var carObj = cthis.car
 							 var dt = this.step;
 							  cthis.rd.position = carObj.mechanism().increase(cthis.rd.position, dt * carObj.speed, cthis.rd.trackLength);
-							  //////console.log.log('road positon '+ cthis.rd.position);
+							  //////////console.log.log('road positon '+ cthis.rd.position);
 							  var dx = dt * 2 * (carObj.speed/carObj.maxSpeed); // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
 							  var keyLeft = cthis.car.keyLeft;
 							  var keyFaster = cthis.car.keyFaster;
@@ -549,15 +563,15 @@
 							  else
 								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.decel, dt);
 							
-							console.log(" keyFaster " + keyFaster);							
-							console.log(" keyLeft " + keyLeft);							
+							////console.log(" keyFaster " + keyFaster);							
+							////console.log(" keyLeft " + keyLeft);							
 							  if (((playerX < -1) || (playerX > 1)) && (carObj.speed > carObj.offRoadLimit)){
 								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.offRoadDecel, dt);
 								}
 
 							  cthis.rd.playerX = carObj.mechanism().limit(playerX, -2, 2);     // dont ever let player go too far out of bounds
 							  carObj.speed  = carObj.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxSpeed
-							  console.log();
+							  ////console.log();
 						}
 					}	
 				},
@@ -617,7 +631,7 @@
 						
 					//alert(kthis.events);
 					for(evt in kthis.events){
-					 //  //////console.log.log("hello guys what is up");
+					 //  //////////console.log.log("hello guys what is up");
 					 //document.getElementById(elemId).addEventListener = (evt, kthis.events[evt]());
 					 //	alert(kthis.events[evt]);	
 					 //	alert(kthis);
@@ -663,7 +677,7 @@
 				
 				down : function (evt){
 					//for(keyProp in  this.keyCodes){
-						////////console.log.log(this.keyCodes[keyProp]);
+						////////////console.log.log(this.keyCodes[keyProp]);
 						
 						
 						/* if(evt.keyCode == 37){
@@ -677,9 +691,9 @@
 						} */
 						
 						if(evt.keyCode == 37){
-							console.log("cthis.car.keyLeft " + cthis.car.keyLeft);
+							////console.log("cthis.car.keyLeft " + cthis.car.keyLeft);
 							cthis.car.keyLeft = true;
-							console.log("cthis.car.keyFaster " + cthis.car.keyFaster);
+							////console.log("cthis.car.keyFaster " + cthis.car.keyFaster);
 						}
 						
 						if(evt.keyCode == 38){
@@ -694,7 +708,7 @@
 						}
 							
 						//if(this.keyCodes[keyProp] == evt.keyCode){
-						////////console.log.log(evt.keyCode);
+						////////////console.log.log(evt.keyCode);
 							
 						if(evt.keyCode == 38){
 							var step = cthis.step;
