@@ -26,7 +26,7 @@
 			this.car = '';
 			this.timing = '';
 			this.sprites = null;
-			this.st = true;
+			this.bgload = true;
 			return this;
 		}
 		
@@ -198,6 +198,7 @@
 					this.centrifugal = 0.3;
 					this.rType = rtype;
 					
+					
 					this.COLORS = {
 								  SKY:  '#72D7EE',
 								  TREE: '#005108',
@@ -271,9 +272,7 @@
 				load_old : function(ctx) {
 					var baseSegment = this.findSegment(this.position);
 					  var maxy        = height;
-						
-				//	  this.curve();
-					  
+
 					  var basePercent = cthis.car.mechanism().percentRemaining(this.position, this.segmentLength);
 					  var x  = 0;
 					  var dx = - (baseSegment.curve * basePercent);
@@ -786,13 +785,11 @@
 							// the road is loaded before the background
 							// this is a work around
 							
-							if (cthis.st == true){
+							if (cthis.bgload == true){
 								while (this.gdt > this.step) {
 									this.gdt = this.gdt - this.step;
 									this.update(cthis);
-									
 									cthis.rd.load(cthis.ctx);
-									
 								}
 							
 							/*dthis = this;
@@ -918,92 +915,36 @@
 							  var playerZ = cthis.rd.playerZ;
 							  
 							  if (position > playerZ) {
-								//console.log("suman startPosition " + startPosition);
-								//if (cthis.rd.currentLapTime && (startPosition < playerZ)) {
 								if (cthis.rd.currentLapTime && (startPosition < playerZ)){
-								  var userInput = confirm("You have finished first round 1  Do you want go for round second");
-								  if(userInput == true){
-									 //this.run = true;
-									 
-									//var ctx = this.canvas.getContext('2d');
-									//ctx.clearRect(this.canvas.width, this.canvas.height);
-									 
-									 //window.location.href = "index.html";
-									 
-									/* var ctx = cthis.ctx;
-									ctx.clearRect(cthis.canvas.width, cthis.canvas.height);
-									var myCarRace = new carRace("racingCan");
-									myCarRace.init(myCarRace.cid);
-									cthis.rd.rType = 'curve'; */
-									//var myCarRace = new carRace("racingCan");
-									//myCarRace.init(myCarRace.cid);
+								   if(cthis.rd.rType == 'straight'){
+										var userInput = confirm("You have finished first round 1  Do you want go for round second");
+									  if(userInput == true){
+											resetGame(cthis, 'curve');		
+									  }
+									this.run = false;
+									cthis.rd.lastLapTime    = cthis.rd.currentLapTime;
+									cthis.rd.currentLapTime = 0;
 									
-									//var ctx = cthis.canvas.getContext('2d');
-									//ctx.clearRect(cthis.canvas.width, cthis.canvas.height);
-									
-									/*var tImgElm = new Image();
-									tImgElm.src = 'sprites/sprites.png';
-									
-									this.sprites = tImgElm;
-									
-									var bgObj = {type : 'simple', name: 'bg', value : 'sprites/background5.jpg'};
-									cthis.bg.init(bgObj);
-									*/
-									//debugger;
-								//	cthis.car.speed = 0;
-									//cthis.rd.init(); 
-									//cthis.rd.load(cthis.ctx);
-									cthis.rd.init("curve");
-									//when the second track is loaded in that time
-									// the road is loaded before the background
-									// this is a work around
-									cthis.st=false; //TODO handling for background image
-									cthis.bg.load(cthis, function (cthis){
-									//	debugger;
-										cthis.car.speed = 0;
-										cthis.rd.load(cthis.ctx);
-										cthis.st=true;
-									});   
-									
-									//cthis.init("curve");
-									//cthis.load();
-									/* cthis.car.speed = 0;
-									cthis.rd.init("curve");
-									cthis.rd.load(cthis.ctx); */
-									
-									//cthis.car = new Car(this);
-									/* cthis.car.init();
-									cthis.car.load();
-									cthis.car.speed = 0; */
-									//cthis.rd.init(); 
-				
-									/* cthis.bg.load(cthis);
-									cthis.car.speed = 0;
-									cthis.rd.init(); */
-									
-									/* var step = cthis.step;
-									var carRun = cthis.car.run();
-									carRun.init({step:step}, cthis);
-									carRun.frame(cthis);  */
-									
-								  }else{
-									  	
-									   //var myCarRace = new carRace("racingCan");
-									   //myCarRace.init(myCarRace.cid);
-									   //this.run = false;
-								  }
-								 this.run = false;
-								  cthis.rd.lastLapTime    = cthis.rd.currentLapTime;
-								  cthis.rd.currentLapTime = 0;
-								  //this can be disabled for right now
+									//this can be disabled for right now
+								   }else{
+										alert("YOU HAVE FINISHED SECOND ROUND, After press ok you can start a new gane");
+										this.run = false;
+										resetGame(cthis, 'straight');
+										/* cthis.rd.init("straight");
+										cthis.bgload=false; 
+										cthis.bg.load(cthis, function (cthis){
+											cthis.car.speed = 0;
+											cthis.rd.load(cthis.ctx);
+											cthis.bgload=true;
+										}
+										); */
+								   }
 								}
 								else {
 								  cthis.rd.currentLapTime += dt;
 								}
 							  }
 							}
-							  /* updateHud('carObj.speed',            5 * Math.round(carObj.speed/500));
-							  updateHud('current_lap_time', formatTime(currentLapTime)); */
 						},
 						
 						update_curve_old : function(cthis){
@@ -1280,6 +1221,20 @@
 		 function easeInOut(a,b,percent) { 
 			return a + (b-a)*((-Math.cos(percent*Math.PI)/2) + 0.5);        
 		 }
+		 
+		function resetGame(cthis, rtype){
+			
+			cthis.rd.init(rtype);
+			//when the second track is loaded in that time
+			// the road is loaded before the background
+			// this is a work around
+			cthis.bgload=false; //TODO handling for background image
+			cthis.bg.load(cthis, function (cthis){
+				cthis.car.speed = 0;
+				cthis.rd.load(cthis.ctx);
+				cthis.bgload=true;
+			});   
+		}
 		
 		var COLORS = {
 			SKY:  '#72D7EE',
