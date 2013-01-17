@@ -12,8 +12,8 @@
 		var trackLength   = null; 
 		var width         = 1024;                    // logical canvas width
 		var height        = 768; 
-		
 		var prvEvt;  
+		//var road = "straight";
 		
 		var carRace = function (canvasId){
 			this.cid = canvasId;
@@ -26,11 +26,12 @@
 			this.car = '';
 			this.timing = '';
 			this.sprites = null;
+			this.st = true;
 			return this;
 		}
 		
 		carRace.prototype =  {
-			init : function (){
+			init : function (rtype){
 				this.ctx = this.canvas.getContext('2d');
 				
 				this.fps = 60;
@@ -54,17 +55,20 @@
 				this.bg = new Background();
 				var bgObj = {type : 'simple', name: 'bg', value : 'sprites/background5.jpg'};
 				this.bg.init(bgObj);
+			
+			
+				/* this.car = new Car(this);
+				this.car.init();
+				this.load(); */
 				
 				this.rd = new Road(this);
-				this.rd.init();
-		//		this.rd.resetRoad();
+				this.rd.init(rtype);
+				// this.rd.resetRoad();
 				
 				//car init
 				this.car = new Car(this);
 				this.car.init();
-				
 				this.load();
-				
 				
 				//this is to be splitted in relative calss
 				/*this.SPRITES = {
@@ -114,14 +118,12 @@
 				
 				//this is to be splitted in relative calss
 				this.SPRITES.CARS = [this.SPRITES.CAR01];
-					
 			},
 			
 			load : function (){
 				// this need to be done becuase 
 				// there should be loaded first background images
 				// and should be done other jobs eg:- load road, car
-
 				this.bg.load(this, function (cthis){
 					//alert("hey guys what is up");
 					cthis.rd.load(cthis.ctx);
@@ -165,19 +167,24 @@
 					}
 					imgElem.src = this.value;
 				},
-			}
+			};
 		 }
+		 
+		var ROAD2 = {
+			LENGTH: { NONE: 0, SHORT:  25, MEDIUM:  50, LONG:  100 },
+			CURVE:  { NONE: 0, EASY:    2, MEDIUM:   4, HARD:    6 }
+		};
 		 
 		 
 		 //class Road
 		 var Road = function (cthis){
 			return {
-				init : function (){
+				init : function (rtype){
 					this.segments = [];
 					this.segmentLength = 200
 					this.playerZ = null;
 					this.cameraDepth   = null;
-					 
+					this.type = {};
 					this.cameraHeight = 1000;
 					this.roadWidth     = 2000; 
 					this.position = 0;
@@ -187,6 +194,10 @@
 					this.drawDistance = 300;
 					this.lanes = 3;
 					this.fieldOfView = 100;
+					this.currentLapTime = 0;
+					this.centrifugal = 0.3;
+					this.rType = rtype;
+					
 					this.COLORS = {
 								  SKY:  '#72D7EE',
 								  TREE: '#005108',
@@ -205,14 +216,11 @@
 					}, 
 				
 				//this function is called render into inspired game
-				load : function (ctx){
+				load_old : function (ctx){
 					var baseSegment = this.findSegment(this.position);
 					var maxy  = height;
 
-					//ctx.clearRect(0, 0, width, height);
-
 					var n, segment;
-
 					for(n = 0 ; n <this.drawDistance; n++) {
 						segment        = this.segments[(baseSegment.index + n) % this.segments.length];
 						segment.looped = segment.index < baseSegment.index;
@@ -225,7 +233,9 @@
 						if ((segment.p1.camera.z <= this.cameraDepth) || // behind us
 						(segment.p2.screen.y >= maxy))          // clip by (already rendered) segment
 						continue;
-
+						
+						//alert(segment.color);
+						
 						this.dispSegment(ctx, cthis.canvas.width, this.lanes,
 						segment.p1.screen.x,
 						segment.p1.screen.y,
@@ -238,18 +248,203 @@
 						segment.color);
 						maxy = segment.p2.screen.y;
 					}
-					
 					cthis.car.load(cthis.ctx);
+				},
+				
+				//this function is called render into inspired game
+				load : function (ctx){
+					var baseSegment = this.findSegment(this.position);
+					var maxy  = height;
+				
+					if(cthis.rd.rType == 'straight'){
+						this.straight(baseSegment, maxy, ctx);
+					}else{
+						
+						this.curve(baseSegment, maxy, ctx);
+					}
+					//this.straight(baseSegment, maxy, ctx);
+					//this.curve(baseSegment, maxy, ctx);	
+					cthis.car.load(cthis.ctx);
+				},
+				/*curve1 */
+				 
+				load_old : function(ctx) {
+					var baseSegment = this.findSegment(this.position);
+					  var maxy        = height;
+						
+				//	  this.curve();
+					  
+					  var basePercent = cthis.car.mechanism().percentRemaining(this.position, this.segmentLength);
+					  var x  = 0;
+					  var dx = - (baseSegment.curve * basePercent);
+
+					//  ctx.clearRect(0, 0, width, height);
+					//this should disable//
+						
+					/*
+					  Render.background(ctx, background, width, height, BACKGROUND.SKY,   skyOffset);
+					  Render.background(ctx, background, width, height, BACKGROUND.HILLS, hillOffset);
+					  Render.background(ctx, background, width, height, BACKGROUND.TREES, treeOffset);
+						*/
+					  var n, segment;
+					  for(n = 0 ; n < this.drawDistance ; n++) {
+
+						segment        = this.segments[(baseSegment.index + n) % this.segments.length];
+						segment.looped = segment.index < baseSegment.index;
+						//segment.fog    = Util.exponentialFog(n/drawDistance, fogDensity);
+											
+						this.structure().project(segment.p1, (this.playerX * this.roadWidth) - x,  this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, width, height, this.roadWidth);
+					
+						this.structure().project(segment.p2, (this.playerX * this.roadWidth) - x - dx, this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, cthis.canvas.width, cthis.canvas.height, this.roadWidth);
+
+						x  = x + dx;
+						dx = dx + segment.curve;
+
+						if ((segment.p1.camera.z <= this.cameraDepth) ||  // behind us
+							(segment.p2.screen.y >= maxy))           // clip by (already rendered) segment
+						  continue;
+						
+						/* debugger;
+						alert(segment.color); */
+						
+						this.dispSegment(ctx, cthis.canvas.width, this.lanes,
+									   segment.p1.screen.x,
+									   segment.p1.screen.y,
+									   segment.p1.screen.w,
+									   segment.p2.screen.x,
+									   segment.p2.screen.y,
+									   segment.p2.screen.w,
+									   //segment.fog,
+									   segment.color);
+
+						maxy = segment.p2.screen.y;
+					  }
+					  
+					  cthis.car.load(cthis.ctx);
+				},
+				
+				load_curve : function(ctx) {
+					var baseSegment = this.findSegment(this.position);
+					var maxy  = height;
+					this.curve(baseSegment, maxy, ctx);
+					//var n, segment;
+					cthis.car.load(cthis.ctx);
+				},
+				
+				curve : function (baseSegment, maxy, ctx){
+					  var basePercent = cthis.car.mechanism().percentRemaining(this.position, this.segmentLength);
+					  var x  = 0;
+					  var dx = - (baseSegment.curve * basePercent);
+
+					//  ctx.clearRect(0, 0, width, height);
+					//this should disable//
+						
+					/*
+					  Render.background(ctx, background, width, height, BACKGROUND.SKY,   skyOffset);
+					  Render.background(ctx, background, width, height, BACKGROUND.HILLS, hillOffset);
+					  Render.background(ctx, background, width, height, BACKGROUND.TREES, treeOffset);
+						*/
+					  var n, segment;
+					  for(n = 0 ; n < this.drawDistance ; n++) {
+
+						segment        = this.segments[(baseSegment.index + n) % this.segments.length];
+						segment.looped = segment.index < baseSegment.index;
+						//segment.fog    = Util.exponentialFog(n/drawDistance, fogDensity);
+											
+						this.structure().project(segment.p1, (this.playerX * this.roadWidth) - x,  this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, width, height, this.roadWidth);
+					
+						this.structure().project(segment.p2, (this.playerX * this.roadWidth) - x - dx, this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, cthis.canvas.width, cthis.canvas.height, this.roadWidth);
+
+						x  = x + dx;
+						dx = dx + segment.curve;
+
+						if ((segment.p1.camera.z <= this.cameraDepth) ||  // behind us
+							(segment.p2.screen.y >= maxy))           // clip by (already rendered) segment
+						  continue;
+						
+						/* debugger;
+						alert(segment.color); */
+						
+						this.dispSegment(ctx, cthis.canvas.width, this.lanes,
+									   segment.p1.screen.x,
+									   segment.p1.screen.y,
+									   segment.p1.screen.w,
+									   segment.p2.screen.x,
+									   segment.p2.screen.y,
+									   segment.p2.screen.w,
+									   //segment.fog,
+									   1,
+									   segment.color);
+
+						maxy = segment.p2.screen.y;
+					  }
+				},
+				
+				resetRoadForCurve : function (){
+						this.addStraight(ROAD2.LENGTH.SHORT/4);
+						this.addSCurves();
+						this.addStraight(ROAD2.LENGTH.LONG);
+						this.addCurve(ROAD2.LENGTH.MEDIUM, ROAD2.CURVE.MEDIUM);
+						this.addCurve(ROAD2.LENGTH.LONG, ROAD2.CURVE.MEDIUM);
+						this.addStraight();
+						this.addSCurves();
+						this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.MEDIUM);
+						this.addCurve(ROAD2.LENGTH.LONG, ROAD2.CURVE.MEDIUM);
+						this.addStraight();
+						this.addSCurves();
+						this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.EASY);
+				},
+				
+				resetRoadForStraight : function (){
+					for(var n = 0 ; n < 500 ; n++) {
+							this.segments.push({
+							   index: n,
+							   p1: { world: { z:  n   *this.segmentLength }, camera: {}, screen: {} },
+							   p2: { world: { z: (n+1)*this.segmentLength }, camera: {}, screen: {} },
+							   color: Math.floor(n/this.rumbleLength)%2 ? this.COLORS.DARK : this.COLORS.LIGHT
+							});
+					  }
+				},
+				
+				straight : function (baseSegment, maxy, ctx){
+					var n, segment;
+					for(n = 0 ; n <this.drawDistance; n++) {
+						segment        = this.segments[(baseSegment.index + n) % this.segments.length];
+						segment.looped = segment.index < baseSegment.index;
+						//segment.fog    = Util.exponentialFog(n/drawDistance, fogDensity);
+
+						this.structure().project(segment.p1, (this.playerX * this.roadWidth), this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, cthis.canvas.width, cthis.canvas.height, this.roadWidth);
+						
+						this.structure().project(segment.p2, (this.playerX * this.roadWidth), this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, cthis.canvas.width, cthis.canvas.height, this.roadWidth);
+
+						if ((segment.p1.camera.z <= this.cameraDepth) || // behind us
+						(segment.p2.screen.y >= maxy))          // clip by (already rendered) segment
+						continue;
+						
+						//alert(segment.color);
+						
+						this.dispSegment(ctx, cthis.canvas.width, this.lanes,
+						segment.p1.screen.x,
+						segment.p1.screen.y,
+						segment.p1.screen.w,
+						segment.p2.screen.x, //this is 0
+						segment.p2.screen.y, //this is 0
+						segment.p2.screen.w,
+					//	segment.fog,
+						1,
+						segment.color);
+						maxy = segment.p2.screen.y;
+					}
+				},
+			
+				reset : function (cthis){
+					//this should be dyanamic
+					cthis.canvas.width = 1024;
+					cthis.canvas.height = 768;
+					this.resetRoad();
 				}, 
 				
-				reset : function (cthis){
-					  //this should be dyanamic
-					  cthis.canvas.width = 1024;
-					  cthis.canvas.height = 768;
-					  this.resetRoad();
-					}, 
-				
-				resetRoad : function (){
+				resetRoad_old : function (){
 				//=========================================================================
 					// BUILD ROAD GEOMETRY
 					//=========================================================================
@@ -271,8 +466,59 @@
 					  this.trackLength = this.segments.length * this.segmentLength;
 				}, 
 				
+				resetRoad : function (){
+				//=========================================================================
+					// BUILD ROAD GEOMETRY
+					//=========================================================================
+					//var segments = [];
+					  //this.resetRoadForStraight();
+					  //this.resetRoadForCurve();
+					  
+					  if(cthis.rd.rType == 'straight'){
+						    this.resetRoadForStraight();
+					  }else{
+							this.resetRoadForCurve();
+					  }
+					  
+					  this.segments[this.findSegment(this.playerZ).index + 2].color = this.COLORS.START;
+					  this.segments[this.findSegment(this.playerZ).index + 3].color = this.COLORS.START;
+					  for(var n = 0 ; n < this.rumbleLength ; n++)
+					  this.segments[this.segments.length-1-n].color = this.COLORS.FINISH;
+
+					  this.trackLength = this.segments.length * this.segmentLength;
+				}, 
+				
+				/*curve2 */
+				resetRoad_curve : function() {
+					  //segments = [];
+					  this.addStraight(ROAD2.LENGTH.SHORT/4);
+					  this.addSCurves();
+					  this.addStraight(ROAD2.LENGTH.LONG);
+					  this.addCurve(ROAD2.LENGTH.MEDIUM, ROAD2.CURVE.MEDIUM);
+					  this.addCurve(ROAD2.LENGTH.LONG, ROAD2.CURVE.MEDIUM);
+					  this.addStraight();
+					  this.addSCurves();
+					  this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.MEDIUM);
+					  this.addCurve(ROAD2.LENGTH.LONG, ROAD2.CURVE.MEDIUM);
+					  this.addStraight();
+					  this.addSCurves();
+					  this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.EASY);
+
+					  this.segments[this.findSegment(this.playerZ).index + 2].color = this.COLORS.START;
+					  this.segments[this.findSegment(this.playerZ).index + 3].color = this.COLORS.START;
+					  for(var n = 0 ; n < this.rumbleLength ; n++)
+						this.segments[this.segments.length-1-n].color = COLORS.FINISH;
+
+					  this.trackLength = this.segments.length * this.segmentLength;
+				},
+				
 				findSegment  : function (z){
 					return this.segments[Math.floor(z/this.segmentLength) % this.segments.length];
+				},
+				
+				/*curve3 */
+				findSegment_curve : function(z) {
+					return this.segments[Math.floor(z/this.segmentLength) % this.segments.length]; 
 				},
 				
 				dispSegment : function (ctx, width, lanes, x1, y1, w1, x2, y2, w2, fog, color) {
@@ -317,7 +563,6 @@
 						 polygon : function (ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) {
 							////////////console.log.log("x1 y1 x2 y2" ); 
 							////////////console.log.log(x1 + " " + y1 +" " + x2 +" "+ y2);
-							
 							ctx.fillStyle = color;
 							ctx.beginPath();
 							ctx.moveTo(x1, y1);
@@ -331,17 +576,58 @@
 							return projectedRoadWidth/Math.max(6,  2*lanes); 
 						},
 						
-						
 						laneMarkerWidth :  function (projectedRoadWidth, lanes) { 
 							return projectedRoadWidth/Math.max(32, 8*lanes); 
 						}
 					};
+				},
+				
+				/*curve5 */
+				addSegment : function(curve) {
+					var n = this.segments.length;
+					this.segments.push({
+						index: n,
+						p1: { world: { z:  n   *this.segmentLength }, camera: {}, screen: {} },
+						p2: { world: { z: (n+1)*this.segmentLength }, camera: {}, screen: {} },
+						curve: curve,
+						color: Math.floor(n/this.rumbleLength)%2 ? this.COLORS.DARK : this.COLORS.LIGHT
+					});
+				},
+				
+				addRoad : function(enter, hold, leave, curve) {
+					var n;
+					for(n = 0 ; n < enter ; n++){
+						easeIn(0, curve, n/enter);
+					}
+					for(n = 0 ; n < hold  ; n++){
+						this.addSegment(curve);
+					}	
+					for(n = 0 ; n < leave ; n++){
+						easeInOut(curve, 0, n/leave);
+					}	
+				}, 
+				addStraight : function(num) {
+					num = num || ROAD2.LENGTH.MEDIUM;
+					this.addRoad(num, num, num, 0);
+				},
+
+				addCurve : function (num, curve) {
+					num    = num    || ROAD2.LENGTH.MEDIUM;
+					curve  = curve  || ROAD2.CURVE.MEDIUM;
+					this.addRoad(num, num, num, curve);
+				},
+				
+				addSCurves : function () {
+					this.addRoad(ROAD2.LENGTH.MEDIUM, ROAD2.LENGTH.MEDIUM, ROAD2.LENGTH.MEDIUM,  -ROAD2.CURVE.EASY);
+					this.addRoad(ROAD2.LENGTH.MEDIUM, ROAD2.LENGTH.MEDIUM, ROAD2.LENGTH.MEDIUM,   ROAD2.CURVE.MEDIUM);
+					this.addRoad(ROAD2.LENGTH.MEDIUM, ROAD2.LENGTH.MEDIUM, ROAD2.LENGTH.MEDIUM,   ROAD2.CURVE.EASY);
+					this.addRoad(ROAD2.LENGTH.MEDIUM, ROAD2.LENGTH.MEDIUM, ROAD2.LENGTH.MEDIUM,  -ROAD2.CURVE.EASY);
+					this.addRoad(ROAD2.LENGTH.MEDIUM, ROAD2.LENGTH.MEDIUM, ROAD2.LENGTH.MEDIUM,  -ROAD2.CURVE.MEDIUM);
 				}
-			}	
+			};	
 		 }
 	
-	//---------------------------------------------------------------------------
-	
+		//---------------------------------------------------------------------------
 		//class Car
 		var Car  = function (cthis){
 			return {
@@ -353,10 +639,7 @@
 					this.resolution = 1.6;
 					this.scale = cthis.rd.cameraDepth/cthis.rd.playerZ;
 					this.maxSpeed  = cthis.rd.segmentLength/cthis.step;
-
 					this.speed = 0;
-					
-					
 					this.keyLeft = false;
 					this.keyRight = false;
 					this.keyFaster = false;
@@ -370,11 +653,9 @@
 					this.offRoadDecel  = -this.maxSpeed/2;             // off road deceleration is somewhere in between
 					this.offRoadLimit  =  this.maxSpeed/4;   
 
-					
 					//attaching event handler 
 					var keyObj = new Keys(cthis);
 						keyObj.init();
-					 
 				}, 
 				
 				//here would be the code for run, stop, start
@@ -441,6 +722,7 @@
 					
 					var destW  = (sprite.w * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
 					var destH  = (sprite.h * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
+						//destH = destH-100;
 					
 					/*//////////console.log.log("this.destX +  (destW * (offsetX || 0) " + 
 						this.destX + " + ("+destW + " * " + "(" + offsetX + " || " + 0 + "))"
@@ -474,7 +756,7 @@
 						
 					 // alert(cthis.sprites);
 				
-					cthis.ctx.drawImage(cthis.sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), (this.destX + (destW * (offsetX || 0))), ((this.destY + (destH * (offsetY || 0)))-120), destW, destH - clipH);
+					cthis.ctx.drawImage(cthis.sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), (this.destX + (destW * (offsetX || 0))), ((this.destY + (destH * (offsetY || 0)))-100), destW, destH - clipH);
 				}, 
 				
 				run : function (){
@@ -492,18 +774,26 @@
 							this.last   = cthis.car.mechanism().timestamp();
 							this.dt     = 0;
 							this.gdt    = 0;
+							this.run = true;
 						},
 
 						frame : function (cthis) {
 							//alert("is there running the car");
 							this.now = cthis.car.mechanism().timestamp();
 							this.dt  = Math.min(1, (this.now - this.last) / 1000); // using requestAnimationFrame have to be able to handle large delta's caused when it 'hibernates' in a background or non-visible tab
-							this.gdt = this.gdt + this.dt;
 							
-							while (this.gdt > this.step) {
-							  this.gdt = this.gdt - this.step;
-								this.update(cthis);
-							}
+							//when the second track is loaded in that time
+							// the road is loaded before the background
+							// this is a work around
+							
+							if (cthis.st == true){
+								while (this.gdt > this.step) {
+									this.gdt = this.gdt - this.step;
+									this.update(cthis);
+									
+									cthis.rd.load(cthis.ctx);
+									
+								}
 							
 							/*dthis = this;
 							setInterval(
@@ -518,10 +808,9 @@
 							//TODO I have done this with workaround for now
 							// I'll have to do it in future with proper way
 							//this should be acheived through requestAnimationFrame
-							
-							
-							cthis.rd.load(cthis.ctx);
-							dthis = this;
+								this.gdt = this.gdt + this.dt;
+							}
+							dthis = this;	
 							setTimeout(function (){	
 								dthis.last = dthis.now;
 								dthis.frame(cthis);
@@ -534,8 +823,8 @@
 							requestAnimationFrame(}, 1000));
 							setInterval(function(){requestAnimationFrame(dthis.frame(cthis))}, 1000); */
 						},
-					
-						 update : function (cthis) {
+						
+						update_withoutTime : function (cthis) {
 							var carObj = cthis.car
 							 var dt = this.step;
 							  cthis.rd.position = carObj.mechanism().increase(cthis.rd.position, dt * carObj.speed, cthis.rd.trackLength);
@@ -555,7 +844,6 @@
 								
 							  if (keyFaster){
 								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.accel, dt);
-								
 								}
 								
 							  else if (keySlower)
@@ -567,15 +855,230 @@
 							////console.log(" keyLeft " + keyLeft);							
 							  if (((playerX < -1) || (playerX > 1)) && (carObj.speed > carObj.offRoadLimit)){
 								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.offRoadDecel, dt);
-								}
+							   }
 
 							  cthis.rd.playerX = carObj.mechanism().limit(playerX, -2, 2);     // dont ever let player go too far out of bounds
 							  carObj.speed  = carObj.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxSpeed
 							  ////console.log();
-						}
-					}	
-				},
+						},
+						
+						update : function (cthis){
+							if(this.run == true){
+							  var carObj = cthis.car;
+							  var dt = this.step;
+							  var playerSegment = cthis.rd.findSegment(cthis.rd.position+cthis.rd.playerZ);
+							  var speedPercent  = carObj.speed/carObj.maxSpeed;
+							  
+							  //var dx = dt * 2 * carObj.speedPercent; // at top carObj.speed, should be able to cross from left to right (-1 to 1) in 1 second
+							  
+							  var dx = dt * 2 * speedPercent; // at top carObj.speed, should be able to cross from left to right (-1 to 1) in 1 second
+							  var keyLeft = cthis.car.keyLeft;
+							  var keyFaster = cthis.car.keyFaster;
+							  var keyRight = cthis.car.keyRight;
+							  var keySlower = cthis.car.keySlower;
+							  var playerX = cthis.rd.playerX;
+							  startPosition = cthis.rd.position;
+ 							  cthis.rd.position = cthis.car.mechanism().increase(cthis.rd.position, dt * carObj.speed, cthis.rd.trackLength);
+							
+							 
+							  if (keyLeft)
+								playerX = playerX - dx;
+							  else if (keyRight)
+								playerX = playerX + dx;
+								
+							  if(cthis.rd.rType == 'straight'){
+								   this.update_straight(cthis, carObj, keyFaster, keySlower,playerX, dt);
+							  }else{
+								this.update_curve(cthis, carObj, keyFaster, keySlower,playerX, dt, dx, speedPercent, playerSegment);
+							  }
+							 //this.update_straight(cthis, carObj, keyFaster, keySlower,playerX, dt);
+							 //this.update_curve(cthis, carObj, keyFaster, keySlower,playerX, dt, dx, speedPercent, playerSegment);
+							
+							 /* playerX = playerX - (dx * carObj.speedPercent);
+							  if (keyFaster)
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.accel, dt);
+							  else if (keySlower)
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.breaking, dt);
+							  else
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.decel, dt);
+							
+							  var position = cthis.rd.position;		
+							  cthis.rd.playerX = cthis.car.mechanism().limit(playerX, -3, 3);     // dont ever let it go too far out of bounds
+							  carObj.speed   = cthis.car.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxcarObj.speed*/
+							  var position = cthis.rd.position;		
+							  
+							  
+							
+							  // this can be disable till we are not use for curve
+							  
+							  /*
+							  skyOffset  = cthis.car.mechanism().increase(skyOffset,  skycarObj.speed  * playerSegment.curve * (position-startPosition)/segmentLength, 1);
+							  hillOffset = cthis.car.mechanism().increase(hillOffset, hillcarObj.speed * playerSegment.curve * (position-startPosition)/segmentLength, 1);
+							  treeOffset = cthis.car.mechanism().increase(treeOffset, treecarObj.speed * playerSegment.curve * (position-startPosition)/segmentLength, 1);*/
+							  var playerZ = cthis.rd.playerZ;
+							  
+							  if (position > playerZ) {
+								//console.log("suman startPosition " + startPosition);
+								//if (cthis.rd.currentLapTime && (startPosition < playerZ)) {
+								if (cthis.rd.currentLapTime && (startPosition < playerZ)){
+								  var userInput = confirm("You have finished first round 1  Do you want go for round second");
+								  if(userInput == true){
+									 //this.run = true;
+									 
+									//var ctx = this.canvas.getContext('2d');
+									//ctx.clearRect(this.canvas.width, this.canvas.height);
+									 
+									 //window.location.href = "index.html";
+									 
+									/* var ctx = cthis.ctx;
+									ctx.clearRect(cthis.canvas.width, cthis.canvas.height);
+									var myCarRace = new carRace("racingCan");
+									myCarRace.init(myCarRace.cid);
+									cthis.rd.rType = 'curve'; */
+									//var myCarRace = new carRace("racingCan");
+									//myCarRace.init(myCarRace.cid);
+									
+									//var ctx = cthis.canvas.getContext('2d');
+									//ctx.clearRect(cthis.canvas.width, cthis.canvas.height);
+									
+									/*var tImgElm = new Image();
+									tImgElm.src = 'sprites/sprites.png';
+									
+									this.sprites = tImgElm;
+									
+									var bgObj = {type : 'simple', name: 'bg', value : 'sprites/background5.jpg'};
+									cthis.bg.init(bgObj);
+									*/
+									//debugger;
+								//	cthis.car.speed = 0;
+									//cthis.rd.init(); 
+									//cthis.rd.load(cthis.ctx);
+									cthis.rd.init("curve");
+									//when the second track is loaded in that time
+									// the road is loaded before the background
+									// this is a work around
+									cthis.st=false; //TODO handling for background image
+									cthis.bg.load(cthis, function (cthis){
+									//	debugger;
+										cthis.car.speed = 0;
+										cthis.rd.load(cthis.ctx);
+										cthis.st=true;
+									});   
+									
+									//cthis.init("curve");
+									//cthis.load();
+									/* cthis.car.speed = 0;
+									cthis.rd.init("curve");
+									cthis.rd.load(cthis.ctx); */
+									
+									//cthis.car = new Car(this);
+									/* cthis.car.init();
+									cthis.car.load();
+									cthis.car.speed = 0; */
+									//cthis.rd.init(); 
 				
+									/* cthis.bg.load(cthis);
+									cthis.car.speed = 0;
+									cthis.rd.init(); */
+									
+									/* var step = cthis.step;
+									var carRun = cthis.car.run();
+									carRun.init({step:step}, cthis);
+									carRun.frame(cthis);  */
+									
+								  }else{
+									  	
+									   //var myCarRace = new carRace("racingCan");
+									   //myCarRace.init(myCarRace.cid);
+									   //this.run = false;
+								  }
+								 this.run = false;
+								  cthis.rd.lastLapTime    = cthis.rd.currentLapTime;
+								  cthis.rd.currentLapTime = 0;
+								  //this can be disabled for right now
+								}
+								else {
+								  cthis.rd.currentLapTime += dt;
+								}
+							  }
+							}
+							  /* updateHud('carObj.speed',            5 * Math.round(carObj.speed/500));
+							  updateHud('current_lap_time', formatTime(currentLapTime)); */
+						},
+						
+						update_curve_old : function(cthis){
+							  var carObj = cthis.car;
+							  var dt = cthis.step;
+							  var playerZ = cthis.rd.playerZ;
+							  var playerSegment = cthis.rd.findSegment(cthis.rd.position+playerZ);
+							  var speedPercent  = carObj.speed/carObj.maxSpeed;
+							  var dx            = dt * 2 * speedPercent; // at top speed, should be able to cross from left to right (-1 to +1) in 1 second
+							  
+							  var keyLeft = cthis.car.keyLeft;
+							  var keyFaster = cthis.car.keyFaster;
+							  var keyRight = cthis.car.keyRight;
+							  var keySlower = cthis.car.keySlower;
+							  var playerX = cthis.rd.playerX;
+
+							  cthis.rd.position = cthis.car.mechanism().increase(cthis.rd.position, dt * carObj.speed, cthis.rd.trackLength);
+
+							  //skyOffset  = Util.increase(skyOffset,  skySpeed  * playerSegment.curve * speedPercent, 1);
+							  //hillOffset = Util.increase(hillOffset, hillSpeed * playerSegment.curve * speedPercent, 1);
+							  //treeOffset = Util.increase(treeOffset, treeSpeed * playerSegment.curve * speedPercent, 1);
+
+							  if (keyLeft)
+								playerX = playerX - dx;
+							  else if (keyRight)
+								playerX = playerX + dx;
+								
+							  playerX = playerX - (dx * speedPercent * playerSegment.curve * cthis.rd.centrifugal);
+
+							  if (keyFaster)
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.accel, dt);
+							  else if (keySlower)
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.breaking, dt);
+							  else
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.decel, dt);
+							  if (((playerX < -1) || (playerX > 1)) && (carObj.speed > carObj.offRoadLimit))
+								carObj.speed	 = cthis.car.mechanism().accelerate(carObj.speed, carObj.offRoadDecel, dt);
+
+							  cthis.rd.playerX = cthis.car.mechanism().limit(playerX, -2, 2);     // dont ever let player go too far out of bounds
+							  carObj.speed   = cthis.car.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxSpeed
+						},
+						update_straight : function (cthis, carObj, keyFaster, keySlower, playerX, dt){
+							
+						cthis.rd.playerX = cthis.car.mechanism().limit(playerX, -3, 3);     // dont ever let it go too far out of bounds
+
+							if (keyFaster)
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.accel, dt);
+							else if (keySlower)
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.breaking, dt);
+							else
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.decel, dt);
+
+							var position = cthis.rd.position;		
+							cthis.rd.playerX = cthis.car.mechanism().limit(playerX, -3, 3);     // dont ever let it go too far out of bounds
+							carObj.speed   = cthis.car.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or 
+						},
+						
+						update_curve : function(cthis, carObj, keyFaster, keySlower, playerX, dt, dx, speedPercent,playerSegment){
+							playerX = playerX - (dx * speedPercent * playerSegment.curve * cthis.rd.centrifugal);
+							if (keyFaster)
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.accel, dt);
+							else if (keySlower)
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.breaking, dt);
+							else
+								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.decel, dt);
+							
+							if (((playerX < -1) || (playerX > 1)) && (carObj.speed > carObj.offRoadLimit))
+							carObj.speed	 = cthis.car.mechanism().accelerate(carObj.speed, carObj.offRoadDecel, dt);
+
+							cthis.rd.playerX = cthis.car.mechanism().limit(playerX, -2, 2);     // dont ever let player go too far out of bounds
+							carObj.speed   = cthis.car.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxSpeed
+						},
+					}
+				},
+								
 				mechanism : function (){
 					return {
 						randomChoice : function (options){
@@ -609,7 +1112,24 @@
 						 
 						 limit: function(value, min, max)   { 
 							return Math.max(min, Math.min(value, max)); 
+						 },
+						
+/* 						 easeIn: function(a,b,percent)       { 
+							return a + (b-a)*Math.pow(percent,2);
+						 },
+						
+    					 easeOut: function(a,b,percent)       { 
+							return a + (b-a)*(1-Math.pow(1-percent,2));                     
+						 },
+						
+						 easeInOut: function(a,b,percent) { 
+							return a + (b-a)*((-Math.cos(percent*Math.PI)/2) + 0.5);        
+						 }, */
+
+						 percentRemaining: function(n, total) { 
+							return (n%total)/total;
 						},
+						 
 					}
 				}
 			};
@@ -625,10 +1145,7 @@
 		var event = function (){
 			var tfunc, func;
 			return{
-			
-				 
 				attachEventListener : function(elemId, kthis){
-						
 					//alert(kthis.events);
 					for(evt in kthis.events){
 					 //  //////////console.log.log("hello guys what is up");
@@ -657,8 +1174,7 @@
 						document.getElementById("bdRcGame").addEventListener(evt, func);
 					}
 				}, 
-				
-			}	
+			};
 		}
 		
 		var Keys = function (cthis){
@@ -753,9 +1269,30 @@
 			};
 		}
 		
+		 function easeIn(a,b,percent){ 
+			return a + (b-a)*Math.pow(percent,2);
+		 }
+		
+		 function easeOut(a,b,percent){ 
+			return a + (b-a)*(1-Math.pow(1-percent,2));                     
+		 }
+		 
+		 function easeInOut(a,b,percent) { 
+			return a + (b-a)*((-Math.cos(percent*Math.PI)/2) + 0.5);        
+		 }
+		
+		var COLORS = {
+			SKY:  '#72D7EE',
+			TREE: '#005108',
+			FOG:  '#005108',
+			LIGHT:  { road: '#6B6B6B', grass: '#10AA10', rumble: '#555555', lane: '#CCCCCC'  },
+			DARK:   { road: '#696969', grass: '#009A00', rumble: '#BBBBBB'                   },
+			START:  { road: 'white',   grass: 'white',   rumble: 'white'                     },
+			FINISH: { road: 'black',   grass: 'black',   rumble: 'black'                     }
+		};	
 	
 		var myCarRace = new carRace("racingCan");
-		 myCarRace.init(myCarRace.cid);
+		 myCarRace.init("straight");
 		
 	/* 	var step = cthis.step;
 		var carRun = cthis.car.run();
