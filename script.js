@@ -381,6 +381,8 @@
 				
 				resetRoadForCurve : function (){
 						this.addStraight(ROAD2.LENGTH.SHORT/4);
+						this.addStraight(ROAD2.LENGTH.SHORT/4);
+						this.addSCurves();
 						this.addSCurves();
 						this.addStraight(ROAD2.LENGTH.LONG);
 						this.addCurve(ROAD2.LENGTH.MEDIUM, ROAD2.CURVE.MEDIUM);
@@ -389,13 +391,14 @@
 						this.addSCurves();
 						this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.MEDIUM);
 						this.addCurve(ROAD2.LENGTH.LONG, ROAD2.CURVE.MEDIUM);
+						
 						this.addStraight();
 						this.addSCurves();
 						this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.EASY);
 				},
 				
 				resetRoadForStraight : function (){
-					for(var n = 0 ; n < 500 ; n++) {
+					for(var n = 0 ; n < 1200 ; n++) {
 							this.segments.push({
 							   index: n,
 							   p1: { world: { z:  n   *this.segmentLength }, camera: {}, screen: {} },
@@ -499,6 +502,9 @@
 					  this.addSCurves();
 					  this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.MEDIUM);
 					  this.addCurve(ROAD2.LENGTH.LONG, ROAD2.CURVE.MEDIUM);
+					  this.addStraight();
+					  this.addSCurves();
+					  this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.EASY);
 					  this.addStraight();
 					  this.addSCurves();
 					  this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.EASY);
@@ -947,47 +953,11 @@
 							}
 						},
 						
-						update_curve_old : function(cthis){
-							  var carObj = cthis.car;
-							  var dt = cthis.step;
-							  var playerZ = cthis.rd.playerZ;
-							  var playerSegment = cthis.rd.findSegment(cthis.rd.position+playerZ);
-							  var speedPercent  = carObj.speed/carObj.maxSpeed;
-							  var dx            = dt * 2 * speedPercent; // at top speed, should be able to cross from left to right (-1 to +1) in 1 second
-							  
-							  var keyLeft = cthis.car.keyLeft;
-							  var keyFaster = cthis.car.keyFaster;
-							  var keyRight = cthis.car.keyRight;
-							  var keySlower = cthis.car.keySlower;
-							  var playerX = cthis.rd.playerX;
-
-							  cthis.rd.position = cthis.car.mechanism().increase(cthis.rd.position, dt * carObj.speed, cthis.rd.trackLength);
-
-							  //skyOffset  = Util.increase(skyOffset,  skySpeed  * playerSegment.curve * speedPercent, 1);
-							  //hillOffset = Util.increase(hillOffset, hillSpeed * playerSegment.curve * speedPercent, 1);
-							  //treeOffset = Util.increase(treeOffset, treeSpeed * playerSegment.curve * speedPercent, 1);
-
-							  if (keyLeft)
-								playerX = playerX - dx;
-							  else if (keyRight)
-								playerX = playerX + dx;
-								
-							  playerX = playerX - (dx * speedPercent * playerSegment.curve * cthis.rd.centrifugal);
-
-							  if (keyFaster)
-								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.accel, dt);
-							  else if (keySlower)
-								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.breaking, dt);
-							  else
-								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.decel, dt);
-							  if (((playerX < -1) || (playerX > 1)) && (carObj.speed > carObj.offRoadLimit))
-								carObj.speed	 = cthis.car.mechanism().accelerate(carObj.speed, carObj.offRoadDecel, dt);
-
-							  cthis.rd.playerX = cthis.car.mechanism().limit(playerX, -2, 2);     // dont ever let player go too far out of bounds
-							  carObj.speed   = cthis.car.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxSpeed
-						},
 						update_straight : function (cthis, carObj, keyFaster, keySlower, playerX, dt){
 							
+						if (((playerX < -1) || (playerX > 1)) && (carObj.speed > carObj.offRoadLimit)){
+								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.offRoadDecel, dt);
+						}	
 						cthis.rd.playerX = cthis.car.mechanism().limit(playerX, -3, 3);     // dont ever let it go too far out of bounds
 
 							if (keyFaster)
