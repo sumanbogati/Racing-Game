@@ -145,16 +145,20 @@
 					this.type = obj.type;	
 					this.name = obj.name;
 					this.value = obj.value;
+					//alert(this.value);
 					//todo this shoud be dyanamic
 					this.frmStX = 0;
 					this.frnStY = 0;
+					this.skySpeed  = 0.001;
+					this.skyoffset = 0;
 				}, 
 				
 				load: function (cthis, callback){
 					var ctx = cthis.ctx;
 					ctx.clearRect(0, 0, width, height);
 					//var imgElems = document.getElementById("bgImage");
-					var imgaLoaded = function (mthis){
+					var imgaLoaded = function (mthis, dthis){
+						cthis.bg.img = dthis;
 						callback(mthis);
 					}
 					
@@ -162,10 +166,12 @@
 					var imgElem = new Image();
 					
 					imgElem.onload = function (){
-						ctx.drawImage(imgElem, 0, 0, 1050, 500);
-						imgaLoaded(cthis);
+						// ctx.drawImage(imgElem, 0, 0, 1050, 500);
+						ctx.drawImage(imgElem, 0, 0, width, height);
+						imgaLoaded(cthis, this);
 					}
 					imgElem.src = this.value;
+					
 				},
 			};
 		 }
@@ -790,12 +796,12 @@
 							//when the second track is loaded in that time
 							// the road is loaded before the background
 							// this is a work around
-							
-							if (cthis.bgload == true){
+							this.gdt = this.gdt + this.dt;
+							//if (cthis.bgload == true){
 								while (this.gdt > this.step) {
 									this.gdt = this.gdt - this.step;
 									this.update(cthis);
-									cthis.rd.load(cthis.ctx);
+									//cthis.rd.load(cthis.ctx);
 								}
 							
 							/*dthis = this;
@@ -811,15 +817,21 @@
 							//TODO I have done this with workaround for now
 							// I'll have to do it in future with proper way
 							//this should be acheived through requestAnimationFrame
-								this.gdt = this.gdt + this.dt;
-							}
+								
+							//}
+							cthis.rd.load(cthis.ctx);
 							dthis = this;	
 							setTimeout(function (){	
 								dthis.last = dthis.now;
 								dthis.frame(cthis);
 							}, (1000/60));
 							
-							
+							/* cthis.rd.load(cthis.ctx);
+							dthis = this;
+							setTimeout(function (){	
+								dthis.last = dthis.now;
+								dthis.frame(cthis);
+							}, (1000/60)); */
 							/* cthis.rd.load(cthis.ctx);
 							this.last = this.now;
 							dthis = this;
@@ -871,9 +883,17 @@
 							  var dt = this.step;
 							  var playerSegment = cthis.rd.findSegment(cthis.rd.position+cthis.rd.playerZ);
 							  var speedPercent  = carObj.speed/carObj.maxSpeed;
+								
+							  cthis.bg.skyOffset  = carObj.mechanism().increase(cthis.bg.skyOffset,  cthis.bg.skySpeed  * playerSegment.curve * speedPercent, 1);
 							  
 							  //var dx = dt * 2 * carObj.speedPercent; // at top carObj.speed, should be able to cross from left to right (-1 to 1) in 1 second
-							  
+								
+								
+							cthis.ctx.clearRect(0, 0, 1024, 768);
+							imgAddress = cthis.bg.img;
+							cthis.ctx.drawImage(imgAddress, 0, 0, 1024, 524);
+
+								
 							  var dx = dt * 2 * speedPercent; // at top carObj.speed, should be able to cross from left to right (-1 to 1) in 1 second
 							  var keyLeft = cthis.car.keyLeft;
 							  var keyFaster = cthis.car.keyFaster;
@@ -950,6 +970,8 @@
 								  cthis.rd.currentLapTime += dt;
 								}
 							  }
+							  
+							  
 							}
 						},
 						
@@ -1198,12 +1220,17 @@
 			//when the second track is loaded in that time
 			// the road is loaded before the background
 			// this is a work around
-			cthis.bgload=false; //TODO handling for background image
-			cthis.bg.load(cthis, function (cthis){
-				cthis.car.speed = 0;
-				cthis.rd.load(cthis.ctx);
-				cthis.bgload=true;
-			});   
+			//cthis.bgload=false; //TODO handling for background image
+			cthis.car.speed = 0;
+			
+			cthis.ctx.clearRect(0, 0, 1024, 768);
+			imgAddress = cthis.bg.img;
+			cthis.ctx.drawImage(imgAddress, 0, 0, 1024, 524);
+							
+			cthis.rd.load(cthis.ctx);
+			//cthis.bgload=true;
+			
+		
 		}
 		
 		var COLORS = {
