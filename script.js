@@ -9,6 +9,13 @@
 (function (window, document){
 	window.onload = function (){
 		
+		var cars = document.getElementById("carContainer").getElementsByClassName('cars');
+		for(var i=0; i<cars.length; i++){
+			cars[i].onclick = setUpCar;
+		}
+		
+		
+	
 		var trackLength   = null; 
 		var width         = 1024;                    // logical canvas width
 		var height        = 768; 
@@ -31,7 +38,7 @@
 		}
 		
 		carRace.prototype =  {
-			init : function (rtype){
+			init : function (rtype, ctype){
 				this.ctx = this.canvas.getContext('2d');
 				
 				this.fps = 60;
@@ -67,7 +74,7 @@
 				
 				//car init
 				this.car = new Car(this);
-				this.car.init();
+				this.car.init(ctype);
 				this.load();
 				
 				//this is to be splitted in relative calss
@@ -108,12 +115,47 @@
 				  CAR01:                  { x: 1205, y: 1018, w:   80, h:   56 },
 				  PLAYER_UPHILL_LEFT:     { x: 1383, y:  961, w:   80, h:   45 },
 				  PLAYER_UPHILL_STRAIGHT: { x: 1295, y: 1018, w:   80, h:   45 },
-				  PLAYER_UPHILL_RIGHT:    { x: 1385, y: 1018, w:   80, h:   45 },
-				  PLAYER_LEFT:            { x:  995, y:  480, w:   80, h:   41 },
+				
+     			  PLAYER_UPHILL_RIGHT:    { x: 1385, y: 1018, w:   80, h:   45 },
+	
+					/* PLAYER_LEFT:            { x:  995, y:  480, w:   80, h:   41 },
 				  PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
-				  PLAYER_RIGHT:           { x:  995, y:  531, w:   80, h:   41 }
+				  //PLAYER_STRAIGHT:        { x: 1205, y:  1018, w:   80, h:   46 },
+				  PLAYER_RIGHT:           { x:  995, y:  531, w:   80, h:   41 }, */
+				  
+				  //PLAYER_LEFT:            { x:  1205, y:  1018, w:   80, h:   41 },
+					//PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
+				  //PLAYER_STRAIGHT:        { x: 1205, y:  1018, w:   80, h:   41 },
+				  //PLAYER_RIGHT:           { x:  1205, y:  1018, w:   80, h:   41 }
+				  
+				  /*
+				   PLAYER_LEFT:            { x:  1123, y:  1015, w:   80, h:   70 },
+					//PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
+				  PLAYER_STRAIGHT:        { x: 1210, y:  1015, w:   80, h:   70 },
+				  PLAYER_RIGHT:           { x:  1023, y:  1015, w:   80, h:   70 } */
+				  
+				  
+				//  PLAYER_LEFT:            { x:  995, y:  480, w:   80, h:   41 },
+				 // PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
+				  //PLAYER_RIGHT:           { x:  995, y:  531, w:   80, h:   41 } 
+				  
 				};
-		
+				
+				
+				if(this.car.type == 'bcar'){
+				  this.SPRITES = {
+						  PLAYER_LEFT:            { x:  1123, y:  1015, w:   80, h:   70 },
+					      PLAYER_STRAIGHT:        { x: 1210, y:  1015, w:   80, h:   70 },
+				          PLAYER_RIGHT:           { x:  1023, y:  1015, w:   80, h:   70 }
+					}
+				}else if(this.car.type == 'rcar'){
+					  this.SPRITES = {
+						  PLAYER_LEFT:            { x:  995, y:  480, w:   80, h:   41 },
+						  PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
+						  PLAYER_RIGHT:           { x:  995, y:  531, w:   80, h:   41 } 
+					  }
+				}
+				
 				this.SPRITES.SCALE = 0.3 * (1/this.SPRITES.PLAYER_STRAIGHT.w); // the reference sprite width should be 1/3rd the (half-)roadWidth
 				
 				//this is to be splitted in relative calss
@@ -125,14 +167,8 @@
 				// there should be loaded first background images
 				// and should be done other jobs eg:- load road, car
 				this.bg.load(this, function (cthis){
-					//alert("hey guys what is up");
 					cthis.rd.load(cthis.ctx);
 				});
-				
-				/* var step = this.step;
-				var carRun = this.car.run();
-				carRun.init({step:step}, this);
-				carRun.frame(this); */
 			}
 		};
 		
@@ -150,7 +186,8 @@
 					this.frmStX = 0;
 					this.frnStY = 0;
 					this.skySpeed  = 0.001;
-					this.skyoffset = 0;
+					this.skyOffset = 0;
+
 				}, 
 				
 				load: function (cthis, callback){
@@ -380,7 +417,6 @@
 									   //segment.fog,
 									   1,
 									   segment.color);
-
 						maxy = segment.p2.screen.y;
 					  }
 				},
@@ -572,8 +608,8 @@
 						}, 
 						
 						 polygon : function (ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) {
-							////////////console.log.log("x1 y1 x2 y2" ); 
-							////////////console.log.log(x1 + " " + y1 +" " + x2 +" "+ y2);
+							//////////////console.log.log("x1 y1 x2 y2" ); 
+							//////////////console.log.log(x1 + " " + y1 +" " + x2 +" "+ y2);
 							ctx.fillStyle = color;
 							ctx.beginPath();
 							ctx.moveTo(x1, y1);
@@ -642,7 +678,8 @@
 		//class Car
 		var Car  = function (cthis){
 			return {
-				init: function (){
+				init: function (type){
+					this.type = type;
 				//	this.name = obj.name;
 				//	this.type = obj.type;
 					this.destX = width/2;
@@ -676,18 +713,18 @@
 						this.steer =  this.speed * (this.keyLeft ? -1 : this.keyRight ? 1 : 0);
 						var bounce = (1.5 * Math.random() * this.speedPercent * this.resolution) * this.mechanism().randomChoice([-1,1]);
 						
-						//console.log("bounce " + bounce);
+						////console.log("bounce " + bounce);
 
 						if (this.steer < 0){
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_LEFT : cthis.SPRITES.PLAYER_LEFT;
 						 }
 						else if (this.steer > 0){
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_RIGHT : cthis.SPRITES.PLAYER_RIGHT;
-						  //////console.log.log("right");
+						  ////////console.log.log("right");
 						  }
 						else{
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_STRAIGHT : cthis.SPRITES.PLAYER_STRAIGHT;
-						  //////console.log("straight");
+						  ////////console.log("straight");
 						}
 						
 						/*if(bounce>1){
@@ -695,7 +732,7 @@
 						}*/
 						
 						//bounce = 2.85;
-						//console.log("bounce " +bounce);
+						////console.log("bounce " +bounce);
 						
 						bounce = 0; 	
 						/*if(bounce > 2){
@@ -706,12 +743,12 @@
 						this.sprite(sprite, -0.5, -1);
 						
 						/* for(prop in cthis.SPRITES.PLAYER_UPHILL_STRAIGHT){
-							//////////console.log.log(prop + " " + cthis.SPRITES.PLAYER_UPHILL_STRAIGHT[prop]) + " <br />";
+							////////////console.log.log(prop + " " + cthis.SPRITES.PLAYER_UPHILL_STRAIGHT[prop]) + " <br />";
 						}	
-						//////////console.log.log("second");
+						////////////console.log.log("second");
 							
 						for(prop in cthis.SPRITES.PLAYER_STRAIGHT){
-							//////////console.log.log(prop + " " + cthis.SPRITES.PLAYER_STRAIGHT[prop]) + " <br />";
+							////////////console.log.log(prop + " " + cthis.SPRITES.PLAYER_STRAIGHT[prop]) + " <br />";
 						} */	
 
 				},
@@ -735,30 +772,30 @@
 					var destH  = (sprite.h * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
 						//destH = destH-100;
 					
-					/*//////////console.log.log("this.destX +  (destW * (offsetX || 0) " + 
+					/*////////////console.log.log("this.destX +  (destW * (offsetX || 0) " + 
 						this.destX + " + ("+destW + " * " + "(" + offsetX + " || " + 0 + "))"
 					);*/
 					
-					/*  //////////console.log.log("this.destY +  (destH * (offsetY || 0) " + 
+					/*  ////////////console.log.log("this.destY +  (destH * (offsetY || 0) " + 
 						this.destY + " + ("+destY + " * " + "(" + offsetY + " || " + 0 + "))"
 					); */
 					
 					//this.destX = (this.destX + (destW * (offsetX || 0)));
 					//this.destY = (this.destY + (destH * (offsetY || 0)));
 					
-					////////////console.log.log("this.destX " +this.destX);
-					////////////console.log.log("this.destY " +this.destY);
+					//////////////console.log.log("this.destX " +this.destX);
+					//////////////console.log.log("this.destY " +this.destY);
 					
 					
-					////////////console.log.log("offsetX " +offsetX);
-					////////////console.log.log("offsetY " +offsetY);
+					//////////////console.log.log("offsetX " +offsetX);
+					//////////////console.log.log("offsetY " +offsetY);
 					
-					////////////console.log.log("this.destX " +this.destX);
-					////////////console.log.log("this.destY " +this.destY);
+					//////////////console.log.log("this.destX " +this.destX);
+					//////////////console.log.log("this.destY " +this.destY);
 					
-					////////////console.log.log('destY ' + this.destY);
-					////////////console.log.log('destH ' + destH);
-					////////////console.log.log('offsetY ' + offsetY);	
+					//////////////console.log.log('destY ' + this.destY);
+					//////////////console.log.log('destH ' + destH);
+					//////////////console.log.log('offsetY ' + offsetY);	
 					var clipH = clipY ? Math.max(0, this.destY+destH-clipY) : 0;
 					if (clipH < destH)
 						
@@ -843,7 +880,7 @@
 							var carObj = cthis.car
 							 var dt = this.step;
 							  cthis.rd.position = carObj.mechanism().increase(cthis.rd.position, dt * carObj.speed, cthis.rd.trackLength);
-							  //////////console.log.log('road positon '+ cthis.rd.position);
+							  ////////////console.log.log('road positon '+ cthis.rd.position);
 							  var dx = dt * 2 * (carObj.speed/carObj.maxSpeed); // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
 							  var keyLeft = cthis.car.keyLeft;
 							  var keyFaster = cthis.car.keyFaster;
@@ -866,15 +903,17 @@
 							  else
 								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.decel, dt);
 							
-							////console.log(" keyFaster " + keyFaster);							
-							////console.log(" keyLeft " + keyLeft);							
+							//////console.log(" keyFaster " + keyFaster);							
+							//////console.log(" keyLeft " + keyLeft);							
 							  if (((playerX < -1) || (playerX > 1)) && (carObj.speed > carObj.offRoadLimit)){
 								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.offRoadDecel, dt);
 							   }
 
 							  cthis.rd.playerX = carObj.mechanism().limit(playerX, -2, 2);     // dont ever let player go too far out of bounds
+							  
 							  carObj.speed  = carObj.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxSpeed
-							  ////console.log();
+							  //////console.log();
+							  
 						},
 						
 						update : function (cthis){
@@ -883,17 +922,23 @@
 							  var dt = this.step;
 							  var playerSegment = cthis.rd.findSegment(cthis.rd.position+cthis.rd.playerZ);
 							  var speedPercent  = carObj.speed/carObj.maxSpeed;
-								
+							
+							  //cthis.bg.skyOffset = (cthis.bg.skyOffset || 0); //this line should be removed from here
 							  cthis.bg.skyOffset  = carObj.mechanism().increase(cthis.bg.skyOffset,  cthis.bg.skySpeed  * playerSegment.curve * speedPercent, 1);
 							  
-							  //var dx = dt * 2 * carObj.speedPercent; // at top carObj.speed, should be able to cross from left to right (-1 to 1) in 1 second
-								
-								
-							cthis.ctx.clearRect(0, 0, 1024, 768);
-							imgAddress = cthis.bg.img;
-							cthis.ctx.drawImage(imgAddress, 0, 0, 1024, 524);
 
-								
+							  //var dx = dt * 2 * carObj.speedPercent; // at top carObj.speed, should be able to cross from left to right (-1 to 1) in 1 second
+							  //Render.background(ctx, background, width, height, BACKGROUND.HILLS);
+							  
+							  var bg = {};
+							  bg.w = 735;
+							  bg.h = 315;
+							  bg.x = 1;
+							  bg.y = 1;
+							  
+							  
+							  dispBgImg(cthis, width, height, bg, cthis.bg.skyOffset);	
+							 
 							  var dx = dt * 2 * speedPercent; // at top carObj.speed, should be able to cross from left to right (-1 to 1) in 1 second
 							  var keyLeft = cthis.car.keyLeft;
 							  var keyFaster = cthis.car.keyFaster;
@@ -903,7 +948,6 @@
 							  startPosition = cthis.rd.position;
  							  cthis.rd.position = cthis.car.mechanism().increase(cthis.rd.position, dt * carObj.speed, cthis.rd.trackLength);
 							
-							 
 							  if (keyLeft)
 								playerX = playerX - dx;
 							  else if (keyRight)
@@ -956,22 +1000,12 @@
 										alert("YOU HAVE FINISHED SECOND ROUND, After press ok you can start a new gane");
 										this.run = false;
 										resetGame(cthis, 'straight');
-										/* cthis.rd.init("straight");
-										cthis.bgload=false; 
-										cthis.bg.load(cthis, function (cthis){
-											cthis.car.speed = 0;
-											cthis.rd.load(cthis.ctx);
-											cthis.bgload=true;
-										}
-										); */
 								   }
 								}
 								else {
 								  cthis.rd.currentLapTime += dt;
 								}
 							  }
-							  
-							  
 							}
 						},
 						
@@ -982,16 +1016,24 @@
 						}	
 						cthis.rd.playerX = cthis.car.mechanism().limit(playerX, -3, 3);     // dont ever let it go too far out of bounds
 
-							if (keyFaster)
+							if (keyFaster){
+								console.log("faster");
 								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.accel, dt);
-							else if (keySlower)
+							}	
+							else if (keySlower){
+								console.log("slower");
 								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.breaking, dt);
-							else
+							}else{
+								console.log("default");
 								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.decel, dt);
-
+							}
+							
+							console.log('faster ' +keyFaster);
+							
 							var position = cthis.rd.position;		
 							cthis.rd.playerX = cthis.car.mechanism().limit(playerX, -3, 3);     // dont ever let it go too far out of bounds
 							carObj.speed   = cthis.car.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or 
+							//console.log("carObj.speed " + carObj.speed);
 						},
 						
 						update_curve : function(cthis, carObj, keyFaster, keySlower, playerX, dt, dx, speedPercent,playerSegment){
@@ -1036,6 +1078,7 @@
 							  result -= max;
 							while (result < 0)
 							  result += max;
+							//  alert(result);
 							return result;
 						  },
 						  
@@ -1081,7 +1124,7 @@
 				attachEventListener : function(elemId, kthis){
 					//alert(kthis.events);
 					for(evt in kthis.events){
-					 //  //////////console.log.log("hello guys what is up");
+					 //  ////////////console.log.log("hello guys what is up");
 					 //document.getElementById(elemId).addEventListener = (evt, kthis.events[evt]());
 					 //	alert(kthis.events[evt]);	
 					 //	alert(kthis);
@@ -1126,7 +1169,7 @@
 				
 				down : function (evt){
 					//for(keyProp in  this.keyCodes){
-						////////////console.log.log(this.keyCodes[keyProp]);
+						//////////////console.log.log(this.keyCodes[keyProp]);
 						
 						
 						/* if(evt.keyCode == 37){
@@ -1140,9 +1183,9 @@
 						} */
 						
 						if(evt.keyCode == 37){
-							////console.log("cthis.car.keyLeft " + cthis.car.keyLeft);
+							//////console.log("cthis.car.keyLeft " + cthis.car.keyLeft);
 							cthis.car.keyLeft = true;
-							////console.log("cthis.car.keyFaster " + cthis.car.keyFaster);
+							//////console.log("cthis.car.keyFaster " + cthis.car.keyFaster);
 						}
 						
 						if(evt.keyCode == 38){
@@ -1157,7 +1200,7 @@
 						}
 							
 						//if(this.keyCodes[keyProp] == evt.keyCode){
-						////////////console.log.log(evt.keyCode);
+						//////////////console.log.log(evt.keyCode);
 							
 						if(evt.keyCode == 38){
 							var step = cthis.step;
@@ -1173,6 +1216,7 @@
 				
 				up : function (evt){
 					var step = cthis.step;
+					
 					if((cthis.car.keyFaster == true && cthis.car.keyRight != true && cthis.car.keyLeft != true
 					) 
 					){
@@ -1215,12 +1259,12 @@
 		 }
 		 
 		function resetGame(cthis, rtype){
-			
 			cthis.rd.init(rtype);
 			//when the second track is loaded in that time
 			// the road is loaded before the background
 			// this is a work around
 			//cthis.bgload=false; //TODO handling for background image
+			cthis.bg.skyOffset = (cthis.bg.skyOffset || 0)
 			cthis.car.speed = 0;
 			
 			cthis.ctx.clearRect(0, 0, 1024, 768);
@@ -1229,8 +1273,6 @@
 							
 			cthis.rd.load(cthis.ctx);
 			//cthis.bgload=true;
-			
-		
 		}
 		
 		var COLORS = {
@@ -1242,16 +1284,32 @@
 			START:  { road: 'white',   grass: 'white',   rumble: 'white'                     },
 			FINISH: { road: 'black',   grass: 'black',   rumble: 'black'                     }
 		};	
+	mycar = gup('car');
 	
-		var myCarRace = new carRace("racingCan");
-		 myCarRace.init("straight");
-		
-	/* 	var step = cthis.step;
-		var carRun = cthis.car.run();
-		carRun.init({step:step}, cthis);
-		carRun.frame(cthis); */
-		
+	if(mycar == ""){
+		mycar = "rcar";
 	}
+	var myCarRace = new carRace("racingCan");
+	 myCarRace.init("straight", mycar);
+	 
+	 function setUpCar (){
+		var myCarRace2 = new carRace("racingCan");
+		window.location.href = "index.html?car="+this.id;
+	}
+		
+	function gup( name ){
+		name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+		var regexS = "[\\?&]"+name+"=([^&#]*)";
+		var regex = new RegExp( regexS );
+		var results = regex.exec( window.location.href );
+		if( results == null )
+			return "";
+		else
+			return results[1];
+	}
+}
+	
+	
 	
 		//this code should be used into future.
 		if (!window.requestAnimationFrame) { // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -1263,4 +1321,11 @@
 			   window.setTimeout(callback, 1000 / 60);
 			 }
 		}
+		
+		function dispBgImg(cthis, width, height, layer, rotation, offset){
+		 	cthis.ctx.clearRect(0, 0, width, height);
+			imgAddress = cthis.bg.img;
+			cthis.ctx.drawImage(imgAddress, 0, 0, 1024, 524); 
+		}
+		
 })(window, document);
