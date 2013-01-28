@@ -608,8 +608,8 @@
 						}, 
 						
 						 polygon : function (ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) {
-							//////////////console.log.log("x1 y1 x2 y2" ); 
-							//////////////console.log.log(x1 + " " + y1 +" " + x2 +" "+ y2);
+							//console.log.log("x1 y1 x2 y2" ); 
+							//console.log.log(x1 + " " + y1 +" " + x2 +" "+ y2);
 							ctx.fillStyle = color;
 							ctx.beginPath();
 							ctx.moveTo(x1, y1);
@@ -713,18 +713,18 @@
 						this.steer =  this.speed * (this.keyLeft ? -1 : this.keyRight ? 1 : 0);
 						var bounce = (1.5 * Math.random() * this.speedPercent * this.resolution) * this.mechanism().randomChoice([-1,1]);
 						
-						////console.log("bounce " + bounce);
+						//console.log("bounce " + bounce);
 
 						if (this.steer < 0){
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_LEFT : cthis.SPRITES.PLAYER_LEFT;
 						 }
 						else if (this.steer > 0){
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_RIGHT : cthis.SPRITES.PLAYER_RIGHT;
-						  ////////console.log.log("right");
+						  //console.log.log("right");
 						  }
 						else{
 						  sprite = (this.updown > 0) ? cthis.SPRITES.PLAYER_UPHILL_STRAIGHT : cthis.SPRITES.PLAYER_STRAIGHT;
-						  ////////console.log("straight");
+						  //console.log("straight");
 						}
 						
 						/*if(bounce>1){
@@ -732,7 +732,7 @@
 						}*/
 						
 						//bounce = 2.85;
-						////console.log("bounce " +bounce);
+						//console.log("bounce " +bounce);
 						
 						bounce = 0; 	
 						/*if(bounce > 2){
@@ -743,12 +743,12 @@
 						this.sprite(sprite, -0.5, -1);
 						
 						/* for(prop in cthis.SPRITES.PLAYER_UPHILL_STRAIGHT){
-							////////////console.log.log(prop + " " + cthis.SPRITES.PLAYER_UPHILL_STRAIGHT[prop]) + " <br />";
+							//console.log.log(prop + " " + cthis.SPRITES.PLAYER_UPHILL_STRAIGHT[prop]) + " <br />";
 						}	
-						////////////console.log.log("second");
+						//console.log.log("second");
 							
 						for(prop in cthis.SPRITES.PLAYER_STRAIGHT){
-							////////////console.log.log(prop + " " + cthis.SPRITES.PLAYER_STRAIGHT[prop]) + " <br />";
+							//console.log.log(prop + " " + cthis.SPRITES.PLAYER_STRAIGHT[prop]) + " <br />";
 						} */	
 
 				},
@@ -772,30 +772,30 @@
 					var destH  = (sprite.h * this.scale * width/2) * (cthis.SPRITES.SCALE * cthis.rd.roadWidth);
 						//destH = destH-100;
 					
-					/*////////////console.log.log("this.destX +  (destW * (offsetX || 0) " + 
+					/*//console.log.log("this.destX +  (destW * (offsetX || 0) " + 
 						this.destX + " + ("+destW + " * " + "(" + offsetX + " || " + 0 + "))"
 					);*/
 					
-					/*  ////////////console.log.log("this.destY +  (destH * (offsetY || 0) " + 
+					/*  //console.log.log("this.destY +  (destH * (offsetY || 0) " + 
 						this.destY + " + ("+destY + " * " + "(" + offsetY + " || " + 0 + "))"
 					); */
 					
 					//this.destX = (this.destX + (destW * (offsetX || 0)));
 					//this.destY = (this.destY + (destH * (offsetY || 0)));
 					
-					//////////////console.log.log("this.destX " +this.destX);
-					//////////////console.log.log("this.destY " +this.destY);
+					//console.log.log("this.destX " +this.destX);
+					//console.log.log("this.destY " +this.destY);
 					
 					
-					//////////////console.log.log("offsetX " +offsetX);
-					//////////////console.log.log("offsetY " +offsetY);
+					//console.log.log("offsetX " +offsetX);
+					//console.log.log("offsetY " +offsetY);
 					
-					//////////////console.log.log("this.destX " +this.destX);
-					//////////////console.log.log("this.destY " +this.destY);
+					//console.log.log("this.destX " +this.destX);
+					//console.log.log("this.destY " +this.destY);
 					
-					//////////////console.log.log('destY ' + this.destY);
-					//////////////console.log.log('destH ' + destH);
-					//////////////console.log.log('offsetY ' + offsetY);	
+					//console.log.log('destY ' + this.destY);
+					//console.log.log('destH ' + destH);
+					//console.log.log('offsetY ' + offsetY);	
 					var clipH = clipY ? Math.max(0, this.destY+destH-clipY) : 0;
 					if (clipH < destH)
 						
@@ -880,7 +880,7 @@
 							var carObj = cthis.car
 							 var dt = this.step;
 							  cthis.rd.position = carObj.mechanism().increase(cthis.rd.position, dt * carObj.speed, cthis.rd.trackLength);
-							  ////////////console.log.log('road positon '+ cthis.rd.position);
+							  //console.log.log('road positon '+ cthis.rd.position);
 							  var dx = dt * 2 * (carObj.speed/carObj.maxSpeed); // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
 							  var keyLeft = cthis.car.keyLeft;
 							  var keyFaster = cthis.car.keyFaster;
@@ -903,8 +903,8 @@
 							  else
 								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.decel, dt);
 							
-							//////console.log(" keyFaster " + keyFaster);							
-							//////console.log(" keyLeft " + keyLeft);							
+							//console.log(" keyFaster " + keyFaster);							
+							//console.log(" keyLeft " + keyLeft);							
 							  if (((playerX < -1) || (playerX > 1)) && (carObj.speed > carObj.offRoadLimit)){
 								carObj.speed = carObj.mechanism().accelerate(carObj.speed, carObj.offRoadDecel, dt);
 							   }
@@ -912,7 +912,7 @@
 							  cthis.rd.playerX = carObj.mechanism().limit(playerX, -2, 2);     // dont ever let player go too far out of bounds
 							  
 							  carObj.speed  = carObj.mechanism().limit(carObj.speed, 0, carObj.maxSpeed); // or exceed maxSpeed
-							  //////console.log();
+							  //console.log();
 							  
 						},
 						
@@ -999,6 +999,8 @@
 								   }else{
 										alert("YOU HAVE FINISHED SECOND ROUND, After press ok you can start a new gane");
 										this.run = false;
+										music.pause();
+										runMusic=false;
 										resetGame(cthis, 'straight');
 								   }
 								}
@@ -1017,18 +1019,18 @@
 						cthis.rd.playerX = cthis.car.mechanism().limit(playerX, -3, 3);     // dont ever let it go too far out of bounds
 
 							if (keyFaster){
-								console.log("faster");
+								//console.log("faster");
 								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.accel, dt);
 							}	
 							else if (keySlower){
-								console.log("slower");
+								//console.log("slower");
 								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.breaking, dt);
 							}else{
-								console.log("default");
+								//console.log("default");
 								carObj.speed = cthis.car.mechanism().accelerate(carObj.speed, carObj.decel, dt);
 							}
 							
-							console.log('faster ' +keyFaster);
+							//console.log('faster ' +keyFaster);
 							
 							var position = cthis.rd.position;		
 							cthis.rd.playerX = cthis.car.mechanism().limit(playerX, -3, 3);     // dont ever let it go too far out of bounds
@@ -1124,7 +1126,7 @@
 				attachEventListener : function(elemId, kthis){
 					//alert(kthis.events);
 					for(evt in kthis.events){
-					 //  ////////////console.log.log("hello guys what is up");
+					 //  //console.log.log("hello guys what is up");
 					 //document.getElementById(elemId).addEventListener = (evt, kthis.events[evt]());
 					 //	alert(kthis.events[evt]);	
 					 //	alert(kthis);
@@ -1153,6 +1155,7 @@
 			};
 		}
 		
+		var runMusic = false;
 		var Keys = function (cthis){
 			return {
 				init : function (){
@@ -1169,7 +1172,7 @@
 				
 				down : function (evt){
 					//for(keyProp in  this.keyCodes){
-						//////////////console.log.log(this.keyCodes[keyProp]);
+						//console.log.log(this.keyCodes[keyProp]);
 						
 						
 						/* if(evt.keyCode == 37){
@@ -1183,9 +1186,9 @@
 						} */
 						
 						if(evt.keyCode == 37){
-							//////console.log("cthis.car.keyLeft " + cthis.car.keyLeft);
+							//console.log("cthis.car.keyLeft " + cthis.car.keyLeft);
 							cthis.car.keyLeft = true;
-							//////console.log("cthis.car.keyFaster " + cthis.car.keyFaster);
+							//console.log("cthis.car.keyFaster " + cthis.car.keyFaster);
 						}
 						
 						if(evt.keyCode == 38){
@@ -1200,14 +1203,20 @@
 						}
 							
 						//if(this.keyCodes[keyProp] == evt.keyCode){
-						//////////////console.log.log(evt.keyCode);
+						//console.log.log(evt.keyCode);
 							
 						if(evt.keyCode == 38){
 							var step = cthis.step;
 							var carRun = cthis.car.run();
 							carRun.init({step:step}, cthis);
-							carRun.frame(cthis); 
-						}
+							carRun.frame(cthis);
+							if(runMusic == false){
+								playMusic(); 
+								runMusic = true;
+							}
+							
+							
+					}
 							
 						//alert("the game begins now with press down button " + evt.keyCode);	
 					//}
@@ -1273,6 +1282,10 @@
 							
 			cthis.rd.load(cthis.ctx);
 			//cthis.bgload=true;
+			/* if(rtype == 'straight'){
+				music.play();
+			} */
+			
 		}
 		
 		var COLORS = {
@@ -1291,6 +1304,7 @@
 	}
 	var myCarRace = new carRace("racingCan");
 	 myCarRace.init("straight", mycar);
+	// playMusic(); 
 	 
 	 function setUpCar (){
 		var myCarRace2 = new carRace("racingCan");
@@ -1327,5 +1341,13 @@
 			imgAddress = cthis.bg.img;
 			cthis.ctx.drawImage(imgAddress, 0, 0, 1024, 524); 
 		}
+
+	var music = "";		
+ function playMusic() {
+	music = document.getElementById("music");
+    music.loop = true;
+    music.volume = 0.08; // shhhh! annoying music!
+    music.play();
+  }
 		
 })(window, document);
