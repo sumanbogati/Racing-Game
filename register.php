@@ -4,61 +4,85 @@
 	
 		if(!empty($_POST['username'])){
 			$username = $_POST['username'];
+		}else{
+			$username = " ";
+			echo " username is missing <br >";
 		}
 		
 		if(!empty($_POST['password'])){
 			$password = $_POST['password'];
+		}else{
+			$password = " ";
+			echo " password is missing <br >";
 		}
 		
 		if(!empty($_POST['firstname'])){
 			$firstname = $_POST['firstname'];
+			
+		}else{
+			$firstname = " ";
+			echo " first name is missing <br >";
 		}
+		
+		
 		if(!empty($_POST['lastname'])){
 			$lastname = $_POST['lastname'];
+		}else{
+			$lastname = " ";
+			echo " lastname is missing <br >";
 		}
 		
 		if(!empty($_POST['gender'])){
 			$gender = $_POST['gender'];
+		}else{
+			$gender = " ";
+			echo " gender is missing <br >";
 		}
 		
 		if(!empty($_POST['email'])){
 			$email = $_POST['email'];
+		}else{
+			$email = " ";
+			echo " email is missing <br >";
 		}
 		
-		
-		if($dbc){
-			$query = "SELECT username, email FROM user_info";
-			mysqli_select_db($dbc, 'user_info');
-			$result = mysqli_query($dbc, $query);
-			
-			if($result){
-				while($row = mysqli_fetch_row($result)){
-					if($row[0]==$username){
-						echo "the ". $username ." is already exist please make another username";
-						return;
-					}else if($row[1]==$email){
-						echo "the ". $email ." is already exist please make another email address";
-						return;
+		if($username == " " || $firstname == " " || $lastname == " " || $email == " " || $gender == " "){
+			echo " <br >there is missing something in your form please fill the form completely <br >";
+			echo "<a href='register.php'>Register</a>";
+		}else{
+			if($dbc){
+				$query = "SELECT username, email FROM user_info";
+				mysqli_select_db($dbc, 'user_info');
+				$result = mysqli_query($dbc, $query);
+				
+				if($result){
+					while($row = mysqli_fetch_row($result)){
+						if($row[0]==$username){
+							echo "the ". $username ." is already exist please make another username <a href='register.php'>Register </a>";
+							return;
+						}else if($row[1]==$email){
+							echo "the ". $email ." is already exist please make another email address";
+							return;
+						}
 					}
 				}
-			}
-			
-			$query = 'INSERT INTO user_info (username, password, first_name, last_name, gender, email) 
-			VALUES("'.$username.'", "'. md5($password).'", "'.$firstname.'", "' .$lastname.'", "' .$gender.'", "'. $email.'");';
-			
-			/* echo $query;
-			exit; */
-			
-			mysqli_select_db($dbc, "user_info");
-			
-			$result = mysqli_query($dbc, $query);
-			if($result){
-				echo "thanks for submit your answer";
-			}else{
-				echo "there is some problem for submit the information"	;
+				
+				$query = 'INSERT INTO user_info (username, password, first_name, last_name, gender, email) 
+				VALUES("'.$username.'", "'. md5($password).'", "'.$firstname.'", "' .$lastname.'", "' .$gender.'", "'. $email.'");';
+				
+				/* echo $query;
+				exit; */
+				
+				mysqli_select_db($dbc, "user_info");
+				
+				$result = mysqli_query($dbc, $query);
+				if($result){
+					echo "thanks for submit your answer";
+				}else{
+					echo "there is some problem for submit the information"	;
+				}
 			}
 		}
-		
 	}else{
 ?>
 

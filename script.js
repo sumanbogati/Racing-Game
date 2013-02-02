@@ -34,6 +34,7 @@
 			this.timing = '';
 			this.sprites = null;
 			this.bgload = true;
+			this.gameStartTime = 0;
 			return this;
 		}
 		
@@ -118,27 +119,7 @@
 				
      			  PLAYER_UPHILL_RIGHT:    { x: 1385, y: 1018, w:   80, h:   45 },
 	
-					/* PLAYER_LEFT:            { x:  995, y:  480, w:   80, h:   41 },
-				  PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
-				  //PLAYER_STRAIGHT:        { x: 1205, y:  1018, w:   80, h:   46 },
-				  PLAYER_RIGHT:           { x:  995, y:  531, w:   80, h:   41 }, */
-				  
-				  //PLAYER_LEFT:            { x:  1205, y:  1018, w:   80, h:   41 },
-					//PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
-				  //PLAYER_STRAIGHT:        { x: 1205, y:  1018, w:   80, h:   41 },
-				  //PLAYER_RIGHT:           { x:  1205, y:  1018, w:   80, h:   41 }
-				  
-				  /*
-				   PLAYER_LEFT:            { x:  1123, y:  1015, w:   80, h:   70 },
-					//PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
-				  PLAYER_STRAIGHT:        { x: 1210, y:  1015, w:   80, h:   70 },
-				  PLAYER_RIGHT:           { x:  1023, y:  1015, w:   80, h:   70 } */
-				  
-				  
-				//  PLAYER_LEFT:            { x:  995, y:  480, w:   80, h:   41 },
-				 // PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
-				  //PLAYER_RIGHT:           { x:  995, y:  531, w:   80, h:   41 } 
-				  
+								  
 				};
 				
 				
@@ -440,7 +421,8 @@
 				},
 				
 				resetRoadForStraight : function (){
-					for(var n = 0 ; n < 1200 ; n++) {
+					// for(var n = 0 ; n < 1200 ; n++) {
+					for(var n = 0 ; n < 400 ; n++) {
 							this.segments.push({
 							   index: n,
 							   p1: { world: { z:  n   *this.segmentLength }, camera: {}, screen: {} },
@@ -547,9 +529,10 @@
 					  this.addStraight();
 					  this.addSCurves();
 					  this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.EASY);
-					  this.addStraight();
-					  this.addSCurves();
-					  this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.EASY);
+					  //TODO this should be enable
+					  //this.addStraight();
+					  //this.addSCurves();
+					  //this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.EASY);
 
 					  this.segments[this.findSegment(this.playerZ).index + 2].color = this.COLORS.START;
 					  this.segments[this.findSegment(this.playerZ).index + 3].color = this.COLORS.START;
@@ -1001,6 +984,9 @@
 										this.run = false;
 										music.pause();
 										runMusic=false;
+										var endGameTime = new Date().getTime();
+										debugger;
+										loadData(endGameTime-cthis.gameStartTime);	
 										resetGame(cthis, 'straight');
 								   }
 								}
@@ -1192,6 +1178,7 @@
 						}
 						
 						if(evt.keyCode == 38){
+							
 							cthis.car.keyFaster = true; 
 						}
 						
@@ -1210,6 +1197,7 @@
 							var carRun = cthis.car.run();
 							carRun.init({step:step}, cthis);
 							carRun.frame(cthis);
+							cthis.gameStartTime = new Date().getTime();
 							if(runMusic == false){
 								playMusic(); 
 								runMusic = true;
@@ -1308,7 +1296,7 @@
 	 
 	 function setUpCar (){
 		var myCarRace2 = new carRace("racingCan");
-		window.location.href = "index.html?car="+this.id;
+		window.location.href = "game.php?car="+this.id;
 	}
 		
 	function gup( name ){
@@ -1342,12 +1330,47 @@
 			cthis.ctx.drawImage(imgAddress, 0, 0, 1024, 524); 
 		}
 
-	var music = "";		
- function playMusic() {
+var music = "";		
+	function playMusic() {
 	music = document.getElementById("music");
-    music.loop = true;
-    music.volume = 0.08; // shhhh! annoying music!
-    music.play();
-  }
-		
+	music.loop = true;
+	music.volume = 0.08; // shhhh! annoying music!
+	music.play();
+}
+
+function loadData(totTime){
+	var xmlhttp;
+	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else {// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function(){
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			var resArr = JSON.parse(xmlhttp.responseText);
+			var bestTime = resArr['best_time'];
+			var seconds = bestTime/1000;
+			var minute = seconds/60;
+			var total_game = resArr['total_game'];
+			
+			var bstTimeMsg = "Your best time is " + formatTime(resArr['best_time']) + " in your total game " + total_game; 
+			document.getElementById("myDiv").innerHTML = bstTimeMsg;
+		}
+	}
+	
+	xmlhttp.open("GET","bestTime.php?currTime="+totTime,true);
+	xmlhttp.send();
+}
+
+function formatTime(dt) {
+      var minutes = Math.floor(dt/60);
+      var seconds = Math.floor(dt - (minutes * 60));
+      var tenths  = Math.floor(10 * (dt - Math.floor(dt)));
+      if (minutes > 0)
+        return minutes + "." + (seconds < 10 ? "0" : "") + seconds + "." + tenths;
+      else
+        return seconds + "." + tenths;
+    }
+
 })(window, document);

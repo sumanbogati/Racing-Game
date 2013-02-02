@@ -2,6 +2,7 @@
 	include_once('mysqli_connect.php');
 	if(isset($_POST['submit'])){
 		if(!empty($_POST['username'])){
+			
 			$username = $_POST['username'];
 		}
 		if(!empty($_POST['password'])){
@@ -9,7 +10,7 @@
 		}
 		
 		if($dbc){
-			$query = "SELECT username, password FROM user_info" ;
+			$query = "SELECT username, password, id FROM user_info" ;
 			mysqli_select_db($dbc, 'user_info');
 			
 			$result = mysqli_query($dbc, $query);
@@ -18,6 +19,7 @@
 				if($row[0]==$username && $row[1]==md5($password)){
 					session_start();
 					$_SESSION['user_name'] = $row[0];
+					$_SESSION['user_id'] = $row[2];
 					//echo "Wel come to Car Racing Game, there would be great fun";
 					//header("home.php");
 					 header( 'Location: home.php' );

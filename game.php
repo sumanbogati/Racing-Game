@@ -4,7 +4,6 @@
 		$username =  $_SESSION['user_name'];
 	}
 ?>
-
 <!DOCTYPE html> 
 <html> 
 <head>
@@ -12,16 +11,6 @@
 
 <link rel="stylesheet" href="styles.css" type="text/css">
 <script type="text/javascript" src="script.js"> </script>
-<style type="text/css" > 
-	#loginInfo{
-		float:right;
-		clear : both;
-	}
-	#racingGame{
-		padding-top:15px;
-		clear:both;
-	}
-</style>
 </head>
 
 <body  id="bdRcGame">
@@ -36,11 +25,31 @@
 		?>
 		
 	</div>
+
 	<div id="racingGame">
 		<canvas id="racingCan">
 			Your browser does not support Canvas Element. Please make the browser suitable for canvas to run this game.
 		</canvas>
 	</div>
+	
+	<div id="audioContainer">
+		<audio id="music" controls>
+  <source src="music/mymusic.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+	</div>
+	
+	<div id="carContainer">
+		<div>  <input type="button" id="bcar" class="cars" value="Blue Car"> </div>
+		<div>  <input type="button" id="rcar" class="cars" value="Red Car"> </div>
+	</div>
+	
+	<div class="clearBoth">
+	
+	</div>
+	<div id="myDiv">
+	</div>
+	
 </body>
 
 </html>

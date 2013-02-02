@@ -27,4 +27,9 @@
 		Category content should be here
 	</div>
 	
+	
+	<div id="myDiv">
+	</div>
+	</div>
+	
 </div>

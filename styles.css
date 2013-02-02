@@ -12,4 +12,8 @@
 #racingCan       { position: absolute; z-index: 0; width: 640px; height: 480px; z-index: 0;} 
 #audioContainer  {
 	display:none;
+
+}	
+.clearBosth{
+	clear:both;
 }
