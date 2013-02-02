@@ -23,6 +23,10 @@
 		<a href="game.php"	>Play Game</a>
 	</div>
 	
+	<div id="players">
+		<a href="players.php" > Users</a>
+	</div>
+	
 	<div id="category">
 		Category content should be here
 	</div>
