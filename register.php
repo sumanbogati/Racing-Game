@@ -77,7 +77,7 @@
 				
 				$result = mysqli_query($dbc, $query);
 				if($result){
-					echo "thanks for submit your answer";
+					echo "thanks for the register to our site <a href='game.php'>Play Game</a>";
 				}else{
 					echo "there is some problem for submit the information"	;
 				}

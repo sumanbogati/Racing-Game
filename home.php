@@ -24,13 +24,18 @@
 	</div>
 	
 	<div id="players">
-		<a href="players.php" > Users</a>
+		<a href="players.php" > Top Gamer</a>
+	</div>
+	
+	<div id="inbox">
+		<a href="inbox.php" > Inbox</a>
 	</div>
 	
 	<div id="category">
 		Category content should be here
 	</div>
 	
+		
 	
 	<div id="myDiv">
 	</div>
