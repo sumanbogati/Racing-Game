@@ -91,7 +91,7 @@
 		<?php
 		
 		}else{
-			echo "You can send message to yourself. Please send to others";
+			echo "You can not send message to yourself. Please send to others";
 		}
 }
 
