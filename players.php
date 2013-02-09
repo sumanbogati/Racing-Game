@@ -1,24 +1,26 @@
 <?php
-	include('mysqli_connect.php');
 	session_start();
-	$user_id = $_SESSION['user_id'];
+	include('mysqli_connect.php');
 	
-	echo '<a href="game.php" >Play Game</a>';
+	include('login_info.php');
+	include_once('menu.php');
+	$userid = $_SESSION['user_id'];
+	
 	
     //$query = "SELECT user_info.id, user_info.username, history.bestTime, history.totalGame  FROM history, user_info  WHERE history.id = user_info.id";
-	
-	$query = "SELECT user_info.id, user_info.username, history.bestTime, history.totalGame  FROM history, user_info  WHERE history.id = user_info.id ORDER BY history.bestTime";
-	
-	mysqli_select_db($dbc, 'racing_game');
-	$result = mysqli_query($dbc, $query);
-	
-	echo  '<div id="player">';
+	echo '<body id="topGamer">';
+	echo  '<div id="players">';
 	
 	$table	= "<table border='1'>";
 	$table  .= "<tr>
 					<th>Rank</th> <th>User Id</th> <th>User name</th> <th>Best Time</th> <th>Total Game</th> <th>Send Message</th>
 				</tr>";
-	$rank = 0;			
+	$rank = 0;
+	$query = "SELECT user_info.id, user_info.username, history.bestTime, history.totalGame  FROM history, user_info  WHERE history.id = user_info.id ORDER BY history.bestTime";
+	
+	mysqli_select_db($dbc, 'racing_game');
+	$result = mysqli_query($dbc, $query);
+	
 	while($row = mysqli_fetch_row($result)){
 		list($userid, $username, $best_time, $totalgame) = $row;
 	
@@ -35,4 +37,11 @@
 	echo $table;
 	echo "</div>" ;
 ?>
-
+<style type="text/css">
+	#players{
+		clear:both;
+	}
+</style>
+<?php
+	echo '</body>';
+?>

@@ -2,7 +2,6 @@
 	include_once('mysqli_connect.php');
 	if(isset($_POST['submit'])){
 		if(!empty($_POST['username'])){
-			
 			$username = $_POST['username'];
 		}
 		if(!empty($_POST['password'])){
@@ -20,10 +19,8 @@
 					session_start();
 					$_SESSION['user_name'] = $row[0];
 					$_SESSION['user_id'] = $row[2];
-					//echo "Wel come to Car Racing Game, there would be great fun";
-					//header("home.php");
-					 header( 'Location: home.php' );
-					//return;
+					header( 'Location: game.php' );
+					
 				}
 			}
 			echo "You are not registered user, Please re-try with ";
@@ -41,6 +38,10 @@
 			</form>
 				<p>If you are not registered user please click on here <a href="register.php">Register</a>
 				</p>
+				
+		<p>You can play as a guest <a href="game.php">Play</a>
+		</p>
+
 			</fieldset>
 		</div>
 	<?php

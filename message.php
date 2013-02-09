@@ -32,11 +32,11 @@
 </style>
 
 <?php
-
-	include_once('mysqli_connect.php');
-	mysqli_select_db($dbc, 'racing_game');
-	
 	session_start();
+	include_once('mysqli_connect.php');
+	include_once('login_info.php');
+	include_once('menu.php');
+	mysqli_select_db($dbc, 'racing_game');
 	$curr_user = $_SESSION['user_id'];
 	
 	if(!empty($_GET['msgid'])){

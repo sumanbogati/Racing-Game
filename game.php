@@ -1,8 +1,10 @@
 <?php
 	session_start();
-	if(isset($_SESSION['user_name'])){
+	/* if(isset($_SESSION['user_name'])){
 		$username =  $_SESSION['user_name'];
-	}
+		$userid =  $_SESSION['user_id'];
+	} */
+	
 ?>
 <!DOCTYPE html> 
 <html> 
@@ -11,21 +13,25 @@
 
 <link rel="stylesheet" href="styles.css" type="text/css">
 <script type="text/javascript" src="script.js"> </script>
+<style type="text/css">
+#game_container{
+	clear:both;
+}
+</style>
 </head>
 
 <body  id="bdRcGame">
-	<div id="loginInfo">
-		<?php
-			$signout = " <a href='signout.php'>Sign Out</a> ";
-			if(empty($username)){
-				$username = "Guest";
-				$signout = "<a href='index.php'>Login</a> ";
-			}
-			echo "Welcome " .$username . "!! $signout"
-		?>
-		
-	</div>
-
+	<?php 
+		if(isset($_SESSION['user_id'])){
+			include_once('login_info.php');
+			include_once('menu.php');
+		}else{
+			?>
+			<h3> You are playing as a guest  </h3>	<a href="index.php">Login</a>
+			<?php
+		}
+	 ?>
+	<div id="game_container">
 	<div id="racingGame">
 		<canvas id="racingCan">
 			Your browser does not support Canvas Element. Please make the browser suitable for canvas to run this game.
@@ -49,7 +55,7 @@ Your browser does not support the audio element.
 	</div>
 	<div id="myDiv">
 	</div>
-	
+	</div>
 </body>
 
 </html>
