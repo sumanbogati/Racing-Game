@@ -20,10 +20,16 @@
 				</tr>";
 	$rank = 0;			
 	while($row = mysqli_fetch_row($result)){
+		list($userid, $username, $best_time, $totalgame) = $row;
+	
 		$rank++;
 		$table .= "<tr>
-					<td>".$rank."</td><td>".$row[0]."</td> <td>".$row[1]."</td> <td>".$row[2]."</td> <td>".$row[3]."</td>
-					<td><a href='message.php?userid=".$row[0]."'>Send Message</td> 
+					<td>".$rank."</td>
+					<td>".$userid."</td> 
+					<td><a href='profile.php?user_id=".$userid."'>".$username."</a></td> 
+					<td>".$best_time."</td>
+					<td>".$totalgame."</td>
+					<td><a href='message.php?userid=".$userid."'>Send Message</td> 
 				</tr>";
 	}
 	echo $table;

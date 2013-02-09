@@ -20,6 +20,7 @@
 		var width         = 1024;                    // logical canvas width
 		var height        = 768; 
 		var prvEvt;  
+		var gameStart = 0;
 		//var road = "straight";
 		
 		var carRace = function (canvasId){
@@ -35,6 +36,7 @@
 			this.sprites = null;
 			this.bgload = true;
 			this.gameStartTime = 0;
+			this.gameStarted = false;
 			return this;
 		}
 		
@@ -116,8 +118,7 @@
 				  CAR01:                  { x: 1205, y: 1018, w:   80, h:   56 },
 				  PLAYER_UPHILL_LEFT:     { x: 1383, y:  961, w:   80, h:   45 },
 				  PLAYER_UPHILL_STRAIGHT: { x: 1295, y: 1018, w:   80, h:   45 },
-				
-     			  PLAYER_UPHILL_RIGHT:    { x: 1385, y: 1018, w:   80, h:   45 },
+	 			  PLAYER_UPHILL_RIGHT:    { x: 1385, y: 1018, w:   80, h:   45 },
 	
 								  
 				};
@@ -980,13 +981,18 @@
 									
 									//this can be disabled for right now
 								   }else{
-										alert("YOU HAVE FINISHED SECOND ROUND, After press ok you can start a new gane");
+										alert("YOU HAVE FINISHED SECOND ROUND, After press ok you can start a new gam3e");
 										this.run = false;
 										music.pause();
 										runMusic=false;
 										var endGameTime = new Date().getTime();
-										debugger;
-										loadData(endGameTime-cthis.gameStartTime);	
+										//console.log("endGameTime " + endGameTime);
+										//console.log("gameStartTime " + cthis.gameStartTime);
+										//console.log('totalTime ' + (endGameTime-cthis.gameStartTime));
+										var bestTime =  endGameTime-cthis.gameStartTime;
+										
+										loadData(bestTime);
+										this.gameStarted = false;	
 										resetGame(cthis, 'straight');
 								   }
 								}
@@ -1193,11 +1199,18 @@
 						//console.log.log(evt.keyCode);
 							
 						if(evt.keyCode == 38){
+							if(!cthis.gameStarted){
+								cthis.gameStartTime = new Date().getTime();
+								cthis.gameStarted = true;
+							}
+							
+							
 							var step = cthis.step;
 							var carRun = cthis.car.run();
 							carRun.init({step:step}, cthis);
 							carRun.frame(cthis);
-							cthis.gameStartTime = new Date().getTime();
+						
+							
 							if(runMusic == false){
 								playMusic(); 
 								runMusic = true;
@@ -1351,10 +1364,10 @@ function loadData(totTime){
 			var resArr = JSON.parse(xmlhttp.responseText);
 			var bestTime = resArr['best_time'];
 			var seconds = bestTime/1000;
-			var minute = seconds/60;
+			var minute = (seconds/60).toFixed(2);
 			var total_game = resArr['total_game'];
 			
-			var bstTimeMsg = "Your best time is " + formatTime(resArr['best_time']) + " in your total game " + total_game; 
+			var bstTimeMsg = "Your best time is " + minute + " minute in your total game " + total_game; 
 			document.getElementById("myDiv").innerHTML = bstTimeMsg;
 		}
 	}
