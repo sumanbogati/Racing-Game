@@ -1,4 +1,5 @@
 /***
+/***
 	This is simple racing game 
 	is created by Suman Bogati. 
 	The game inspired from https://github.com/jakesgordon/javascript-racer/
@@ -13,8 +14,6 @@
 		for(var i=0; i<cars.length; i++){
 			cars[i].onclick = setUpCar;
 		}
-		
-		
 	
 		var trackLength   = null; 
 		var width         = 1024;                    // logical canvas width
@@ -186,7 +185,7 @@
 					
 					imgElem.onload = function (){
 						// ctx.drawImage(imgElem, 0, 0, 1050, 500);
-						ctx.drawImage(imgElem, 0, 0, width, height);
+						ctx.drawImage(imgElem, 0, 0, 1050, 390);
 						imgaLoaded(cthis, this);
 					}
 					imgElem.src = this.value;
@@ -228,10 +227,10 @@
 								  SKY:  '#72D7EE',
 								  TREE: '#005108',
 								  FOG:  '#005108',
-								  LIGHT:  { road: '#6B6B6B', grass: '#5E7542', rumble: '#555555', lane: '#CCCCCC'  },
+								  LIGHT:  { road: '#234243', grass: '#1c3f74', rumble: '#182c14', lane: '#f8c21d'  },
 								  //DARK:   { road: '#696969', grass: '#009A00', rumble: '#BBBBBB'                   },
-								  DARK:   { road: '#696969', grass: '#366601', rumble: '#BBBBBB'                   },
-								  START:  { road: 'white',   grass: 'white',   rumble: 'white'                     },
+								  DARK:   { road: '#1b3b3c', grass: '#012f73', rumble: '#f8c21d'                   },
+								  START:  { road: '#edfafb',   grass: '#edfafb',   rumble: '#edfafb'                     },
 								  FINISH: { road: 'black',   grass: 'black',   rumble: 'black'                     }
 								};
 						
@@ -908,7 +907,7 @@
 							  var speedPercent  = carObj.speed/carObj.maxSpeed;
 							
 							  //cthis.bg.skyOffset = (cthis.bg.skyOffset || 0); //this line should be removed from here
-							  cthis.bg.skyOffset  = carObj.mechanism().increase(cthis.bg.skyOffset,  cthis.bg.skySpeed  * playerSegment.curve * speedPercent, 1);
+							//  cthis.bg.skyOffset  = carObj.mechanism().increase(cthis.bg.skyOffset,  cthis.bg.skySpeed  * playerSegment.curve * speedPercent, 1);
 							  
 
 							  //var dx = dt * 2 * carObj.speedPercent; // at top carObj.speed, should be able to cross from left to right (-1 to 1) in 1 second
@@ -1279,7 +1278,7 @@
 			
 			cthis.ctx.clearRect(0, 0, 1024, 768);
 			imgAddress = cthis.bg.img;
-			cthis.ctx.drawImage(imgAddress, 0, 0, 1024, 524);
+			cthis.ctx.drawImage(imgAddress, 0, 0, 1050, 390);
 							
 			cthis.rd.load(cthis.ctx);
 			//cthis.bgload=true;
@@ -1340,7 +1339,7 @@
 		function dispBgImg(cthis, width, height, layer, rotation, offset){
 		 	cthis.ctx.clearRect(0, 0, width, height);
 			imgAddress = cthis.bg.img;
-			cthis.ctx.drawImage(imgAddress, 0, 0, 1024, 524); 
+			cthis.ctx.drawImage(imgAddress, 0, 0, 1050, 390); 
 		}
 
 var music = "";		
