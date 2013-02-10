@@ -126,7 +126,7 @@
 				if(this.car.type == 'bcar'){
 				  this.SPRITES = {
 						  PLAYER_LEFT:            { x:  1123, y:  1015, w:   80, h:   70 },
-					      PLAYER_STRAIGHT:        { x: 1210, y:  1015, w:   80, h:   70 },
+					      PLAYER_STRAIGHT:        { x: 1200, y:  1030, w:   88, h:   60 },
 				          PLAYER_RIGHT:           { x:  1023, y:  1015, w:   80, h:   70 }
 					}
 				}else if(this.car.type == 'rcar'){
