@@ -48,6 +48,7 @@ Your browser does not support the audio element.
 	<div id="carContainer">
 		<div>  <input type="button" id="bcar" class="cars" value="Blue Car"> </div>
 		<div>  <input type="button" id="rcar" class="cars" value="Red Car"> </div>
+		<div>  <input type="button" id="scar" class="cars" value="Silver Car"> </div>
 	</div>
 	
 	<div class="clearBoth">

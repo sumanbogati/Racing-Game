@@ -125,9 +125,9 @@
 				
 				if(this.car.type == 'bcar'){
 				  this.SPRITES = {
-						  PLAYER_LEFT:            { x:  1123, y:  1015, w:   80, h:   70 },
-					      PLAYER_STRAIGHT:        { x: 1200, y:  1030, w:   88, h:   60 },
-				          PLAYER_RIGHT:           { x:  1023, y:  1015, w:   80, h:   70 }
+						  PLAYER_LEFT:            { x:  1110, y:  1015, w:   88, h:   70 },
+					      PLAYER_STRAIGHT:        { x: 1200, y:  1015, w:   88, h:   70 },
+				          PLAYER_RIGHT:           { x:  1003, y:  1015, w:   90, h:   70 }
 					}
 				}else if(this.car.type == 'rcar'){
 					  this.SPRITES = {
@@ -135,6 +135,12 @@
 						  PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
 						  PLAYER_RIGHT:           { x:  995, y:  531, w:   80, h:   41 } 
 					  }
+				}else if(this.car.type == 'scar'){
+					this.SPRITES = {
+						    PLAYER_LEFT:            { x:  1110, y:  1078, w:   88, h:   70 },
+					      PLAYER_STRAIGHT:        { x: 1200, y:  1078, w:   95, h:   72 },
+				          PLAYER_RIGHT:           { x:  1003, y:  1078, w:   90, h:   70 } 
+				  }	
 				}
 				
 				this.SPRITES.SCALE = 0.3 * (1/this.SPRITES.PLAYER_STRAIGHT.w); // the reference sprite width should be 1/3rd the (half-)roadWidth
