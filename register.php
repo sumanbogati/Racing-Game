@@ -75,8 +75,17 @@
 				
 				mysqli_select_db($dbc, "user_info");
 				
+				
 				$result = mysqli_query($dbc, $query);
+				 $user_id = mysqli_insert_id($dbc);
+				 
 				if($result){
+					$query = 'INSERT INTO history (id, bestTime, totalGame) 
+				VALUES('.$user_id.', 0,0);';
+					
+					mysqli_select_db($dbc, "history");
+					mysqli_query($dbc, $query);
+					
 					echo "thanks for the register to our site <a href='game.php'>Play Game</a>";
 				}else{
 					echo "there is some problem for submit the information"	;

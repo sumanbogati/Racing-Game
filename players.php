@@ -16,9 +16,10 @@
 					<th>Rank</th> <th>User Id</th> <th>User name</th> <th>Best Time</th> <th>Total Game</th> <th>Send Message</th>
 				</tr>";
 	$rank = 0;
-	$query = "SELECT user_info.id, user_info.username, history.bestTime, history.totalGame  FROM history, user_info  WHERE history.id = user_info.id ORDER BY history.bestTime";
+	$min_game = 0;
+	$query = "SELECT user_info.id, user_info.username, history.bestTime, history.totalGame  FROM history, user_info  WHERE history.id = user_info.id  AND history.totalGame > ".$min_game . " ORDER BY history.bestTime";
 	
-	mysqli_select_db($dbc, 'racing_game');
+	mysqli_select_db($dbc, $dbname);
 	$result = mysqli_query($dbc, $query);
 	
 	while($row = mysqli_fetch_row($result)){

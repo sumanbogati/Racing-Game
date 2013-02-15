@@ -13,13 +13,23 @@
 		$query = "SELECT user_info.username, user_info.first_name, user_info.last_name, user_info.gender, 
 		user_info.email, history.bestTime, history.totalGame FROM user_info,history WHERE user_info.id=".$userid." AND
 		 history.id = ".$userid ;
-		mysqli_select_db($dbc, 'racing_game');
+		mysqli_select_db($dbc, $dbname);
 		$result = mysqli_query($dbc, $query);
 		while($rows = mysqli_fetch_row($result)){
 			list($username, $firstname, $lastname, $gender, $email, $best_time, $totalgame) = $rows;
 		}
-		$best_time = ($best_time/1000)/60;
-		$best_time = round($best_time, 2);
+		if(!empty($best_time)){
+			$best_time = ($best_time/1000)/60;
+			$best_time = round($best_time, 2);
+		}else{
+			$best_time = "";
+		}
+		if(empty($totalgame)){
+			$totalgame = 0;
+		}
+		
+		
+		
 	}
 ?>
 <body id="profile">
