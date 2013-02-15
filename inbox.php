@@ -4,8 +4,9 @@
 	include_once('login_info.php');
 	include_once('menu.php');
 	
+	
 	$userid = $_SESSION['user_id'];
- 	mysqli_select_db($dbc, 'racing_game');
+ 	mysqli_select_db($dbc, $dbname);
 	
 	if(isset($_GET['delMessage'])){
 		$message_ids = $_GET['delMessage'];

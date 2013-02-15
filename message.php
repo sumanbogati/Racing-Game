@@ -36,7 +36,7 @@
 	include_once('mysqli_connect.php');
 	include_once('login_info.php');
 	include_once('menu.php');
-	mysqli_select_db($dbc, 'racing_game');
+	mysqli_select_db($dbc, $dbname);
 	$curr_user = $_SESSION['user_id'];
 	
 	if(!empty($_GET['msgid'])){

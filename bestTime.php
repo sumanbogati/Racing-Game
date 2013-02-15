@@ -33,10 +33,14 @@
 	}else{
 		$best_time = $curr_time;
 		$total_game = 1;
-		$query = "INSERT into history (id, bestTime, totalGame) VALUES('".$user_id ."', '".$best_time."', 
-		'".$total_game."')";
+		//todo 
+		//$query = "INSERT into history (id, bestTime, totalGame) VALUES('".$user_id ."', '".$best_time."', '".$total_game."')";
+		
+		$query = "UPDATE history SET bestTime = ". $best_time .", totalGame = " .$total_game ." WHERE id=".$user_id;
+		
 		//echo $best_time;
 		 $result['best_time'] = $best_time;
+		 $result['total_game'] = $total_game;
 		 echo json_encode($result);
 	}
 	
