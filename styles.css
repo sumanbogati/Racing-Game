@@ -1,19 +1,81 @@
-
-
-
 #racingCan	{
 	border : 3px solid #ddd;
 	width:500px;
 	height: 630px;
 	border:3px solid #909090;
-	margin-left: 250px;
+	margin-left:5%;
 }
 
-#racingCan       { position: absolute; z-index: 0; width: 640px; height: 480px; z-index: 0;} 
+#racingCan       { float:left; z-index: 0; width: 640px; height: 480px; z-index: 0;} 
 #audioContainer  {
 	display:none;
 
 }	
 .clearBosth{
+	
+}
+
+#carContainer .cars{
+	width:300px;
+}
+
+#scar.cars{
+	background : url('sprites/sprites.png') no-repeat -1198px -1077px;
+	/*background-image:url('sprites/sprites.png');
+	background-repeat:no-repeat;
+	background-position:-1198px -1077px;
+	*/
+	width :100px;
+	height : 70px;
+	margin-top:-15px;
+	
+}
+
+#bcar.cars{
+	background : url('sprites/sprites.png') no-repeat -1195px -1010px;
+	/*background-image:url('sprites/sprites.png');
+	background-repeat:no-repeat;
+	background-position:-1198px -1077px;
+	*/
+	width :100px;
+	height : 70px;
+	
+}
+
+#rcar.cars{
+	background : url('sprites/sprites.png') no-repeat -1077px -471px;
+	
+	/*background-image:url('sprites/sprites.png');
+	background-repeat:no-repeat;
+	background-position:-1198px -1077px;
+	*/
+	width :100px;
+	height : 70px;
+}
+
+#carContainer{
+	float:left;
+	margin-top:40px;
+}
+
+#carContainer .cars{
 	clear:both;
+	margin-left:40px;
+	border:15px solid #ddd;
+	margin-top:5px;
+}
+
+.cars:hover{
+	cursor:pointer;
+}
+
+ #bestTime{
+	/*
+	float:left;
+	margin-left:40px;	
+	border:2px solid #ddd;
+	width:120px;
+	height:70px;
+	padding:5px;
+	
 }

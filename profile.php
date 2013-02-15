@@ -19,6 +19,7 @@
 			list($username, $firstname, $lastname, $gender, $email, $best_time, $totalgame) = $rows;
 		}
 		$best_time = ($best_time/1000)/60;
+		$best_time = round($best_time, 2);
 	}
 ?>
 <body id="profile">

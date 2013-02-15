@@ -23,7 +23,8 @@
 	
 	while($row = mysqli_fetch_row($result)){
 		list($userid, $username, $best_time, $totalgame) = $row;
-	
+		$best_time = ($best_time/1000)/60;
+		$best_time = round($best_time, 2);
 		$rank++;
 		$table .= "<tr>
 					<td>".$rank."</td>

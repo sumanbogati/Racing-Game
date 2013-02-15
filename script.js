@@ -131,14 +131,14 @@
 					}
 				}else if(this.car.type == 'rcar'){
 					  this.SPRITES = {
-						  PLAYER_LEFT:            { x:  995, y:  480, w:   80, h:   41 },
-						  PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
-						  PLAYER_RIGHT:           { x:  995, y:  531, w:   80, h:   41 } 
+						  PLAYER_LEFT:            { x:  995, y:  480, w:   80, h:   48 },
+						  PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   48 },
+						  PLAYER_RIGHT:           { x:  995, y:  531, w:   80, h:   48 } 
 					  }
 				}else if(this.car.type == 'scar'){
 					this.SPRITES = {
 						    PLAYER_LEFT:            { x:  1110, y:  1078, w:   88, h:   70 },
-					      PLAYER_STRAIGHT:        { x: 1200, y:  1078, w:   95, h:   72 },
+					      PLAYER_STRAIGHT:        { x: 1200, y:  1078, w:   90, h:   72 },
 				          PLAYER_RIGHT:           { x:  1003, y:  1078, w:   90, h:   70 } 
 				  }	
 				}
@@ -204,7 +204,6 @@
 			LENGTH: { NONE: 0, SHORT:  25, MEDIUM:  50, LONG:  100 },
 			CURVE:  { NONE: 0, EASY:    2, MEDIUM:   4, HARD:    6 }
 		};
-		 
 		 
 		 //class Road
 		 var Road = function (cthis){
@@ -1373,7 +1372,16 @@ function loadData(totTime){
 			var total_game = resArr['total_game'];
 			
 			var bstTimeMsg = "Your best time is " + minute + " minute in your total game " + total_game; 
-			document.getElementById("myDiv").innerHTML = bstTimeMsg;
+			var bestTimeNode = document.getElementById("bestTime");
+				bestTimeNode.style.cssFloat = "left";
+				bestTimeNode.style.marginLeft = "40px";
+				bestTimeNode.style.width = "120px";
+				bestTimeNode.style.height = "70px";
+				bestTimeNode.style.padding = "5px";
+				bestTimeNode.style.borderWidth = "2px";
+				bestTimeNode.style.borderStyle = "solid";
+				bestTimeNode.style.borderColor = "#1e84e2";
+				bestTimeNode.innerHTML = bstTimeMsg;
 		}
 	}
 	

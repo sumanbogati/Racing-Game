@@ -44,17 +44,19 @@
 Your browser does not support the audio element.
 </audio>
 	</div>
-	
+		<div id="bestTime">
+		</div>
 	<div id="carContainer">
-		<div>  <input type="button" id="bcar" class="cars" value="Blue Car"> </div>
-		<div>  <input type="button" id="rcar" class="cars" value="Red Car"> </div>
-		<div>  <input type="button" id="scar" class="cars" value="Silver Car"> </div>
-	</div>
+		
+		
+		<div id="rcar" class="cars">   </div>
+		<div id="scar" class="cars">  </div>
+		<div id="bcar" class="cars">   </div>
+		
+		<div class="clearBoth">
 	
-	<div class="clearBoth">
-	
-	</div>
-	<div id="myDiv">
+		</div>
+		
 	</div>
 	</div>
 </body>
