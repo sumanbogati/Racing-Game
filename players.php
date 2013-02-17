@@ -1,7 +1,8 @@
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
 <?php
 	session_start();
 	include('mysqli_connect.php');
-	
 	include('login_info.php');
 	include_once('menu.php');
 	$userid = $_SESSION['user_id'];
@@ -39,11 +40,7 @@
 	echo $table;
 	echo "</div>" ;
 ?>
-<style type="text/css">
-	#players{
-		clear:both;
-	}
-</style>
+
 <?php
 	echo '</body>';
 ?>

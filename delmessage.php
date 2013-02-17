@@ -14,7 +14,6 @@ if(!empty($_GET['delMessage'])){
 	$ids = rtrim($ids, ",");
 	
 	$query = "DELETE message from message WHERE id IN (".$ids.")";
-	
 	echo $query;
 	$result = mysqli_query($dbc, $query);
 	if($result){

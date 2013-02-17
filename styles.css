@@ -1,23 +1,32 @@
+body {
+	font-family: sans-serif, helvetica;
+	font-size: 14px;
+
+}
+
+body a{
+	font-family: Century Gothic;
+	font-size: 14px;
+}
+
+
 #racingCan	{
 	border : 3px solid #ddd;
 	width:500px;
 	height: 630px;
 	border:3px solid #909090;
-	margin-left:5%;
+	margin-left:50px;
 }
 
 #racingCan       { float:left; z-index: 0; width: 640px; height: 480px; z-index: 0;} 
 #audioContainer  {
 	display:none;
-
 }	
-.clearBosth{
-	
-}
 
 #carContainer .cars{
 	width:300px;
 }
+
 
 #scar.cars{
 	background : url('sprites/sprites.png') no-repeat -1198px -1077px;
@@ -53,6 +62,11 @@
 	height : 70px;
 }
 
+
+
+#game_container{
+	clear:both;
+}
 #carContainer{
 	float:left;
 	margin-top:40px;
@@ -69,13 +83,299 @@
 	cursor:pointer;
 }
 
- #bestTime{
-	/*
+/*** INBOX PART START****/
+.header, .msgContent{
 	float:left;
-	margin-left:40px;	
-	border:2px solid #ddd;
-	width:120px;
-	height:70px;
-	padding:5px;
+	border :1px solid #ddd;
+	width:170px;
+	text-align:center;
 	
 }
+
+.msgContent{
+	height:15px;
+	padding:5px;
+}
+
+#inboxContainer{
+	/*margin-left:50px;*/
+	margin-top:10px;
+}
+
+
+
+#headerCont .header{
+	font-size:18px;
+	height:20px;	
+	padding:5px;
+	padding-top:8px;
+}
+#headerCont, #msgBody{
+	clear:both;
+}
+#subject, #subjectCont{
+	width:250px;
+}
+
+
+
+#messageCont{
+	display:none;
+}
+.msgContainer{
+	clear : both;
+}
+/*** INBOX PART END****/
+
+
+/*** menu par start ***/
+#menubar ul li{
+	float:left;
+	list-style-type:none;
+	padding:15px;
+}
+
+#menubar ul li a:hover{
+	color:red;
+}
+
+.clear{
+	clear:both;
+}
+
+/*** menu par end ***/
+
+
+/*** message ***/
+
+#msgFormCont input.usrInput{
+	width:300px;
+	margin:8px;
+	padding:4px;
+	color:#111;
+}
+
+#msgFormCont label{
+	margin-right:auto;
+	color:green;
+}
+
+#msgFormCont{
+	border:3px solid gray;
+	width:75%;
+	padding:20px;
+}
+#msgFormCont textarea{
+	color:#111;
+}
+#newMessage{
+	margin:0 auto;
+	text-align:center;
+}
+
+#msgFormCont h4{
+	text-align:center;
+	margin-bottom:15px;
+	color:#111;
+}
+/
+/*** message end ****/
+
+/***top gamer ***/
+	#players{
+		clear:both;
+	}
+/***top gamer end **/
+
+
+/***login form****/
+
+#loginForm{
+	width:55%;
+	border:2px solid #ddd;
+	padding:25px;
+	margin: 0 auto;
+	margin-top:5%;
+	line-height:200%;
+	
+}
+
+#loginForm #loginFormInfo{
+	margin-left:25%;
+}
+
+#loginForm h3{
+	margin-left : 35%;
+	margin-bottom: 25px;
+}
+
+#loginForm legend{
+	margin-left:30%;
+	margin-bottom:15px;
+}
+
+#loginForm #register, #loginForm #submit{
+	margin-top:10px;
+	margin-bottom:20px;
+}
+ #loginForm #submit{
+	margin-left:30%;
+}
+
+#loginForm p{
+	margin-left:-1%;
+	line-height:100%;
+}
+/*** login form end ***/
+
+
+#loginInfo {
+	float:right;
+	margin-right:15%;
+}
+
+
+
+/*inbox start here */
+
+#delMessage{
+	clear:both;
+}
+/*inbox end here ***/
+
+
+/**top players***/
+#PLAYERS, #fullProfile, #inboxInfo, #msgFormCont {
+	margin-left :50px;
+	margin-top :10px;
+}
+#PLAYERS td, #PLAYERS th{
+	padding:7px;
+}
+
+#PLAYERS th{
+	padding-left:10px;
+	padding-right:10px;
+}
+/***top players end***/
+
+/**proflie start **/
+
+#fullProfile{
+	line-height:200%;
+	border:2px solid #ddd;
+	width: 45%;
+}
+
+/**proflie end **/
+
+#fullProfileInfo {
+	margin-left:25%;
+	padding:15px;
+	font-style:italic;
+}
+
+#fullProfileInfo h3{
+	margin-left:25px;
+	font-size:25px;
+}
+
+#fullProfileInfo label{
+	font-weight:bold;
+	font-style:normal;
+	margin-right:10px;
+}
+
+
+#fullMessageCont{
+	width:45%;
+	border:2px solid #ddd;
+	padding:15px;
+}
+
+.msgContainer{
+	margin-left:15px;
+}
+
+
+.msgContainer #subjectCont{
+	font-weight:bold;	
+}
+
+.msgContainer #sender{
+	font-size:20px;
+	font-style:italic;
+}
+.msgContainer #fullMessage{
+	letter-spacing:.2em;
+}
+
+.msgContainer{
+	line-height:200%;
+}
+
+#fullmessagecont .msgContainer{
+	margin-left:45px;
+}
+
+#message #fullMessageCont{
+	border:none;
+}
+
+#inboxContainer .msgcontainer{
+	margin-left:0;
+}
+
+#inboxContainer .msgcontent{
+	padding-bottom:10px;
+}
+
+#installPage{
+	margin-top: 5%;
+	border:2px solid #ddd;
+	width:50%;
+	padding:15px;
+	line-height:225%;
+	text-align:left;
+	margin-left:25%;
+	padding-bottom:40px;
+}
+
+
+
+#installPage h3{
+	text-align:center;
+}
+
+#installPage label, #loginform label{
+	float:left;
+	text-align:right;
+	width:189px;
+	display:block;
+	margin-right:20px;
+	
+}
+
+#installPage input, #loginform input{
+	float:left;
+	display:block;
+}
+
+
+#installPage #installSub, #loginform #loginSub{
+	margin-left:250px;
+	margin-top:15px;
+}
+
+#loginform p{
+	
+}
+
+.contGen {
+	float:left; 
+	
+}
+
+
+
+

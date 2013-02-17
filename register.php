@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/javascript" href="styles.css" />
 <?php
 	include_once("mysqli_connect.php");
 	if(ISSET($_POST['submit'])){
@@ -85,8 +86,11 @@
 					
 					mysqli_select_db($dbc, "history");
 					mysqli_query($dbc, $query);
+					session_start();
+					//$_SESSION['user_name'] = $row[0];
+					$_SESSION['user_id'] = $user_id;
 					
-					echo "thanks for the register to our site <a href='game.php'>Play Game</a>";
+					echo "thanks for the register to our site <a href='game.php?user_id".$user_id."'>Play Game</a>";
 				}else{
 					echo "there is some problem for submit the information"	;
 				}
@@ -100,20 +104,21 @@
 		<fieldset>
 		<legend>Register Form</legend>
 		<form name="userInfo" method="POST">
-		Username : <input type="text"	name="username" /> <br />
-		Password : <input type="password"	name="password" /> <br />
-		First name : <input type="text" name="firstname" /><br />
-		Last name : <input type="text" name="lastname" /><br />
-		Email : <input type="text" name="email" /> <br />
-		Gender : <input type="radio" name="gender" value="male" /> Male 
-			  <input type="radio" name="gender" value="male" /> Female <br />
-<input type="submit" value="submit" name="submit" />
+		<label>Username </label> <input type="text"	name="username" /> <br />
+		<label>Password </label> <input type="password"	name="password" /> <br />
+		<label>First name </label> <input type="text" name="firstname" /><br />
+		<label>Last name </label> <input type="text" name="lastname" /><br />
+		<label>Email </label> <input type="text" name="email" /> <br />
+		<label>Gender </label><div class="contGen"> <input type="radio" name="gender" value="male" id="male"/> <span>Male</span> </div>
+			  <div class="contGen"><input type="radio" name="gender" value="female" id="female"/> <span>Female</span> </div>
+<input type="submit" value="submit" name="submit" id="loginSub" />
 			  
 		</form>	  
 		</fieldset>
-	</div>
-			<p>If you are already registered  <a href="login_form.php">Login</a>
+		<p>If you are already registered  <a href="login_form.php">Login</a>
 		</p>
+	</div>
+			
 
 </div>
 <?php

@@ -6,22 +6,6 @@
 	}
 ?>
 
-<style type="text/css">
-	#menubar ul li{
-		float:left;
-		list-style-type:none;
-		padding:15px;
-	}
-	
-	#menubar ul li a:hover{
-		color:red;
-	}
-	
-	.clear{
-		clear:both;
-	}
-</style>
-
 <div id="menubar">
 	<ul>
 		<li> <a href="game.php">Play Game</a></li>

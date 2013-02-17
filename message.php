@@ -1,35 +1,4 @@
-<style type="text/css">
-	#msgFormCont input.usrInput{
-		width:300px;
-		margin:8px;
-		padding:4px;
-		color:#111;
-	}
-	
-	#msgFormCont label{
-		margin-right:auto;
-		color:green;
-	}
-	
-	#msgFormCont{
-		border:3px solid gray;
-		width:75%;
-		padding:20px;
-	}
-	#msgFormCont textarea{
-		color:#111;
-	}
-	#newMessage{
-		margin:0 auto;
-		text-align:center;
-	}
-	
-	#msgFormCont h4{
-		text-align:center;
-		margin-bottom:15px;
-		color:#111;
-	}
-</style>
+<link rel="stylesheet"  href="styles.css" type="text/css" />
 
 <?php
 	session_start();
@@ -39,6 +8,7 @@
 	mysqli_select_db($dbc, $dbname);
 	$curr_user = $_SESSION['user_id'];
 	
+	echo "<body id='message'>";
 	if(!empty($_GET['msgid'])){
 		$query = "SELECT  subject, fullmessage, createddate FROM message WHERE id =". $_GET['msgid'];
 		$result = mysqli_query($dbc, $query);
@@ -47,7 +17,10 @@
 				$subject = $row[0];
 				$fullmsg = $row[1];
 			}
-			echo "<div id='subject'>" .$subject." </div>";
+			
+			echo "<div id='fullmessagecont'>"; 
+			echo "<div class='msgContainer'>"; 
+			echo "<div id='subjectCont'>" .$subject." </div>";
 			echo "<div id='fullMessage'>" .$fullmsg." </div>";
 		}
 		
@@ -66,7 +39,10 @@
 				$receiver_name = $row[0];
 			}
 			if(!empty($_GET['msgid'])){
-				echo $receiver_name . ' to me';	
+			
+				echo "<div id='sender'>". $receiver_name . " to me</div>";	
+				echo "</div>";
+				echo "</div>";
 			}
 			
 		?>
@@ -130,4 +106,6 @@ if(isset($_POST['msgSubmit'])){
 	}
 	
 }
+
+echo "</div>";
 ?>

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
 <?php
 	session_start();
 	if(isset($_SESSION['user_name'])){
@@ -35,12 +37,14 @@
 <body id="profile">
 
 <div id="fullProfile">
+	<div id="fullProfileInfo">
 	<h3><?php echo $firstname . ' '. $lastname;?></h3>
 		<div id="username"><label>User name : </label><?php echo $username; ?></div>
 		<div id="email"><label>Email :  </label><?php echo $email; ?></div>
 		<div id="gender"><label>Gender : </label><?php echo $gender; ?></div>
 		<div id="totalgame"><label>Total  game : </label><?php echo $totalgame; ?></div>
-		<div id="bestTime"><label>Best time :</label><?php echo $best_time; ?></div>
+		<div id="bestTime"><label> Best time :</label><?php echo $best_time; ?></div>
 		<a href="message.php?userid=<?php echo $userid ; ?>">Send message</a>
+	</div>	
 </div>
 </body>

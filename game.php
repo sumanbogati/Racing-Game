@@ -10,14 +10,8 @@
 <html> 
 <head>
 <title>Racing Game</title>
-
 <link rel="stylesheet" href="styles.css" type="text/css">
 <script type="text/javascript" src="script.js"> </script>
-<style type="text/css">
-#game_container{
-	clear:both;
-}
-</style>
 </head>
 
 <body  id="bdRcGame">

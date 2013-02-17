@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/javascript" href="styles.css" />
 <?php
 	if(file_exists('config.php')){
 		echo "you have already installed the game ";
@@ -99,14 +100,17 @@
 			}
 		}else{
 			?>
-			<div id="installPage">	
-			<form action="install.php"  method="POST">
-			<label>Server Name</label><input type="text" name="usrserver"  size="20"/><br />
-			<label>Database Name</label><input type="text" name="dbname"  size="20"/><br />
-			<label>Database user</label><input type="text" name="dbuser"  size="20"/><br />
-			<label>Database Password</label><input type="password" name="password"  size="20"/><br />
-			<input type="submit" value="Submit" name="submit" />
-			</form>
+			<div id="installPageCont">
+				<div id="installPage">	
+				<h3>Please put the relative Information</h3>
+				<form action="install.php"  method="POST">
+				<label>Server Name</label><input type="text" name="usrserver"  size="20"/><br />
+				<label>Database Name</label><input type="text" name="dbname"  size="20"/><br />
+				<label>Database user</label><input type="text" name="dbuser"  size="20"/><br />
+				<label>Database Password</label><input type="password" name="password"   size="20"/><br />
+				<input type="submit" value="Submit" id="installSub" name="submit" />
+				</form>
+			</div>
 			</div>
 	<?php }
 }
