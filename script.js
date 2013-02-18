@@ -79,47 +79,10 @@
 				this.car.init(ctype);
 				this.load();
 				
-				//this is to be splitted in relative calss
-				/*this.SPRITES = {
-				  CAR01:                  { x: 1205, y: 1018, w:   80, h:   56 },
-				  PLAYER_STRAIGHT:        { x: 1085, y:  480, w:   80, h:   41 },
-				};*/
-				
-				
 				this.SPRITES = {
-				  PALM_TREE:              { x:    5, y:    5, w:  215, h:  540 },
-				  BILLBOARD08:            { x:  230, y:    5, w:  385, h:  265 },
-				  TREE1:                  { x:  625, y:    5, w:  360, h:  360 },
-				  DEAD_TREE1:             { x:    5, y:  555, w:  135, h:  332 },
-				  BILLBOARD09:            { x:  150, y:  555, w:  328, h:  282 },
-				  BOULDER3:               { x:  230, y:  280, w:  320, h:  220 },
-				  COLUMN:                 { x:  995, y:    5, w:  200, h:  315 },
-				  BILLBOARD01:            { x:  625, y:  375, w:  300, h:  170 },
-				  BILLBOARD06:            { x:  488, y:  555, w:  298, h:  190 },
-				  BILLBOARD05:            { x:    5, y:  897, w:  298, h:  190 },
-				  BILLBOARD07:            { x:  313, y:  897, w:  298, h:  190 },
-				  BOULDER2:               { x:  621, y:  897, w:  298, h:  140 },
-				  TREE2:                  { x: 1205, y:    5, w:  282, h:  295 },
-				  BILLBOARD04:            { x: 1205, y:  310, w:  268, h:  170 },
-				  DEAD_TREE2:             { x: 1205, y:  490, w:  150, h:  260 },
-				  BOULDER1:               { x: 1205, y:  760, w:  168, h:  248 },
-				  BUSH1:                  { x:    5, y: 1097, w:  240, h:  155 },
-				  CACTUS:                 { x:  929, y:  897, w:  235, h:  118 },
-				  BUSH2:                  { x:  255, y: 1097, w:  232, h:  152 },
-				  BILLBOARD03:            { x:    5, y: 1262, w:  230, h:  220 },
-				  BILLBOARD02:            { x:  245, y: 1262, w:  215, h:  220 },
-				  STUMP:                  { x:  995, y:  330, w:  195, h:  140 },
-				  SEMI:                   { x: 1365, y:  490, w:  122, h:  144 },
-				  TRUCK:                  { x: 1365, y:  644, w:  100, h:   78 },
-				  CAR03:                  { x: 1383, y:  760, w:   88, h:   55 },
-				  CAR02:                  { x: 1383, y:  825, w:   80, h:   59 },
-				  CAR04:                  { x: 1383, y:  894, w:   80, h:   57 },
-				  CAR01:                  { x: 1205, y: 1018, w:   80, h:   56 },
 				  PLAYER_UPHILL_LEFT:     { x: 1383, y:  961, w:   80, h:   45 },
 				  PLAYER_UPHILL_STRAIGHT: { x: 1295, y: 1018, w:   80, h:   45 },
 	 			  PLAYER_UPHILL_RIGHT:    { x: 1385, y: 1018, w:   80, h:   45 },
-	
-								  
 				};
 				
 				
@@ -246,42 +209,6 @@
 					}, 
 				
 				//this function is called render into inspired game
-				load_old : function (ctx){
-					var baseSegment = this.findSegment(this.position);
-					var maxy  = height;
-
-					var n, segment;
-					for(n = 0 ; n <this.drawDistance; n++) {
-						segment        = this.segments[(baseSegment.index + n) % this.segments.length];
-						segment.looped = segment.index < baseSegment.index;
-						//segment.fog    = Util.exponentialFog(n/drawDistance, fogDensity);
-
-						this.structure().project(segment.p1, (this.playerX * this.roadWidth), this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, cthis.canvas.width, cthis.canvas.height, this.roadWidth);
-						
-						this.structure().project(segment.p2, (this.playerX * this.roadWidth), this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, cthis.canvas.width, cthis.canvas.height, this.roadWidth);
-
-						if ((segment.p1.camera.z <= this.cameraDepth) || // behind us
-						(segment.p2.screen.y >= maxy))          // clip by (already rendered) segment
-						continue;
-						
-						//alert(segment.color);
-						
-						this.dispSegment(ctx, cthis.canvas.width, this.lanes,
-						segment.p1.screen.x,
-						segment.p1.screen.y,
-						segment.p1.screen.w,
-						segment.p2.screen.x, //this is 0
-						segment.p2.screen.y, //this is 0
-						segment.p2.screen.w,
-					//	segment.fog,
-						1,
-						segment.color);
-						maxy = segment.p2.screen.y;
-					}
-					cthis.car.load(cthis.ctx);
-				},
-				
-				//this function is called render into inspired game
 				load : function (ctx){
 					var baseSegment = this.findSegment(this.position);
 					var maxy  = height;
@@ -298,59 +225,6 @@
 				},
 				/*curve1 */
 				 
-				load_old : function(ctx) {
-					var baseSegment = this.findSegment(this.position);
-					  var maxy        = height;
-
-					  var basePercent = cthis.car.mechanism().percentRemaining(this.position, this.segmentLength);
-					  var x  = 0;
-					  var dx = - (baseSegment.curve * basePercent);
-
-					//  ctx.clearRect(0, 0, width, height);
-					//this should disable//
-						
-					/*
-					  Render.background(ctx, background, width, height, BACKGROUND.SKY,   skyOffset);
-					  Render.background(ctx, background, width, height, BACKGROUND.HILLS, hillOffset);
-					  Render.background(ctx, background, width, height, BACKGROUND.TREES, treeOffset);
-						*/
-					  var n, segment;
-					  for(n = 0 ; n < this.drawDistance ; n++) {
-
-						segment        = this.segments[(baseSegment.index + n) % this.segments.length];
-						segment.looped = segment.index < baseSegment.index;
-						//segment.fog    = Util.exponentialFog(n/drawDistance, fogDensity);
-											
-						this.structure().project(segment.p1, (this.playerX * this.roadWidth) - x,  this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, width, height, this.roadWidth);
-					
-						this.structure().project(segment.p2, (this.playerX * this.roadWidth) - x - dx, this.cameraHeight, this.position - (segment.looped ? this.trackLength : 0), this.cameraDepth, cthis.canvas.width, cthis.canvas.height, this.roadWidth);
-
-						x  = x + dx;
-						dx = dx + segment.curve;
-
-						if ((segment.p1.camera.z <= this.cameraDepth) ||  // behind us
-							(segment.p2.screen.y >= maxy))           // clip by (already rendered) segment
-						  continue;
-						
-						/* debugger;
-						alert(segment.color); */
-						
-						this.dispSegment(ctx, cthis.canvas.width, this.lanes,
-									   segment.p1.screen.x,
-									   segment.p1.screen.y,
-									   segment.p1.screen.w,
-									   segment.p2.screen.x,
-									   segment.p2.screen.y,
-									   segment.p2.screen.w,
-									   //segment.fog,
-									   segment.color);
-
-						maxy = segment.p2.screen.y;
-					  }
-					  
-					  cthis.car.load(cthis.ctx);
-				},
-				
 				load_curve : function(ctx) {
 					var baseSegment = this.findSegment(this.position);
 					var maxy  = height;
@@ -427,7 +301,7 @@
 				
 				resetRoadForStraight : function (){
 					// for(var n = 0 ; n < 1200 ; n++) {
-					for(var n = 0 ; n < 400 ; n++) {
+					for(var n = 0 ; n < 1200 ; n++) {
 							this.segments.push({
 							   index: n,
 							   p1: { world: { z:  n   *this.segmentLength }, camera: {}, screen: {} },
@@ -475,28 +349,6 @@
 					this.resetRoad();
 				}, 
 				
-				resetRoad_old : function (){
-				//=========================================================================
-					// BUILD ROAD GEOMETRY
-					//=========================================================================
-					//var segments = [];
-					 for(var n = 0 ; n < 500 ; n++) {
-							this.segments.push({
-							   index: n,
-							   p1: { world: { z:  n   *this.segmentLength }, camera: {}, screen: {} },
-							   p2: { world: { z: (n+1)*this.segmentLength }, camera: {}, screen: {} },
-							   color: Math.floor(n/this.rumbleLength)%2 ? this.COLORS.DARK : this.COLORS.LIGHT
-							});
-					  }
-
-					  this.segments[this.findSegment(this.playerZ).index + 2].color = this.COLORS.START;
-					  this.segments[this.findSegment(this.playerZ).index + 3].color = this.COLORS.START;
-					  for(var n = 0 ; n < this.rumbleLength ; n++)
-					  this.segments[this.segments.length-1-n].color = this.COLORS.FINISH;
-
-					  this.trackLength = this.segments.length * this.segmentLength;
-				}, 
-				
 				resetRoad : function (){
 				//=========================================================================
 					// BUILD ROAD GEOMETRY
@@ -534,10 +386,9 @@
 					  this.addStraight();
 					  this.addSCurves();
 					  this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.EASY);
-					  //TODO this should be enable
-					  //this.addStraight();
-					  //this.addSCurves();
-					  //this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.EASY);
+					  this.addStraight();
+					  this.addSCurves();
+					  this.addCurve(ROAD2.LENGTH.LONG, -ROAD2.CURVE.EASY);
 
 					  this.segments[this.findSegment(this.playerZ).index + 2].color = this.COLORS.START;
 					  this.segments[this.findSegment(this.playerZ).index + 3].color = this.COLORS.START;
@@ -1167,65 +1018,47 @@
 				}, 
 				
 				down : function (evt){
-					//for(keyProp in  this.keyCodes){
-						//console.log.log(this.keyCodes[keyProp]);
-						
-						
-						/* if(evt.keyCode == 37){
-							cthis.car.keyLeft = true;
-						}else if(evt.keyCode == 38){
-							cthis.car.keyFaster = true;
-						}else if(evt.keyCode == 39){
-							cthis.car.keyRight = true;
-						}else if(evt.keyCode == 40){
-							cthis.car.keySlower = true;
-						} */
-						
-						if(evt.keyCode == 37){
-							//console.log("cthis.car.keyLeft " + cthis.car.keyLeft);
-							cthis.car.keyLeft = true;
-							//console.log("cthis.car.keyFaster " + cthis.car.keyFaster);
-						}
-						
-						if(evt.keyCode == 38){
-							
-							cthis.car.keyFaster = true; 
-						}
-						
-						if(evt.keyCode == 39){
-							cthis.car.keyRight = true;
-						}
-						if(evt.keyCode == 40){
-							cthis.car.keySlower = true;
-						}
-							
-						//if(this.keyCodes[keyProp] == evt.keyCode){
-						//console.log.log(evt.keyCode);
-							
-						if(evt.keyCode == 38){
-							if(!cthis.gameStarted){
-								cthis.gameStartTime = new Date().getTime();
-								cthis.gameStarted = true;
-							}
-							
-							
-							var step = cthis.step;
-							var carRun = cthis.car.run();
-							carRun.init({step:step}, cthis);
-							carRun.frame(cthis);
-						
-							
-							if(runMusic == false){
-								playMusic(); 
-								runMusic = true;
-							}
-							
-							
+					if(evt.keyCode == 37){
+						//console.log("cthis.car.keyLeft " + cthis.car.keyLeft);
+						cthis.car.keyLeft = true;
+						//console.log("cthis.car.keyFaster " + cthis.car.keyFaster);
 					}
-							
-						//alert("the game begins now with press down button " + evt.keyCode);	
-					//}
-//}
+					
+					if(evt.keyCode == 38){
+						
+						cthis.car.keyFaster = true; 
+					}
+					
+					if(evt.keyCode == 39){
+						cthis.car.keyRight = true;
+					}
+					if(evt.keyCode == 40){
+						cthis.car.keySlower = true;
+					}
+						
+					//if(this.keyCodes[keyProp] == evt.keyCode){
+					//console.log.log(evt.keyCode);
+						
+					if(evt.keyCode == 38){
+						if(!cthis.gameStarted){
+							cthis.gameStartTime = new Date().getTime();
+							cthis.gameStarted = true;
+						}
+						
+						
+						var step = cthis.step;
+						var carRun = cthis.car.run();
+						carRun.init({step:step}, cthis);
+						carRun.frame(cthis);
+					
+						
+						if(runMusic == false){
+							playMusic(); 
+							runMusic = true;
+						}
+						
+						
+					}
 				},
 				
 				up : function (evt){
@@ -1274,10 +1107,7 @@
 		 
 		function resetGame(cthis, rtype){
 			cthis.rd.init(rtype);
-			//when the second track is loaded in that time
-			// the road is loaded before the background
-			// this is a work around
-			//cthis.bgload=false; //TODO handling for background image
+			
 			cthis.bg.skyOffset = (cthis.bg.skyOffset || 0)
 			cthis.car.speed = 0;
 			
@@ -1302,101 +1132,95 @@
 			START:  { road: 'white',   grass: 'white',   rumble: 'white'                     },
 			FINISH: { road: 'black',   grass: 'black',   rumble: 'black'                     }
 		};	
-	mycar = gup('car');
-	
-	if(mycar == ""){
-		mycar = "rcar";
-	}
-	var myCarRace = new carRace("racingCan");
-	 myCarRace.init("straight", mycar);
-	// playMusic(); 
-	 
-	 function setUpCar (){
-		var myCarRace2 = new carRace("racingCan");
-		window.location.href = "game.php?car="+this.id;
-	}
+		mycar = gup('car');
 		
-	function gup( name ){
-		name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-		var regexS = "[\\?&]"+name+"=([^&#]*)";
-		var regex = new RegExp( regexS );
-		var results = regex.exec( window.location.href );
-		if( results == null )
-			return "";
-		else
-			return results[1];
-	}
-}
-	
-	
-	
-		//this code should be used into future.
-		if (!window.requestAnimationFrame) { // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-			window.requestAnimationFrame = window.webkitRequestAnimationFrame || 
-			 window.mozRequestAnimationFrame    || 
-			 window.oRequestAnimationFrame      || 
-			 window.msRequestAnimationFrame     || 
-			 function(callback, element) {
-			   window.setTimeout(callback, 1000 / 60);
-			 }
+		if(mycar == ""){
+			mycar = "rcar";
+		}
+		var myCarRace = new carRace("racingCan");
+		 myCarRace.init("straight", mycar);
+		// playMusic(); 
+		 
+		 function setUpCar (){
+			var myCarRace2 = new carRace("racingCan");
+			window.location.href = "game.php?car="+this.id;
 		}
 		
-		function dispBgImg(cthis, width, height, layer, rotation, offset){
-		 	cthis.ctx.clearRect(0, 0, width, height);
-			imgAddress = cthis.bg.img;
-			cthis.ctx.drawImage(imgAddress, 0, 0, 1050, 390); 
+		//extract the particular word from  url	
+		function gup( name ){
+			name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+			var regexS = "[\\?&]"+name+"=([^&#]*)";
+			var regex = new RegExp( regexS );
+			var results = regex.exec( window.location.href );
+			if( results == null )
+				return "";
+			else
+				return results[1];
 		}
-
-var music = "";		
-	function playMusic() {
-	music = document.getElementById("music");
-	music.loop = true;
-	music.volume = 0.08; // shhhh! annoying music!
-	music.play();
-}
-
-function loadData(totTime){
-	var xmlhttp;
-	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-		xmlhttp=new XMLHttpRequest();
 	}
-	else {// code for IE6, IE5
-		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	
+	
+	
+	/*** 
+		TODO this code should be used into future.
+	***/
+
+	if (!window.requestAnimationFrame) { // 			http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+		window.requestAnimationFrame = window.webkitRequestAnimationFrame || 
+		 window.mozRequestAnimationFrame    || 
+		 window.oRequestAnimationFrame      || 
+		 window.msRequestAnimationFrame     || 
+		 function(callback, element) {
+		   window.setTimeout(callback, 1000 / 60);
+		 }
 	}
-	xmlhttp.onreadystatechange=function(){
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
-			var resArr = JSON.parse(xmlhttp.responseText);
-			var bestTime = resArr['best_time'];
-			var seconds = bestTime/1000;
-			var minute = (seconds/60).toFixed(2);
-			var total_game = resArr['total_game'];
 			
-			var bstTimeMsg = "Your best time is " + minute + " minute in your total is game " + total_game; 
-			var bestTimeNode = document.getElementById("bestTime");
-				bestTimeNode.style.cssFloat = "left";
-				bestTimeNode.style.marginLeft = "40px";
-				bestTimeNode.style.width = "120px";
-				bestTimeNode.style.height = "70px";
-				bestTimeNode.style.padding = "5px";
-				bestTimeNode.style.borderWidth = "2px";
-				bestTimeNode.style.borderStyle = "solid";
-				bestTimeNode.style.borderColor = "#1e84e2";
-				bestTimeNode.innerHTML = bstTimeMsg;
-		}
+	function dispBgImg(cthis, width, height, layer, rotation, offset){
+		cthis.ctx.clearRect(0, 0, width, height);
+		imgAddress = cthis.bg.img;
+		cthis.ctx.drawImage(imgAddress, 0, 0, 1050, 390); 
 	}
+
+	var music = "";		
+	function playMusic() {
+		music = document.getElementById("music");
+		music.loop = true;
+		music.volume = 0.08; // shhhh! annoying music!
+		music.play();
+	}
+
+	function loadData(totTime){
+		var xmlhttp;
+		if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp=new XMLHttpRequest();
+		}
+		else {// code for IE6, IE5
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function(){
+			if (xmlhttp.readyState==4 && xmlhttp.status==200){
+				var resArr = JSON.parse(xmlhttp.responseText);
+				var bestTime = resArr['best_time'];
+				var seconds = bestTime/1000;
+				var minute = (seconds/60).toFixed(3);
+				var total_game = resArr['total_game'];
+				
+				var bstTimeMsg = "Your best time is " + minute + " minute in your total is game " + total_game; 
+				var bestTimeNode = document.getElementById("bestTime");
+					bestTimeNode.style.cssFloat = "left";
+					bestTimeNode.style.marginLeft = "40px";
+					bestTimeNode.style.width = "120px";
+					bestTimeNode.style.height = "70px";
+					bestTimeNode.style.padding = "5px";
+					bestTimeNode.style.borderWidth = "2px";
+					bestTimeNode.style.borderStyle = "solid";
+					bestTimeNode.style.borderColor = "#1e84e2";
+					bestTimeNode.innerHTML = bstTimeMsg;
+			}
+		}
 	
 	xmlhttp.open("GET","bestTime.php?currTime="+totTime,true);
 	xmlhttp.send();
 }
-
-function formatTime(dt) {
-      var minutes = Math.floor(dt/60);
-      var seconds = Math.floor(dt - (minutes * 60));
-      var tenths  = Math.floor(10 * (dt - Math.floor(dt)));
-      if (minutes > 0)
-        return minutes + "." + (seconds < 10 ? "0" : "") + seconds + "." + tenths;
-      else
-        return seconds + "." + tenths;
-    }
 
 })(window, document);

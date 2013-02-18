@@ -1,6 +1,6 @@
 <?php 
 $dbhost  = 'localhost';
-$dbname  = 'ram2';
+$dbname  = 'sumanbog';
 $dbuser  = 'root';
 $password  = '';
 
