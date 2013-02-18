@@ -66,6 +66,7 @@ body a{
 
 #game_container{
 	clear:both;
+	margin-top:20px;
 }
 #carContainer{
 	float:left;
@@ -232,6 +233,8 @@ body a{
 #loginInfo {
 	float:right;
 	margin-right:15%;
+	padding:10px;
+	margin-bottom:10px;
 }
 
 
@@ -297,7 +300,6 @@ body a{
 	margin-left:15px;
 }
 
-
 .msgContainer #subjectCont{
 	font-weight:bold;	
 }
@@ -307,7 +309,7 @@ body a{
 	font-style:italic;
 }
 .msgContainer #fullMessage{
-	letter-spacing:.2em;
+	letter-spacing:.0.08em;
 }
 
 .msgContainer{
@@ -367,15 +369,20 @@ body a{
 	margin-top:15px;
 }
 
-#loginform p{
-	
+#loginForm #loginFormInfo input{
+	float:none;
+	display:inline;
 }
 
 .contGen {
 	float:left; 
-	
 }
 
+#players sub{
+	font-weight:normal;
+}
 
-
-
+.msgForUser{
+	margin-left : 50px;
+	margin-top : 10px;
+}

@@ -14,7 +14,7 @@
 	
 	$table	= "<table border='1'>";
 	$table  .= "<tr>
-					<th>Rank</th> <th>User Id</th> <th>User name</th> <th>Best Time</th> <th>Total Game</th> <th>Send Message</th>
+					<th>Rank</th> <th>User Id</th> <th>User name</th> <th>Best Time <sub>(in min)</sub></th> <th>Total Game</th> <th>Send Message</th>
 				</tr>";
 	$rank = 0;
 	$min_game = 0;

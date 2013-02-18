@@ -67,7 +67,7 @@
 		<?php
 		
 		}else{
-			echo "You can not send message to yourself. Please send to others";
+			echo '<div class="msgForUser">You can not send message to yourself. Please send to others</div>';
 		}
 }
 
@@ -99,12 +99,13 @@ if(isset($_POST['msgSubmit'])){
 					
 	$result = mysqli_query($dbc, $query);
 	
-	if($result){
-		echo "message has been sent successfully";
-	}else{
-		echo "there is some problem";
-	}
-	
+	echo '<div class="msgForUser">';
+		if($result){
+			echo "message has been sent successfully";
+		}else{
+			echo "there is some problem";
+		}
+	echo '</div>';
 }
 
 echo "</div>";

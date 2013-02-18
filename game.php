@@ -16,12 +16,13 @@
 
 <body  id="bdRcGame">
 	<?php 
+		include_once('login_info.php');
 		if(isset($_SESSION['user_id'])){
-			include_once('login_info.php');
+			
 			include_once('menu.php');
 		}else{
 			?>
-			<h3> You are playing as a guest  </h3>	<a href="index.php">Login</a>
+			<!--<h3> You are playing as a guest  </h3>	<a href="index.php">Login</a> -->
 			<?php
 		}
 	 ?>

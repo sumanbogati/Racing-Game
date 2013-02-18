@@ -1371,7 +1371,7 @@ function loadData(totTime){
 			var minute = (seconds/60).toFixed(2);
 			var total_game = resArr['total_game'];
 			
-			var bstTimeMsg = "Your best time is " + minute + " minute in your total game " + total_game; 
+			var bstTimeMsg = "Your best time is " + minute + " minute in your total is game " + total_game; 
 			var bestTimeNode = document.getElementById("bestTime");
 				bestTimeNode.style.cssFloat = "left";
 				bestTimeNode.style.marginLeft = "40px";
