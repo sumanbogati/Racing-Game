@@ -52,7 +52,7 @@
 			}
 			echo $row_container;
 		}
-		echo '<br /><br /><input type="button" value="delete" id="delMessage" name="delMsg" />';
+		echo '<br /><br /><br /><input type="button" value="delete" id="delMessage" name="delMsg" />';
 		echo '</form>';
 		echo '</div>';
 		echo '</div>';
