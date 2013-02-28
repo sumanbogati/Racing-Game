@@ -1,0 +1,279 @@
+0) What are the objective to create that project?
+The main objective of this project is to entertain the people. In today's days people are very busy with their job, they don't have time for other activities. So I Thought why should not I start the game thorugh which people can entertain and stay in connection of each other. 
+
+So I have choosen this field for my project of A level, which is quite intresting to me. So how can this game enterain the people, Lets go thorugh it in brief.
+
+How to play game?
+1) With this game, user can drive the car on road, After finished the game the best time of user would be calculated and would stored in his/her history. The top gamers would be dispalyed in this software. Registered user can do connect with each other. 
+
+In this software we can play the game in two way, first play as registered user and secondly play as Guest user.
+If you would play the game as registered user then your history would be saved into database, the history would not be make if you will play as a guest user. A guest user can not stay in connection with other registered user. He can play the game only. In this game the history means the best time user will achieved in total number of game.
+
+The road would be divided into two parts which means user drives the car on first road at very outset, and would go for second road after finished one. The best time would be calculated after ended second road. The best time of particular user would shown after finshed the particular game. User can start another game if user wants.
+
+Is there any  car option which user can do opt?
+User can select the particular car for partcular game, I provided three car for user to select anyone. The user can get the car at right side of window.
+
+Is there any connection between the gamers?
+I provided the feature on this software through which we can know that which are the best gamers till now, An user can do connect with that gamer by sending the message. The particular user has inbox on which he/she can view the message which are sent by other user. The user can do reply of particular message for particular user Or the user can remove this message from his/her's inbox for permanently.
+That's how the user/gamer can stay in connection of each other.
+
+So main purpose of this game is 'Be entertain with stay in connection'.
+
+
+SAD
+System Analysis and design, for this project.
+Project racing game.
+
+What are the project features
+1) Drives the car on road
+2) Different stage of racing game
+2b)There is two kind of road one is straight and other is curve
+3) User can opted the particular car for game
+4) best time of user in total played game(in totality it's called history)
+5) inbox for containg the message sent by other user
+6) Registered player can send the message to registered user.
+7) User can reply to the particular message.
+8) User can remove inbox's any message
+9) User can do register the game, can play the game either with registered user or guest user.
+
+
+What technology will be used for this game?
+1) PHP(server scripting language)
+2) mysql (structured query language), It provides the apache server.
+3) javascript (client side scripting language)
+4) HTML/HTML5 
+5) CSS
+6) AJAX
+
+
+vi.	Methodology adopted, system implementation & details of hardware & software used
+
+SYSTEM REQUIREMNT
+1) Any opertaing system(Window, Mac OS)
+2) Any browswer (Chrome, safari, opera, does not work in firefox)
+3) Need server for hosting this project
+
+
+1) Brief background of the organization where the student has developed the Project.
+This project is developed by suman bogati who is the student of A level. This project is made under the Guidence of Ajeet Mishra. This project  have taken 5 months to complete it. 
+It's very self learn enviorment to work under the guidence of Ajeet Mishra.
+
+Definition of problem
+To Entertain the people
+To Connect people through game
+
+
+Methodology Adopted
+I have chosen 'Agile' method for development this software. 
+I have done communicate with my senior during the  project development. According to Agile method We'll have to release the software in short preoids of time, I'll have to release my software after finshed one of the feature of my software. 
+
+For examle First of all I had made the straight road  and release that version. After near about 20 days I had made curve road and the released this software, After Tha I made login process and realeased the software again, and after I made messageing feature and released it. 
+Which mean I had been releasing my software in short periods of time.
+At the same time I got the feedback from my senior and my friends which were users for my project.
+
+At the same time the software was being tested in particular version and the bugs were being fixed. 
+
+So the plans were being made in short period of time and implemention of those plan had been occurring.
+
+I made the simple user interface for this software as simple as possible, And I have the plan to change/add feature on this software for That I used the technqiue modularization, The changes can be done easily and without efftet over the other feature.
+
+It was quite intresting to used Agile method for this software development.
+
+Software Requirement
+Operation System :- Windows/7
+Front end :- PHP, JAVASCRIPT, Browser eg:- Chrome, Safari, Opera etc.
+Back end :- Mysql / Apache server
+
+
+Hardare Requirement :-
+Intel(R) Pentinum(R) Dual CPU E2180 @ 2.00GHz 2.00 GHz
+500 MB RAM
+100 GB DISK Free space
+
+
+System maintenance & evaluation
+System(software) maintenance and evaluation is very important aspect of software development. It increase the software improvement, usaiblity and does effect on cost effect of software.
+
+So I followed these four methods for System maintenance & evaluation
+
+Corrective – I have put my software on github which is software through which anyone on web can visit my software and can run it into their's computer and can give the details about error to me. 
+
+Some users(my friends) and my senior gave the details about errors to me. I have fixed those problem and done documented about that erorr and solving approach.
+
+Thanks to all of them to provide those errors through which the improvement of my software is increased.
+
+Adaptive :- This software is very addiptve, it can be integrate with other software very easily. There I used the simple/plan php and javascript which can be integrated into any software very easily. 
+There should not be many problem at all. 
+
+This software is not very perfective mode right now. However some users requested and suggested for some new feature for this project, I impleneted it, for example the car options, now the user can choose any car on three cars on this game. I can do more work on more suggestion and request in future.
+
+Preventive :- This software is made by used simple language php and javascript, mysql. It's very modularize. For example the roads types are represented into two categories.
+
+Curve_road 
+Straigh_road
+
+You can customize any of theme whenever you want, and the new changes do not effter over the others.
+
+For example if you want to change/add something into Curve_road then it does not effet over the Stragiht road. So its very modularized. In these days and future days the software will be made in modularize form. So in future If we add something new feature and customize exising one then there would be very less chance of errors.
+
+vii) Cost and benefit analysis
+As we know the 'Cost and benefit analysis' gives the picture of money value of parituclar project. Investors can do invest on parituclar project according to it's Cost and benfit analysis.
+It's very important to calcualte Cost and benefit analysis for particular project. Here I have done Cost and benefit Analysis
+
+Core list of functions of my project.
+0) Made the plan with research 
+	4 days
+1) Draw the straight road and drive the car on it.
+	20 days
+2) Draw the Curve road and drive the car on that road
+	10 days
+3) User can select the car
+	1 days
+4) draw the graphics
+	3 days
+5) Made the login feature
+	1 days
+6) profile and  history of particular user
+	2 days
+7) Messaging system on software
+	2 days
+9) Easy installation.
+	1/2 days
+11) Calculate the best time in total game of particular user.
+	1 1/2 days
+12) The system is into modularize form
+	3 days
+13) Testing 
+	2 days
+14) Bug fixing 4 days
+
+15) Miscellenous 3 days
+
+Total 57 days
+
+7 hour per day means there would be 399 man hour.
+
+We can give staright road with shorter and longer length, The removable of curve road will reduce 10 days work.
+
+Can use the data which are already researched by some valuable organization or man. It can reduce the some data.
+
+The main complex part of this game is to made road which can be planned with other people.
+
+If the road will not make into calcualted time then there could be changes on cost of software, It may possible.
+
+Other features are achieveable into time as we discussed according to cost and benefit analsysis.
+
+If the system is not so modularize, the software would be in benifit of 3 days but the changes and new features into software would be very costly in future. But it would be benfit for first time.
+
+
+System Analysis and Design
+
+System analysis for system requirement.
+In these day there are few sofware we can get the socail connectivity and entertainment through the gaming at one software. So there is a huge demand for those kind of software, people may join easily to those system.
+
+This software provides the connnectivy to each other through the paticular system and can play the game. It can be hosted on web and can access easily to all over the world through internet.
+
+Plan 
+So we need to make the software that has feature through which user can do connectivity and can play the game. There is main two part of this software.
+
+1) Social connectivity 
+2) Gaming Part
+
+Make the messageing system through which user can do contact each to other. What user can do with messaging system.
+1) user can create/send the message
+2) user can reply the particular message
+3) user remove any message he/she wants
+
+What is main function user can do operate on gaming system.
+4) user can play the game with car racing
+5) user can select the particular car
+6) There is two road segements in game
+
+The game would be devided into Modularize form
+
+installationProcesss()
+loginProcess()
+Message()
+	createMessage()
+	replyMessage()
+	DeleteMessage()
+topGamer()
+profile();
+inbox();
+	
+Gaming
+	renderBackground()
+	renderCar()
+	renderRoad()
+		stragihtRoad()
+		CurvRoad()
+	selectCar()
+	driveCar()
+	calculateTime()
+	saveHistory()
+	renderHistory()
+	
+Messageing system can be distrubted into PHP/Mysql programmer
+
+Gaming feature can be done by JavaScript Programmer.
+	
+The methods to complete this software
+	At very outset we can create the Gaming part
+	As we discussed main functionaility at above can be into modularize form that can be customize whenever we want. After finsih the Gaming part, We will do the proper testing of it.
+	
+	After that we'll creat the socail connectivity part into this software, Also functionality under this part should be into modularize form.
+	After finish this part, we'll do the test with creating new user and play the game after logged in.
+	
+Technology used
+	1) PHP(server scripting language)
+	2) mysql (structured query language), It provides the apache server.
+	3) javascript (client side scripting language)
+	4) HTML/HTML5 
+	5) CSS
+	6) AJAX
+
+Operating System used
+Window 7,
+
+The backend for this software
+Database
+	There is three tables would created
+		user_info
+		history
+		messaging
+	At user_info table the information about particular user can be store like username, firstname, lastname etc. 
+	At history table particular history about user can do store like the best time in total game of particular user. The user id field of this table would be related to the id of user_info table.
+	
+	At messaging table the history of particular user would be saved, the user id field of this table would be related to id of user_info table.
+	
+How to test this software
+	How to play game?
+		Register as an user
+		Login to the software
+		play the game with press up arrow,  and change the direction with press left and right arrow.
+		After finished the game, start the new game or can quit one
+		We can play the game as guest user also.
+	
+	How to do Messaging?
+		Register as an user
+		Login to the software
+		
+		Send new message
+			Go to the profile of particular user, click on send message button, create the body of messaging system and send it.
+			
+		Reply the message
+			After logged in, go the inbox section, view paticular message and reply to that paritulcar message with created body part of message.
+			
+	How to install the game?
+		Put it into your server
+		Do the acccess root of this software into browser 
+		give the relative information about server and database
+		
+	Pleas use the browser google chrome, safari, opera to render this software.		
+
+
+
+	
+
+ 
