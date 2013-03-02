@@ -272,8 +272,53 @@ How to test this software
 		
 	Pleas use the browser google chrome, safari, opera to render this software.		
 
+System maintenance and evaluation
+System maintenance and evaluation is important part of software development, as I done same for my project.
 
 
+Maintainece 
+At the racing section in this software is  not very good, During the maintance process we done work on particular function. Now It works very well.
+I made the installation process after Evaluation on this system, Its easy to use for user to run this software on his/her system.
+
+We can add many feature into this software. The messaging system can be robust for example user now can send the text message only as I can set the feature through which user can send the file as well.
+I can add the pagination system on message section.
+
+Racing section
+Now the only one car is running in the road we can make the more cars on road which will be running opposite to the player's car.
+
+Now the road is very simple the car is running very smoothly, in future we can add some bunker on road for user to make the driving more complex.
+The soud effect can be achieved along with sound of real car racing.
+So there's lot functionality we can achieve through which we can improve the usability of this system.
+
+
+Evaulation 
+Coding wise the system is very good because it is into modularize form. Whenever you want you can add the particular functionality by adding the particular function to the system. 
+The system does work on all system with all the browser except firefox. I'll have to fix it as soon as possible.
+
+
+Problem And definition
+There are very few software we can get on the market through which we can play the game and can do connect with our friends at one place. For solve this problem I made this software now the player can play the game and can use the same software to conntect with their friends.
+
+The user can do login to this system and can stay in contact with friends through the messaging.
+
+
+Theoretical background
+1) Game Section (Car racing game)
+	Basically this would be the racing game with car object. There would be the car and particular user can drive the car on different steps. The game should not very complex it should very easy in context of usability.
+2) Socali network
+	Players can do connect to each other somehow. They can be stay in touch with some method, this method should not very complex.
+2b) Socail site and gaming part would come together
+	The gaming and socail part come together that should not be separate, If the particular user playing a game, at the same time there should be the functionaly that he/she can do connect to his friends somehow.
+	
+3) Can put that software on web to everyone
+	This software should be comptaile for web also. That it spreads the all over the world.
+4) Technology used to make that software that access to  the web.
+   The technology for web should be used to create that software. The technology should mature and not very complex that a developer can make the software with some effort.
+5) Compatible for each platform
+	After created this software it should be compatible with each platform, like window, Mac, tablet and mobile etc.
+	
 	
 
- 
+
+
+
