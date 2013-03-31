@@ -43,7 +43,7 @@
 				if($fwrite){
 					include('config.php');
 					if($dbname){
-						$bdbc = mysqli_connect($dbhost, $dbuser, "");
+						$bdbc = mysqli_connect($dbhost, $dbuser, $password);
 						$query = "CREATE DATABASE " .$dbname;
 						$result = mysqli_query($bdbc, $query);
 						mysqli_select_db($bdbc, $dbname);
