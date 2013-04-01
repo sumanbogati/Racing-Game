@@ -52,7 +52,7 @@
 		<h5>Contact</h5>
 		<p id="contact">
 			<label>Email:</label> <span id="emailId"> sumanbogati@gmail.com </span> <br />
-			<label>Phone : </label>  <span id="phoneNo"> 9968411216, </span><br />
+			<label>Phone : </label>  <span id="phoneNo"> 9968411216/8826896851, </span><br />
 			<span id="fbId">https://facebook.com/sumanbogati </span><br />
 			<span id="twId">https://twitter.com/sumanbogati </span>	
 		</p>
