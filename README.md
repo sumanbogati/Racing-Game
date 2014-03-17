@@ -1,7 +1,12 @@
 Racing-Game
 ===========
 
-The main objective of this project is to entertain the people and social network. In today's days people are very busy with their job, they don't have time for other activities.
+ThMain concern was that I would had to used this application for my project of A' level, So I made very basic application through which people can entertain and stay in connection of each other. We know that people would love to play the game since very earlier, Lot of people have passion about it, that’s why the gaming world gets the success into IT industry. 
+In now a days social network application is getting the lot of success. People want to stay in connection. 
+This application is running at very basic level over the complete application. It needs much improvements and some bugs remainied to be fixed for make this application much usable, I can say it's in prototype stage for now, to make it robust application, I'll have to do lot of work on this. Whenever I'll get the free time, I'll give this for it 
+In any case if you want to help me in anyway, please contact with below details.
+
+e main objective of this project is to entertain the people and social network. In today's days people are very busy with their job, they don't have time for other activities.
  So I Thought why should not I start the game through which people can entertain and stay in connection of each other.  This both things happen through my software named ‘Car-racing’. We know that people would love to play the game since very earlier, Lot of people have lot of passion about it, that’s why the gaming world gets the success into IT industry.
 In these days The social network gets the lot of success. People want to stay in connection. 
 

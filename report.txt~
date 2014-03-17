@@ -40,12 +40,11 @@ What are the project features
 
 What technology will be used for this game?
 1) PHP(server scripting language)
-2) mysql (structured query language).
+2) mysql (structured query language), It provides the apache server.
 3) javascript (client side scripting language)
 4) HTML/HTML5 
 5) CSS
 6) AJAX
-7) Web server(Apache)
 
 
 vi.	Methodology adopted, system implementation & details of hardware & software used
@@ -318,6 +317,8 @@ Theoretical background
 5) Compatible for each platform
 	After created this software it should be compatible with each platform, like window, Mac, tablet and mobile etc.
 	
+
+
 This is very new begning for ubuntu.
 
 
